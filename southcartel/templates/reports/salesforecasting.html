@@ -1,7 +1,12 @@
 {% extends "admin/base.html" %}
-  
+
+
 
 {% block content %}
+
+    <!-- Charts.JS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+
 
     <div class="col-12 col-sm-6">
         <div class="card card card-outline">
@@ -24,7 +29,7 @@
                 </div>
             </div>
             <div class="card-body">
-<canvas id="myChart" width="100" height="30vh"></canvas>
+            <canvas id="myChart" width="100" height="30vh"></canvas>
             </div>
         </div>
     </div>
@@ -91,4 +96,5 @@ var myChart = new Chart(asx, {
     }
 });
 </script>
+
 {% endblock %}

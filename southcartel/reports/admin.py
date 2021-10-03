@@ -17,7 +17,9 @@ from math import sqrt
 from sklearn.metrics import mean_squared_error
 from pmdarima.arima import auto_arima
 
+from taggit.admin import Tag
 
+admin.site.unregister(Tag)
 
 # Register your models here.
 
@@ -119,7 +121,6 @@ def salesforecasting(request):
         we1 = we['date'].tolist()
         we1.append('Forecasted')
         we2 = amunt2
-        # print(amunt2)
         context = {
             'df':df,
             'df1':df1,

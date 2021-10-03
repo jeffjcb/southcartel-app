@@ -1,7 +1,10 @@
 {% extends "admin/base.html" %}
-  
+  {% load static %}
 
 {% block content %}
+
+      <!-- Data Tables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
 
 
     <div class="col-12 col-sm-6">
@@ -29,26 +32,25 @@
             </div>
         </div>
     </div>
-
-    <div class="col-12 col-sm-6">
+ <div class="col-12 col-sm-6">
         <div class="card card card-outline">
             <div class="card-header bg-dark">
                 <div class="card-title">
-                    Top Categories
+                    General Sales
                 </div>
             </div>
             <div class="card-body">
-                <table class="table myTable" >
+                <table class="table exTable">
                 <thead>
-                <th>Category</th>
-                <th>Sold</th>
-                <th>Sales</th>
+                <th>Product</th>
+                <th>Product</th>
+                <th>Product</th>
                 </thead>
-                {% for cat in top_categories %}
+                {% for gen in general_sales %}
                 <tbody>
-                <td>{{cat.product__category__category_name}}</td>
-                <td>{{cat.sold}}</td>
-                <td>₱{{cat.amount}}</td>
+                <td>{{gen.product__product_name}}</td>
+                <td>{{gen.sold}}</td>
+                <td>{{gen.amount}}</td>
                 </tbody>
                 {% endfor %}
                 </table>
@@ -80,31 +82,45 @@
             </div>
         </div>
     </div>
+    
     <div class="col-12 col-sm-6">
         <div class="card card card-outline">
             <div class="card-header bg-dark">
                 <div class="card-title">
-                    General Sales
+                    Top Categories
                 </div>
             </div>
             <div class="card-body">
-                <table class="table exTable">
+                <table class="table myTable" >
                 <thead>
-                <th>Product</th>
-                <th>Product</th>
-                <th>Product</th>
+                <th>Category</th>
+                <th>Sold</th>
+                <th>Sales</th>
                 </thead>
-                {% for gen in general_sales %}
+                {% for cat in top_categories %}
                 <tbody>
-                <td>{{gen.product__product_name}}</td>
-                <td>{{gen.sold}}</td>
-                <td>{{gen.amount}}</td>
+                <td>{{cat.product__category__category_name}}</td>
+                <td>{{cat.sold}}</td>
+                <td>₱{{cat.amount}}</td>
                 </tbody>
                 {% endfor %}
                 </table>
             </div>
         </div>
     </div>
+   
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+    
+<script>
+$(document).ready( function () {
+    $('.myTable').DataTable({
+    "bFilter": false
 
+    });
+
+    $('.exTable').DataTable();
+} );
+
+</script>
 
 {% endblock %}
