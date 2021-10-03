@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container my-5">
+<article class="card">
+	<header class="card-header"> My Orders / Tracking </header>
+	<div class="card-body">
+<h6>Order ID: {{num}}</h6>
+<article class="card">
+	<div class="card-body row no-gutters">
+		<div class="col">
+			<strong>Delivery Estimate time:</strong> <br>16:40, 12 nov 2018
+		</div>
+		<div class="col">
+			<strong>Shipping company:</strong> <br> {{tracked_order.shipping_method.courier}} | <i class="fa fa-phone"></i> {{tracked_order.shipping_method.contact_number}}
+		</div>
+		<div class="col">
+			<strong>Status:</strong> <br>{{tracked_order.status}}
+		</div>
+		<div class="col">
+			<strong>Tracking #:</strong> <br> {{tracked_order.tracking_number}}
+		</div>
+	</div>
+</article>
+
+<div class="tracking-wrap">
+
+	<div class="step active ">
+		<span class="icon"> <i class="fa fa-check"></i> </span>
+		<span class="text">To Ship</span>
+	</div> <!-- step.// -->
+	<div class="step {% if tracked_order.status == 'To Receive' %} active {% endif %} {% if tracked_order.status == 'Delivered' %}active{% endif %} ">
+		<span class="icon"> <i class="fa fa-user"></i> </span>
+		<span class="text"> To Receive</span>
+	</div> <!-- step.// -->
+	<div class="step {% if tracked_order.status == 'Delivered' %}active{% endif %}">
+		<span class="icon"> <i class="fa fa-truck"></i> </span>
+		<span class="text"> Delivered</span>
+	</div> <!-- step.// -->
+</div>
+<hr>
+
+
+<p><strong>Note: </strong>The estimation of arrival may vary depending on the situation and circumstances that arise while delivering the product. The cancellation of orders will only be available if the status of the order is still "To Ship". Hence, if the status is not to ship anymore, it means that the package is already
+handed over to the courier and is not available anymore for cancellation. For refunds, you can request a refund after the products have been delivered, however, it will only be available for 7 days after it has been delivered the refunds does not guarantee a return since it will be handled externally.</p>
+
+<a href="{% url 'my_orders' %}" class="btn btn-light"> <i class="fa fa-chevron-left"></i> Back to orders</a>
+<form action="{% url 'cancel_order' %}" method="POST">
+{% csrf_token %}
+<input type="text" name="order_number" value="{{num}}" hidden>
+{% if tracked_order.status == 'To Ship' %}
+<button type="submit" class="btn btn-danger float-right" ><i class="fa fa-chevron"></i>Cancel Order</button>
+{% endif %}
+</form>
+	</div> <!-- card-body.// -->
+
+</article>
+
+</div>
+
+{% endblock%}
+

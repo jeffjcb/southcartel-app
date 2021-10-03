@@ -1,0 +1,391 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!-- ============================ COMPONENT 1 ================================= -->
+<div class="container mt-5">
+  <div class="card">
+    <div class="row no-gutters ">
+      <aside class="col-md-6">
+        <form action="{% url 'add_cart' single_product.id %}" method="POST">
+          {% csrf_token %}
+          <article class="gallery-wrap">
+            <div class="img-big-wrap mainImage">
+             <center><img id="homethumb" src="{{ single_product.images.url }}"></center>
+            </div> <!-- img-big-wrap.// -->
+
+          </article> <!-- gallery-wrap .end// -->
+          <ul class="thumb">
+          <li>
+          <a href="{{ single_product.images.url }}" target="mainImage"><img src="{{ single_product.images.url }}" alt="Product Image"></a>
+          {% for i in product_gallery %}
+          <a href="{{i.image.url}}" target="mainImage"><img src="{{i.image.url}}" alt="Product Image"></a>
+          {% endfor %}
+          </li>
+          </ul>
+      </aside>
+      <main class="col-md-6 border-left">
+
+        <article class="content-body">
+
+          <h2 class="title">{{ single_product.product_name }}</h2>
+
+          <div class="mb-3">
+            <var class="price h4">₱ {{ single_product.price }}</var>
+          </div>
+
+          <p>{{ single_product.description }}</p>
+          {% comment %} {% for tag in single_product.tags.names %}
+          <p>{{ tag }}</p>
+          {% endfor %} {% endcomment %}
+          <hr>
+          {% if single_product.variation_set.all %}
+          <div class="row">
+            <div class="item-option-select">
+                {% if single_product.variation_set.size_and_color %}
+              <h6>Choose Variation</h6>
+              <select class="form-control" name="size_and_color" required>
+                <option value="" disabled selected>Select</option>
+                {% for i in single_product.variation_set.size_and_color  %}
+                {% if i.stock >= 1 %}
+                <option value="{{i.variation_value | lower}}">{{i.variation_value | capfirst}}</option>
+                {% else %}
+                
+                {% endif %}
+                {% endfor %}
+              </select>
+                {% endif %}
+            </div>
+          </div>
+
+          <hr>
+          {% endif %}
+          {% if single_product.stock <= 0 %}
+          <div class="col-md-4">
+            <div class="alert alert-danger  text-center" role="alert">Out of Stock</div>
+          </div>
+          {% else %}
+          <button type="submit" class="btn  btn-primary"> <span class="text">Add to cart</span> <i
+              class="fas fa-shopping-cart"></i> </button>
+          <a href="{% url 'add_favorites' %}?product_number={{single_product.id}}" class="btn  btn-outline-info"><span class="text">Favorite</span> <i
+              class="fas fa-heart"></i> </a> 
+          {% endif %}
+        </article> <!-- product-info-aside .// -->
+        </form>
+      </main> <!-- col.// -->
+    </div> <!-- row.// -->
+  </div> <!-- card.// -->
+</div>
+<!-- ============================ COMPONENT 1 END .// ================================= -->
+
+<!-- ============================ REVIEWS================================= -->
+<section class="section padding-y ">
+  <div class="container">
+
+    <div class="row">
+      <div class="col-md-12">
+
+        {% include 'includes/alerts.html' %}
+        <form action="{% url 'submit_review' single_product.id %}" method="POST">
+          {% csrf_token %}
+        <div>
+            {% if user.is_authenticated %}
+            {% if orderproduct %}
+          <h5>Write Your Review</h5>
+          
+            <label for="">Rate our Product:</label>
+            <!-- Rating stars -->
+            <br>
+            <div class="rate">
+              <input type="radio" name="rating" id="rating10" value="5" required /><label for="rating10"
+                title="5"></label>
+              <input type="radio" name="rating" id="rating9" value="4.5" required /><label for="rating9" title="4.5"
+                class="half"></label>
+              <input type="radio" name="rating" id="rating8" value="4" required /><label for="rating8"
+                title="4"></label>
+              <input type="radio" name="rating" id="rating7" value="3.5" required /><label for="rating7" title="3.5"
+                class="half"></label>
+              <input type="radio" name="rating" id="rating6" value="3" required /><label for="rating6"
+                title="3"></label>
+              <input type="radio" name="rating" id="rating5" value="2.5" required /><label for="rating5" title="2.5"
+                class="half"></label>
+              <input type="radio" name="rating" id="rating4" value="2" required /><label for="rating4"
+                title="2"></label>
+              <input type="radio" name="rating" id="rating3" value="1.5" required /><label for="rating3" title="1.5"
+                class="half"></label>
+              <input type="radio" name="rating" id="rating2" value="1" required /><label for="rating2"
+                title="1"></label>
+              <input type="radio" name="rating" id="rating1" value="0.5" required /><label for="rating1" title="0.5"
+                class="half"></label>
+            </div>
+            <br>
+            Review Title:
+            <input type="text" class="form-control" name="subject">
+            <br>
+            Review:
+            <textarea name="review" rows="4" class="form-control"></textarea>
+            <br>
+
+            <input type="submit" value="Submit Review" class="btn btn-primary">
+            {% else %}
+            <p>You must purchase this product to post a review. </p>
+            {% endif %}
+            {% else %}
+            <p>You must be logged in to post a review. <span><a href="{% url 'login' %}">Login now</a></span></p>
+            {% endif %}
+
+            <!--	{% if user.is_authenticated %}
+								<input type="submit" value="Submit Review" class="btn btn-primary">
+						{% else %}
+						<p>You must be logged in to post a review. <span><a href="{% url 'login' %}">Login now</a></span></p>
+						{% endif %}
+						<div class="alert alert-danger" role="alert" style="margin-top:10px;">
+  2-Factor Review Submission is disabled for demo purpose.
+</div> -->
+          </div>
+        </form>
+        <br>
+        <div></div>
+        <header class="section-heading">
+          <h3>Customer Reviews </h3>
+          <div class="rating-star">
+            <span>
+              <i class="fa fa-star{% if single_product.averageReview < 0.5 %}-o{% elif single_product.averageReview >= 0.5 and single_product.averageReview < 1 %}-half-o {% endif %}"
+                aria-hidden="true"></i>
+              <i class="fa fa-star{% if single_product.averageReview < 1.5 %}-o{% elif single_product.averageReview >= 1.5 and single_product.averageReview < 2 %}-half-o {% endif %}"
+                aria-hidden="true"></i>
+              <i class="fa fa-star{% if single_product.averageReview < 2.5 %}-o{% elif single_product.averageReview >= 2.5 and single_product.averageReview < 3 %}-half-o {% endif %}"
+                aria-hidden="true"></i>
+              <i class="fa fa-star{% if single_product.averageReview < 3.5 %}-o{% elif single_product.averageReview >= 3.5 and single_product.averageReview < 4 %}-half-o {% endif %}"
+                aria-hidden="true"></i>
+              <i class="fa fa-star{% if single_product.averageReview < 4.5 %}-o{% elif single_product.averageReview >= 4.5 and single_product.averageReview < 5 %}-half-o {% endif %}"
+                aria-hidden="true"></i>
+            </span>
+          </div>
+          <span> {{single_product.countReviews}} reviews</span>
+
+        </header>
+        {% for review in reviews %}
+        <article class="box mb-3">
+          <div class="icontext w-100">
+            <i class="icon icon-sm rounded-circle border fas fa-user-friends"></i>
+            <div class="text">
+              <span class="date text-muted float-md-right">{{review.updated_at}} </span>
+              <h6 class="mb-1">{{review.user.full_name}} </h6>
+
+              <div class="rating-star">
+                <span>
+                  <i class="fa fa-star{% if review.rating == 0.5 %}-half-o{% elif review.rating < 1 %}-o {% endif %}"
+                    aria-hidden="true"></i>
+                  <i class="fa fa-star{% if review.rating == 1.5 %}-half-o{% elif review.rating < 2 %}-o {% endif %}"
+                    aria-hidden="true"></i>
+                  <i class="fa fa-star{% if review.rating == 2.5 %}-half-o{% elif review.rating < 3 %}-o {% endif %}"
+                    aria-hidden="true"></i>
+                  <i class="fa fa-star{% if review.rating == 3.5 %}-half-o{% elif review.rating < 4 %}-o {% endif %}"
+                    aria-hidden="true"></i>
+                  <i class="fa fa-star{% if review.rating == 4.5 %}-half-o{% elif review.rating < 5 %}-o {% endif %}"
+                    aria-hidden="true"></i>
+                </span>
+              </div>
+
+            </div>
+          </div> <!-- icontext.// -->
+          <div class="mt-3">
+            <p>
+              {{ review.review}}
+            </p>
+          </div>
+        </article>
+        {% endfor %}
+      </div> <!-- col.// -->
+    </div> <!-- row.// -->
+  </div> <!-- container .//  -->
+</section>
+<!-- ============================ END REVIEWS// ================================= -->
+<hr>
+
+<div class="container">
+  <header class="section-heading text-center">
+    <h4>Recommended Items</h4>
+  </header>
+  <div class="slider-items-owl owl-carousel owl-theme">
+    <div class="item-slide">
+      <figure class="card card-product-grid">
+        <div class="img-wrap">
+          <span class="badge badge-danger"> New </span>
+          <img src="{% static 'images/items/1.jpg' %}">
+        </div>
+        <figcaption class="info-wrap text-center">
+          <h6 class="title text-truncate" style="color: black;"><a href="#">First item name</a></h6>
+        </figcaption>
+      </figure> <!-- card // -->
+    </div>
+    <div class="item-slide">
+      <figure class="card card-product-grid">
+        <div class="img-wrap"> <img src="{% static 'images/items/2.jpg' %}"> </div>
+        <figcaption class="info-wrap text-center">
+          <h6 class="title"><a href="#">Second item name</a></h6>
+        </figcaption>
+      </figure> <!-- card // -->
+    </div>
+    <div class="item-slide">
+      <figure class="card card-product-grid">
+        <div class="img-wrap"> <img src="{% static 'images/items/3.jpg' %}"> </div>
+        <figcaption class="info-wrap text-center">
+          <h6 class="title"><a href="#">Third item name</a></h6>
+        </figcaption>
+      </figure> <!-- card // -->
+    </div>
+    <div class="item-slide">
+      <figure class="card card-product-grid">
+        <div class="img-wrap"> <img src="{% static 'images/items/4.jpg' %}"> </div>
+        <figcaption class="info-wrap text-center">
+          <h6 class="title"><a href="#">Good item name</a></h6>
+        </figcaption>
+      </figure> <!-- card // -->
+    </div>
+    <div class="item-slide">
+      <figure class="card card-product-grid">
+        <div class="img-wrap"> <img src="{% static 'images/items/5.jpg' %}"> </div>
+        <figcaption class="info-wrap text-center">
+          <h6 class="title"><a href="#">Another item name</a></h6>
+        </figcaption>
+      </figure> <!-- card // -->
+    </div>
+    <div class="item-slide">
+      <figure class="card card-product-grid">
+        <div class="img-wrap"> <img src="{% static 'images/items/3.jpg' %}"> </div>
+        <figcaption class="info-wrap text-center">
+          <h6 class="title"><a href="#">Third item name</a></h6>
+        </figcaption>
+      </figure> <!-- card // -->
+    </div>
+    <div class="item-slide">
+      <figure class="card card-product-grid">
+        <div class="img-wrap"> <img src="{% static 'images/items/4.jpg' %}"> </div>
+        <figcaption class="info-wrap text-center">
+          <h6 class="title"><a href="#">Good item name</a></h6>
+        </figcaption>
+      </figure> <!-- card // -->
+    </div>
+  </div> <!-- slider-itemsowl end. // -->
+</div>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  /// some script
+
+  // jquery ready start
+  $(document).ready(function () {
+    // jQuery code
+
+    /////////////////  items slider. /plugins/slickslider/
+    if ($('.slider-banner-slick').length > 0) { // check if element exists
+      $('.slider-banner-slick').slick({
+        infinite: true,
+        autoplay: true,
+        slidesToShow: 1,
+        dots: false,
+        prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-chevron-left"></i></button>',
+        nextArrow: '<button type="button" class="slick-next"><i class="fa fa-chevron-right"></i></button>',
+      });
+    } // end if
+
+    /////////////////  items slider. /plugins/slickslider/
+    if ($('.slider-custom-slick').length > 0) { // check if element exists
+      $('.slider-custom-slick').slick({
+        infinite: true,
+        slidesToShow: 2,
+        dots: true,
+        prevArrow: $('.slick-prev-custom'),
+        nextArrow: $('.slick-next-custom')
+      });
+    } // end if
+
+    /////////////////  items slider. /plugins/slickslider/
+    if ($('.slider-items-slick').length > 0) { // check if element exists
+      $('.slider-items-slick').slick({
+        infinite: true,
+        swipeToSlide: true,
+        slidesToShow: 4,
+        dots: true,
+        slidesToScroll: 2,
+        prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-chevron-left"></i></button>',
+        nextArrow: '<button type="button" class="slick-next"><i class="fa fa-chevron-right"></i></button>',
+        responsive: [{
+            breakpoint: 768,
+            settings: {
+              slidesToShow: 2
+            }
+          },
+          {
+            breakpoint: 640,
+            settings: {
+              slidesToShow: 1
+            }
+          }
+        ]
+      });
+    } // end if
+
+    /////////////////  items slider. /plugins/owlcarousel/
+    if ($('.slider-banner-owl').length > 0) { // check if element exists
+      $('.slider-banner-owl').owlCarousel({
+        loop: true,
+        margin: 0,
+        items: 1,
+        dots: false,
+        nav: true,
+        navText: ["<i class='fa fa-chevron-left'></i>", "<i class='fa fa-chevron-right'></i>"],
+      });
+    } // end if 
+
+    /////////////////  items slider. /plugins/owlslider/
+    if ($('.slider-items-owl').length > 0) { // check if element exists
+      $('.slider-items-owl').owlCarousel({
+        loop: true,
+        margin: 10,
+        nav: true,
+        navText: ["<i class='fa fa-chevron-left'></i>", "<i class='fa fa-chevron-right'></i>"],
+        responsive: {
+          0: {
+            items: 1
+          },
+          640: {
+            items: 3
+          },
+          1024: {
+            items: 4
+          }
+        }
+      })
+    } // end if
+
+    /////////////////  items slider. /plugins/owlcarousel/
+    if ($('.slider-custom-owl').length > 0) { // check if element exists
+      var slider_custom_owl = $('.slider-custom-owl');
+      slider_custom_owl.owlCarousel({
+        loop: true,
+        margin: 15,
+        items: 2,
+        nav: false,
+      });
+
+      // for custom navigation
+      $('.owl-prev-custom').click(function () {
+        slider_custom_owl.trigger('prev.owl.carousel');
+      });
+
+      $('.owl-next-custom').click(function () {
+        slider_custom_owl.trigger('next.owl.carousel');
+      });
+    } // end if 
+  });
+  // jquery end
+</script>
+{% endblock %}

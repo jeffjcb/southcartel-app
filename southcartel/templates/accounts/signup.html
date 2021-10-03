@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="card mx-auto" style="max-width: 600px; margin-top:80px; margin-bottom:100px;">
+
+    <div class="card">
+
+        <article class="card-body">
+            {% include 'includes/alerts.html' %}
+            {% if form.non_field_errors or form.email.errors %}
+            <div class="alert alert-warning msgalert alert-dismissible fade show" role="alert">
+                <button type="button" data-dismiss="alert" aria-label="Close" class="close"><span  aria-hidden="true">&times;</span></button> 
+                {{form.non_field_errors}}
+                {{form.email.errors}}
+            </div>
+            {% endif %}
+            <header class="mb-4">
+                <h4 class="card-title">Sign up</h4>
+            </header>
+            <form action="{% url 'register' %}" method="POST">
+                {% csrf_token %}
+
+                <div class="form-row">
+                    <div class="col form-group">
+                        <label>First name</label>
+                        {{form.first_name}}
+                    </div> <!-- form-group end.// -->
+                    <div class="col form-group">
+                        <label>Last name</label>
+                        {{form.last_name}}
+
+                    </div> <!-- form-group end.// -->
+                </div> <!-- form-row end.// -->
+                <div class="form-group">
+                    <label>Email</label>
+                    {{form.email}}
+
+                </div> <!-- form-group end.// -->
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Password</label>
+                        {{form.password}}
+
+                    </div> <!-- form-group end.// -->
+                    <div class="form-group col-md-6">
+                        <label>Repeat password</label>
+                        {{form.confirm_password}}
+
+                    </div> <!-- form-group end.// -->
+                </div>
+                <div class="form-group mt-3">
+                    <button type="submit" class="btn btn-dark btn-block"> Register </button>
+                </div> <!-- form-group// -->
+                <p class="text-muted">By clicking the 'Register' button, you confirm that you accept our Terms of use
+                    and Privacy Policy.</p>
+            </form>
+            <hr>
+            <a href="#" class="btn btn-facebook btn-block mb-2"> <i class="fab fa-facebook-f"></i> &nbsp; Sign up with
+                Facebook</a>
+            <a href="#" class="btn btn-google btn-block mb-4"> <i class="fab fa-google"></i> &nbsp; Sign up with
+                Google</a>
+            <p class="text-center">Have an account? <a href="{% url 'login' %}">Log In</a></p>
+        </article> <!-- card-body end .// -->
+    </div>
+</div>
+{% endblock content %}

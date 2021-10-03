@@ -1,0 +1,94 @@
+{% extends "admin/base.html" %}
+  
+
+{% block content %}
+
+    <div class="col-12 col-sm-6">
+        <div class="card card card-outline">
+            <div class="card-header bg-dark">
+                <div class="card-title ">
+                   Weekly Sales Forecasting
+                </div>
+            </div>
+            <div class="card-body">
+            <canvas id="weChart" width="100" height="30vh"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6">
+        <div class="card card card-outline">
+            <div class="card-header bg-dark">
+                <div class="card-title ">
+                   Monthly Sales Forecasting
+                </div>
+            </div>
+            <div class="card-body">
+<canvas id="myChart" width="100" height="30vh"></canvas>
+            </div>
+        </div>
+    </div>
+
+
+<script>
+var df = {{df|safe}};
+var df1 ={{df1|safe}};
+var we1 = {{we1|safe}};
+var we2 ={{we2|safe}};
+
+var ctx = document.getElementById('myChart');
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: df1,
+        datasets: [{
+            label: 'Sales',
+            data: df,
+            fill: false,
+
+            borderColor: [
+                "#3cba9f",
+            ],
+            borderWidth: 2
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+
+
+var asx = document.getElementById('weChart');
+var myChart = new Chart(asx, {
+    type: 'line',
+    data: {
+        labels: we1,
+        datasets: [{
+            label: 'Sales',
+            data: we2,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+
+            ],
+            borderWidth: 2
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
+{% endblock %}

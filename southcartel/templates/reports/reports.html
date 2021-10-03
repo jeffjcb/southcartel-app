@@ -1,0 +1,110 @@
+{% extends "admin/base.html" %}
+  
+
+{% block content %}
+
+
+    <div class="col-12 col-sm-6">
+        <div class="card card card-outline">
+            <div class="card-header bg-dark">
+                <div class="card-title ">
+                    Top Selling Products
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table myTable">
+                <thead > 
+                <th>Product</th>
+                <th>Sold</th>
+                <th>Sales</th>
+                </thead>
+                {% for sale in sales %}
+                <tbody>
+                <td>{{sale.product__product_name}}</td>
+                <td>{{sale.sold}}</td>
+                <td>₱{{sale.amount}}</td>
+                </tbody>
+                {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6">
+        <div class="card card card-outline">
+            <div class="card-header bg-dark">
+                <div class="card-title">
+                    Top Categories
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table myTable" >
+                <thead>
+                <th>Category</th>
+                <th>Sold</th>
+                <th>Sales</th>
+                </thead>
+                {% for cat in top_categories %}
+                <tbody>
+                <td>{{cat.product__category__category_name}}</td>
+                <td>{{cat.sold}}</td>
+                <td>₱{{cat.amount}}</td>
+                </tbody>
+                {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-sm-6">
+        <div class="card card card-outline">
+            <div class="card-header bg-dark">
+                <div class="card-title">
+                    Top Brands
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table myTable" >
+                <thead>
+                <th>Brand</th>
+                <th>Sold</th>
+                <th>Sales</th>
+                </thead>
+                {% for brand in top_brands %}
+                <tbody>
+                <td>{{brand.product__brand__brand_name}}</td>
+                <td>{{brand.sold}}</td>
+                <td>₱{{brand.amount}}</td>
+                </tbody>
+                {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-sm-6">
+        <div class="card card card-outline">
+            <div class="card-header bg-dark">
+                <div class="card-title">
+                    General Sales
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table exTable">
+                <thead>
+                <th>Product</th>
+                <th>Product</th>
+                <th>Product</th>
+                </thead>
+                {% for gen in general_sales %}
+                <tbody>
+                <td>{{gen.product__product_name}}</td>
+                <td>{{gen.sold}}</td>
+                <td>{{gen.amount}}</td>
+                </tbody>
+                {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

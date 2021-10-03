@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<section class="section-conten padding-y bg">
+
+	{% include 'includes/alerts.html' %}
+	<div class="container">
+		<div class="row">
+			{% include 'includes/dashboard_sidebar.html' %}
+			<main class="col-md-9">
+				<article class="card">
+					<header class="card-header">
+						<strong class="d-inline-block mr-3">Your order history</strong>
+
+					</header>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-md-12">
+								<table class="table table-hover">
+									<thead>
+										<tr>
+											<th scope="col">Order #</th>
+											<th scope="col">Billing Name</th>
+											<th scope="col">Phone</th>
+											<th scope="col">Total</th>
+											<th scope="col"></th>
+											<th scope="col"></th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for order in orders %}
+
+										<tr>
+											<th scope="row"><a
+													href="{% url 'order_detail' order.order_number %}">{{order.order_number}}</a>
+											</th>
+											<td>{{order.full_name}}</td>
+											<td>{{order.phone}}</td>
+											<td>₱{{order.order_total}}</td>
+											{% comment %} <td>{{order.created_at}}</td> {% endcomment %}
+											<td>
+											<center>
+											<form action="{% url 'order_tracking' %}" method="POST">
+											{% csrf_token %}
+											<input type="text" name="order_num" value="{{order.order_number}}" hidden>
+											{% if order.status == "Cancelled"  %}
+
+											{% elif order.status == "Delivered" %}
+												{% comment %} if order date is lagpas 7 days dont show, else {% endcomment %}
+											<a href="{% url 'request_refund' %}?order_number={{order.order_number}}" class="btn btn-light" >Request Refund</a>
+											{% else %}
+
+											<button  type="submit" class="btn btn-outline-primary">Track Order</button>
+											{% endif %}
+											</form>
+											</td>
+											<td>
+												<a class="btn btn-primary" data-toggle="collapse"
+													href="#collapseExample" role="button" aria-expanded="false"
+													aria-controls="collapseExample">
+													Details
+												</a>
+											</td>
+											</center>
+											<td>
+													<div class="collapse" id="collapseExample">
+													<div class="card card-body">
+														{{order.order_number}}
+													</div>
+												</div>
+											</td>
+										</tr>
+
+										{% endfor %}
+
+									</tbody>
+								</table>
+							</div>
+
+						</div> <!-- row.// -->
+					</div> <!-- card-body .// -->
+
+				</article> <!-- order-group.// -->
+			</main>
+		</div> <!-- row.// -->
+	</div>
+
+
+</section>
+
+{% endblock %}

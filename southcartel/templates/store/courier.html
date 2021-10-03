@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<body>
+
+	<section class="section-content padding-y bg">
+		<div class="container-fluid">
+			<div class="container-fluid ">
+				<!-- ================== BREADCRUMB  ==================  -->
+
+				<div class="row justify-content-center mb-3">
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="#">Home</span> </a></li>
+							<li class="breadcrumb-item"><a href="#">Shopping Cart</a></li>
+							<li class="breadcrumb-item active text-primary" aria-current="page">Information</li>
+							<li class="breadcrumb-item"><a href="#">Shipping</a></li>
+							<li class="breadcrumb-item"><a href="#">Payment</a></li>
+						</ol>
+					</nav>
+				</div>
+				<!-- ================== END OF BREADCRUMB  ==================  -->
+
+				<!-- ============================ CONTACT INFO ================================= -->
+				<div class="row justify-content-center">
+					<main class="col-md-5">
+						<article class="card mb-4">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-12">
+										<dl class="dlist-align">
+											<dt class="text-muted  mt-2">
+												<h5>Contact:</h5>
+											</dt>
+											<dd class="mt-2">{{full_name}}</dd>
+											<dd><button
+													class="btn btn-outline-primary float-right  mt-1">Change</button>
+											</dd>
+										</dl>
+										<hr>
+										<dl class="dlist-align">
+											<dt class="text-muted  mt-3">
+												<h5>Ship to:</h5>
+											</dt>
+											<dd class=" mt-3">{{address_line_1}}</dd>
+											<dd><button
+													class="btn btn-outline-primary float-right  mt-2">Change</button>
+											</dd>
+										</dl>
+									</div>
+
+								</div>
+							</div> <!-- card-body.// -->
+						</article> <!-- card.// -->
+
+						<!-- ============================ SHIPPING ADDRESS ================================= -->
+						<article class="card mb-4">
+							<div class="card-body">
+							<form action="{% url 'payments' %}" method="POST">
+							{% csrf_token %}
+								<h4 class="card-title mb-4">Shipping Courier</h4>
+								{% for shipping_method in shipping_methods %}
+								<div class="col-12">
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="courier"  value="{{shipping_method.courier}}" required>
+										<label class="form-check-label">
+											<dl class="dlist-align">
+												<dt>
+													<p>{{shipping_method.courier}}</p>
+												</dt>
+												<dd><i class="text-muted">{{shipping_method.estimated_delivery}}</i></dd>
+												<dd><b> &nbsp;</b></dd>
+											</dl>
+										</label>
+									</div>
+									<hr>
+								</div>
+								{% endfor %}
+								<center>
+									<span class="small mb-3 text-muted">By clicking "Proceed to Shipping" you are agree
+										with the Terms and
+										conditions.
+									</span></center>
+								<hr>
+								<a href="{% url 'place_order' %}" class="btn btn-secondary float-left">< Return to Information </a> 
+								<button type="submit" class="btn btn-primary float-right" name="submit">Proceed to Payment></button>
+								</form>
+							</div> <!-- card-body.// -->
+						</article> <!-- card.// -->
+
+
+						<!-- accordion end.// -->
+
+					</main> <!-- col.// -->
+					<aside class="col-md-4">
+						<div class="card shadow">
+							<div class="card-body">
+
+
+								<table class="table table-borderless table-shopping-cart">
+									<thead class="text-muted">
+										<tr class="small text-uppercase">
+											<th scope="col">Product</th>
+											<th scope="col" width="120">Quantity</th>
+											<th scope="col" width="120">Price</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for cart_item in cart_items %}
+										<tr>
+											<td>
+												<figure class="itemside align-items-center">
+													<div class="aside"><img src="{{cart_item.product.images.url}}"
+															class="img-xs"></div>
+													<figcaption class="info">
+														<a href="{{ cart_item.product.get_url }}"
+															class="title text-dark small">{{cart_item.product.product_name}}</a>
+														<p class="text-muted small">
+															{% if cart_item.variations.all %}
+															{% for item in cart_item.variations.all %}
+															{{ item.variation_category | capfirst }} :
+															{{ item.variation_value | capfirst  }} <br>
+															{% endfor %}
+															{% endif %}
+													</figcaption>
+												</figure>
+											</td>
+											<td>
+												<label for="">{{cart_item.quantity}}</label>
+											</td>
+											<td>
+												<div class="price-wrap">
+													<var class="price">₱{{cart_item.sub_total}}</var>
+													<small class="text-muted">₱{{cart_item.product.price}} each</small>
+												</div> <!-- price-wrap .// -->
+											</td>
+										</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+
+								<hr>
+								<dl class="dlist-align">
+									<dt class="text-muted">Shipping Fee:</dt>
+									<dd></dd>
+									<dd></dd>
+									<dd></dd>
+									<dd></dd>
+									<dd></dd>
+									<dd style="">₱{{shipping_fee}}</dd>
+								</dl>
+
+								<hr>
+								<dl class="dlist-align">
+									<dt>Total:</dt>
+									<dd></dd>
+									<dd></dd>
+									<dd></dd>
+									<dd></dd>
+									<dd></dd>
+									<dd></dd>
+									<dd class="h5">₱{{grand_total}}</dd>
+								</dl>
+
+							</div> <!-- card-body.// -->
+						</div> <!-- card.// -->
+					</aside> <!-- col.// -->
+				</div> <!-- row.// -->
+
+				<!-- ============================ COMPONENT 2 END//  ================================= -->
+			</div> <!-- container .//  -->
+	</section>
+
+	<!-- ========================= SECTION CONTENT END// ========================= -->
+	{% endblock %}

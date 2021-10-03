@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container my-5">
+    <center>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title mb-4">Request Refund</h4>
+                    <form action="{% url 'send_refund_request' %}" method="POST">
+                    {% csrf_token %}
+                        <div class="form-row">
+                            <div class="col form-group">
+                                <label><b> Order # </b><span>{{order_number}}</span></label>
+                                <input type="text" name="order_number" value="{{order_number}}" hidden>
+                            </div> <!-- form-group end.// -->
+
+                        </div> <!-- form-row.// -->
+
+                        <div class="form-group">
+                            <h5><label>Reason for Refund</label></h5>
+                            <textarea name="reason" class="form-control" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-dark btn-block">Send</button>
+                    </form>
+                </div> <!-- card-body.// -->
+            </div>
+        </div>
+</div> 
+</center>
+        {% endblock  %}

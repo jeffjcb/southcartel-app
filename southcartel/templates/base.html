@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+  <title>South Cartel 55</title>
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/icons/favicon.ico' %}">
+  <!-- jQuery -->
+  <script src=" {% static 'js/jquery-2.0.0.min.js' %}" type="text/javascript"></script>
+
+  <!-- Bootstrap4 files-->
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}" type="text/javascript"></script>
+  <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css" />
+
+  <!-- Fonticons -->
+  <link href="{% static 'fonts/fontawesome/css/all.min.css' %}" type="text/css" rel="stylesheet">
+  <link href="{% static 'fonts/feathericons/css/iconfont.css' %}" rel="stylesheet" type="text/css" />
+  <link href="{% static 'fonts/material-icons/css/materialdesignicons.css' %}" rel="stylesheet" type="text/css" />
+
+  <!-- plugin: slickslider -->
+  <link href="{% static 'plugins/slickslider/slick.css' %}" rel="stylesheet" type="text/css" />
+  <link href="{% static 'plugins/slickslider/slick-theme.css' %}" rel="stylesheet" type="text/css" />
+  <script src="{% static 'plugins/slickslider/slick.min.js' %}"></script>
+
+  <!-- plugin: owl carousel  -->
+  <link href="{% static 'plugins/owlcarousel/assets/owl.carousel.css' %}" rel="stylesheet">
+  <link href="{% static 'plugins/owlcarousel/assets/owl.theme.default.css' %}" rel="stylesheet">
+  <script src="{% static 'plugins/owlcarousel/owl.carousel.min.js' %}"></script>
+
+  <!-- custom style -->
+  <link href="{% static 'css/ui.css' %}" rel="stylesheet" type="text/css" />
+  <link href="{% static 'css/responsive.css' %}" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="{% static 'css/custom.css' %}" rel="stylesheet" />
+
+
+
+  <!-- custom javascript -->
+  <script src="{% static 'js/script.js' %}" type="text/javascript"></script>
+{% comment %} Paypal Script {% endcomment %}
+   <script src="https://www.paypal.com/sdk/js?client-id=AV41mDHgkXSTJtBN-onlMctb60ec5l348M4rHyTRuqe35f8lLjKe2Ob4xOtSKkJqm-q6naR9gpvutQZI&currency=PHP"></script>
+  <style>
+    .banner-sc55 {
+      max-height: 480px;
+      min-height: 480px;
+      min-width:1200px;
+      overflow: hidden;
+    }
+    #ban { height:680px; min-width:1200px; overflow:hidden; }
+    #homethumb { min-height: 300px; min-width: 300px; }
+    .fcon{
+          color: #C6B45A;
+    }
+
+    .fconbg{
+      background:#C6B45A;
+    }
+    
+    .fconbg:hover{
+      background:#AB9D54;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    }
+    
+  </style>
+</head>
+
+<body>
+  <style type="text/css">
+    .section-content {
+      min-height: 82vh;
+    }
+
+
+  </style>
+
+
+{% include 'includes/header.html' %}
+  {% block content %}
+  
+  
+  
+  {% endblock  %}
+{% include 'includes/footer.html' %}
+
+
+
+

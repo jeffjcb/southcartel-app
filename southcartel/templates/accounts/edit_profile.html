@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<section class="section-conten padding-y bg">
+
+    {% include 'includes/alerts.html' %}
+    <div class="container">
+        <div class="row">
+            {% include 'includes/dashboard_sidebar.html' %}
+            <main class="col-md-9">
+                <article class="card">
+                    <header class="card-header">
+                        <strong class="d-inline-block mr-3">Edit your Profile</strong>
+
+                    </header>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form action="{% url 'edit_profile' %}" method="POST">
+                                    {% csrf_token %}
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="">First Name</label>
+                                            {{user_form.first_name}}
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="">Last Name</label>
+                                            {{user_form.last_name}}
+                                        </div>
+                                    </div>
+                             
+                            </div>
+                        </div> <!-- row.// -->
+
+                                                <div class="row">
+                            <div class="col-md-12">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="">Phone Number</label>
+                                            {{user_form.phone_number}}
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="">Country</label>
+                                            <input type="text" value="Philippines" class="form-control" id="" disabled>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <label for="">Province</label>
+                                            {{profile_form.province}}
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="">City</label>
+                                            {{profile_form.city}}
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="">District / Barangay</label>
+                                            {{profile_form.district}}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                            <label for="">Address Line 1</label>
+                                            {{profile_form.address_line_1}}
+                                    </div>
+
+                                    <div class="form-group">
+                                            <label for="">Address Line 2</label>
+                                            {{profile_form.address_line_2}}
+
+                                    </div>
+                                    <input type="submit" value="Save" class="btn btn-primary float-right">
+                                </form>
+                            </div>
+
+                        </div> <!-- row.// -->
+                    </div> <!-- card-body .// -->
+
+                </article> <!-- order-group.// -->
+            </main>
+        </div> <!-- row.// -->
+    </div>
+
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,257 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!-- START OF CAROUSEL -->
+<!-- ========================= SECTION INTRO ========================= -->
+
+<section class="section-intro padding-y-sm">
+	<div class="container">
+		<div class="col-md-12 ">
+			<!-- ============================ COMPONENT BANNER 7 ================================= -->
+			<div class="card-banner bg-dark">
+				<div class=" card-img opacity "
+					style="min-height:300px; background-image: url('{% static 'images/banners/headd2.png' %}'); background-repeat: no-repeat;">
+				</div>
+				<div class="card-img-overlay white">
+					{% if 'search' in request.path %}
+					<center>
+						<h3 class="card-title mt-5">Search Results<br> </h3>
+					</center>
+					{% else %}
+					<center>
+						<h3 class="card-title mt-5">Our Store<br> </h3>
+					</center>
+					{% endif %}
+				</div>
+			</div> <!-- container //  -->
+		</div>
+	</div>
+</section>
+<!-- ========================= SECTION INTRO END// ========================= -->
+
+
+
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-content padding-y">
+	<div class="container">
+
+		<div class="row">
+			<aside class="col-md-3">
+
+				<div class="card text-dark">
+
+					<header class="card-header">
+						<a href="#" data-toggle="collapse" data-target="#collapse_2" aria-expanded="true" class="">
+							<i class="icon-control fa fa-chevron-down"></i>
+							<h6 class="title text-dark">Colors </h6>
+						</a>
+					</header>
+					<div class="filter-content collapse show" id="collapse_2" style="">
+						<div class="card-body">
+							<label class="custom-control custom-checkbox">
+								<input type="checkbox" checked="" class="custom-control-input">
+								<div class="custom-control-label">Green
+									<b class="badge badge-pill badge-light float-right">120</b> </div>
+							</label>
+							<label class="custom-control custom-checkbox">
+								<input type="checkbox" checked="" class="custom-control-input">
+								<div class="custom-control-label">Black
+									<b class="badge badge-pill badge-light float-right">15</b> </div>
+							</label>
+							<label class="custom-control custom-checkbox">
+								<input type="checkbox" checked="" class="custom-control-input">
+								<div class="custom-control-label">White
+									<b class="badge badge-pill badge-light float-right">35</b> </div>
+							</label>
+							<label class="custom-control custom-checkbox">
+								<input type="checkbox" checked="" class="custom-control-input">
+								<div class="custom-control-label">Blue
+									<b class="badge badge-pill badge-light float-right">89</b> </div>
+							</label>
+							<label class="custom-control custom-checkbox">
+								<input type="checkbox" class="custom-control-input">
+								<div class="custom-control-label">Gray
+									<b class="badge badge-pill badge-light float-right">30</b> </div>
+							</label>
+						</div> <!-- card-body.// -->
+					</div>
+					</article> <!-- filter-group .// -->
+					<article class="filter-group">
+						<header class="card-header">
+							<a href="#" data-toggle="collapse" data-target="#collapse_3" aria-expanded="true" class="">
+								<i class="icon-control fa fa-chevron-down"></i>
+								<h6 class="title text-dark">Price range </h6>
+							</a>
+						</header>
+						<div class="filter-content collapse show" id="collapse_3" style="">
+							<div class="card-body">
+								<input type="range" class="custom-range" min="0" max="100" name="">
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<label>Min</label>
+										<input class="form-control" placeholder="$0" type="number">
+									</div>
+									<div class="form-group text-right col-md-6">
+										<label>Max</label>
+										<input class="form-control" placeholder="$1,0000" type="number">
+									</div>
+								</div> <!-- form-row.// -->
+								<button class="btn btn-block btn-primary">Apply</button>
+							</div><!-- card-body.// -->
+						</div>
+					</article> <!-- filter-group .// -->
+					<article class="filter-group">
+						<header class="card-header">
+							<a href="#" data-toggle="collapse" data-target="#collapse_4" aria-expanded="true" class="">
+								<i class="icon-control fa fa-chevron-down "></i>
+								<h6 class="title text-dark">Sizes </h6>
+							</a>
+						</header>
+						<div class="filter-content collapse show" id="collapse_4" style="">
+							<div class="card-body">
+								<label class="checkbox-btn">
+									<input type="checkbox">
+									<span class="btn btn-light"> XS </span>
+								</label>
+
+								<label class="checkbox-btn">
+									<input type="checkbox">
+									<span class="btn btn-light"> SM </span>
+								</label>
+
+								<label class="checkbox-btn">
+									<input type="checkbox">
+									<span class="btn btn-light"> LG </span>
+								</label>
+
+								<label class="checkbox-btn">
+									<input type="checkbox">
+									<span class="btn btn-light"> XXL </span>
+								</label>
+							</div><!-- card-body.// -->
+						</div>
+					</article> <!-- filter-group .// -->
+					<article class="filter-group">
+						<header class="card-header">
+							<a href="#" data-toggle="collapse" data-target="#collapse_5" aria-expanded="false" class="">
+								<i class="icon-control fa fa-chevron-down fcon"></i>
+								<h6 class="title text-dark">Date </h6>
+							</a>
+						</header>
+						<div class="filter-content collapse in" id="collapse_5" style="">
+							<div class="card-body">
+								<label class="custom-control custom-radio">
+									<input type="radio" name="myfilter_radio" checked="" class="custom-control-input">
+									<div class="custom-control-label">Any condition</div>
+								</label>
+
+								<label class="custom-control custom-radio">
+									<input type="radio" name="myfilter_radio" class="custom-control-input">
+									<div class="custom-control-label">Oldest to Newest</div>
+								</label>
+
+								<label class="custom-control custom-radio">
+									<input type="radio" name="myfilter_radio" class="custom-control-input">
+									<div class="custom-control-label">Newest to Oldest</div>
+								</label>
+
+
+							</div><!-- card-body.// -->
+						</div>
+					</article> <!-- filter-group .// -->
+				</div> <!-- card.// -->
+
+			</aside> <!-- col.// -->
+			<main class="col-md-9">
+
+				<header class="border-bottom mb-4 pb-3">
+					<div class="form-inline">
+						<span class="mr-md-auto">{{product_count}} Items found </span>
+						<div class="col-lg col-sm col-md col-6 flex-grow-0">
+							<div class="category-wrap dropdown d-inline-block float-right show">
+								<button type="button" class="btn bg-dark text-white dropdown-toggle" data-toggle="dropdown"
+									aria-expanded="true">
+									<i class="fa fa-bars"></i> All category
+								</button>
+								<div class="dropdown-menu bg-" x-placement="top-start"
+									style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, -198px, 0px);">
+									<a class="dropdown-item" href="{% url 'store' %}">All Categories</a>
+									{% for category in links %}
+									<a class="dropdown-item" href="{{category.get_url}}">{{category.category_name}}</a>
+									{% endfor %}
+								</div>
+							</div> <!-- category-wrap.// -->
+						</div>
+
+					</div>
+				</header><!-- sect-heading -->
+
+				<div class="row">
+					{% if products %}
+					{% for product in products %}
+					<div class="col-md-4">
+						<figure class="card card-product-grid">
+							<div class="img-wrap">
+								<span class="badge badge-danger"> NEW </span>
+								<a href="{{product.get_url}}"><img id="homethumb" src="{{ product.images.url }}"></a>
+								<a class="btn-overlay" href="{{ product.images.url }}"><i class="fa fa-search-plus"></i>
+									Quick view</a>
+							</div> <!-- img-wrap.// -->
+							<figcaption class="info-wrap">
+								<div class="fix-height">
+									<a href="{{product.get_url}}" class="title">{{product.product_name}}</a>
+									<div class="price-wrap mt-2">
+										<span class="price">₱{{product.price}}</span>
+
+									</div> <!-- price-wrap.// -->
+								</div>
+								<a href="{{product.get_url}}" class="btn btn-block fconbg text-white">View Details</a>
+							</figcaption>
+						</figure>
+					</div> <!-- col.// -->
+
+					{% endfor %}
+					{% else %}
+					<div class="container">
+					<center><h4 class="text-muted">Sorry, we were not able to find the products you were looking for.</h4></center>
+					<img height="600rm" src="{% static 'images/banners/UnboxingDoodle.png' %}" alt="">
+					{% endif %}
+					</div>
+				</div> <!-- row end.// -->
+
+
+				<nav class="mt-4 float-right" aria-label="Page navigation sample">
+					{% if products.has_other_pages %}
+					<ul class="pagination">
+						{% if products.has_previous %}
+						<li class="page-item"><a class="page-link"
+								href="?page={{products.previous_page_number}}">Previous</a></li>
+						{% else %}
+						<li class="page-item disabled"><a class="page-link">Previous</a></li>
+						{% endif %}
+						{% for i in products.paginator.page_range %}
+						{% if products.number == i %}
+						<li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
+						{% else %}
+						<li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+						{% endif %}
+						{% endfor %}
+						{% if products.has_next %}
+						<li class="page-item"><a class="page-link" href="?page={{products.next_page_number}}">Next</a>
+						</li>
+						{% else %}
+						<li class="page-item disabled"><a class="page-link">Next</a></li>
+						{% endif %}
+					</ul>
+					{% endif %}
+				</nav>
+
+			</main> <!-- col.// -->
+
+		</div>
+
+	</div> <!-- container .//  -->
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+
+{% endblock %}
