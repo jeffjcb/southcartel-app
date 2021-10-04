@@ -1,1 +1,1 @@
-web: gunicorn southcartel.wsgi
+web: gunicorn southcartel.wsgi:application --log-file -
