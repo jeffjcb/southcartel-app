@@ -87,14 +87,17 @@ def home(request):
     #recommender  system
     qs = Product.objects.all().values('id','product_name','tags', 'description','price')
     qt = Preferences.objects.all().values('id','user','product', 'rating')
-    product_data = pd.DataFrame(qs)
-    preferences_data = pd.DataFrame(qt)
+    try:
+        product_data = pd.DataFrame(qs)
+        preferences_data = pd.DataFrame(qt)
     # if preferences is enough, run the collab and contentbased filtering, else, hybrid products = get 10 random products from products
 
    #####################################
     # COLLABORATIVE FILTERING
     # create matrix
-    X, user_mapper, movie_mapper, user_inv_mapper, movie_inv_mapper = create_X(preferences_data)   
+        X, user_mapper, movie_mapper, user_inv_mapper, movie_inv_mapper = create_X(preferences_data)
+    except:
+        pass 
 
     # GET RANDOM PRODUCT FORM PREFERENCES
     try:
