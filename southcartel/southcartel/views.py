@@ -134,8 +134,11 @@ def home(request):
     except:
         # random ids
         pref = list(Product.objects.all().values('id'))
-        pref_random = random.sample(pref, 8)
-        similar_ids = [d['id'] for d in pref_random]
+        if pref:
+            pref_random = random.sample(pref, 8)
+            similar_ids = [d['id'] for d in pref_random]
+        else:
+            pass
 
 
 
@@ -199,16 +202,21 @@ def home(request):
     except:
         # random ids
         prefer = list(Product.objects.all().values('id'))
-        pref_randoms = random.sample(prefer, 8)
-        cb_ids = [d['id'] for d in pref_randoms]
+        if prefer:
+            pref_randoms = random.sample(prefer, 8)
+            cb_ids = [d['id'] for d in pref_randoms]
+        else:
+            pass
         
+    try:
+        # Get hybrid list and eliminate duplicates
+        hybrid_list = cb_ids + similar_ids
+        final_hybrid_list = set(hybrid_list)
 
-    # Get hybrid list and eliminate duplicates
-    hybrid_list = cb_ids + similar_ids
-    final_hybrid_list = set(hybrid_list)
-
-    
-    hybrid_products = Product.objects.all().filter(pk__in=list(final_hybrid_list))
+        
+        hybrid_products = Product.objects.all().filter(pk__in=list(final_hybrid_list))
+    except:
+        hybrid_products = None
   
 
     #main  
