@@ -10,6 +10,13 @@ from .forms import ReviewForm
 from django.contrib import messages
 from orders.models import OrderProduct
 import datetime
+from accounts.models import Preferences
+import pandas as pd
+from collections import Counter
+from sklearn.metrics.pairwise import cosine_similarity
+from fuzzywuzzy import process
+import random
+
 # Create your views here.
 
 def store(request, category_slug=None):
@@ -61,6 +68,8 @@ def product_detail(request, category_slug, product_slug):
         pass
 
 
+
+
     try:
         single_product = Product.objects.get(category__slug=category_slug, slug=product_slug)
         #check if single item is added to cart, filter cart items with the cart id and the product if it exists in the cart
@@ -76,6 +85,74 @@ def product_detail(request, category_slug, product_slug):
     else:
         orderproduct = None
     
+    #recommender  system
+    # CONTENT BASED FILTERING
+    try:
+        qs = Product.objects.all().values('id','product_name','tags', 'description','price')
+        product_data = pd.DataFrame(qs)
+        product_data['tags'] = product_data['tags'].apply(lambda x: x.split(","))
+        product_data.head()
+        genres_counts = Counter(g for product_data in product_data['tags'] for g in product_data)
+        product_data = product_data[product_data['tags']!='(no tags listed)']
+        del genres_counts['(no tags listed)']
+        genres_counts_df = pd.DataFrame([genres_counts]).T.reset_index()
+        genres_counts_df.columns = ['tags', 'count']
+        genres_counts_df = genres_counts_df.sort_values(by='count', ascending=False)
+        genres = list(genres_counts.keys())
+        for g in genres:
+            product_data[g] = product_data['tags'].transform(lambda x: int(g in x))
+
+        movie_features = pd.concat([product_data[genres]], axis=1)
+        cosine_sim = cosine_similarity(movie_features, movie_features)
+        def movie_finder(title):
+            all_titles = product_data['product_name'].tolist()
+            closest_match = process.extractOne(title,all_titles)
+            return closest_match[0]
+
+        title = movie_finder('Orange Shirt')
+        movie_idx = dict(zip(product_data['product_name'], list(product_data.index)))
+        idx = movie_idx[title]
+        
+        n_recommendations=3
+        sim_scores = list(enumerate(cosine_sim[idx]))
+        sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+        sim_scores = sim_scores[1:(n_recommendations+1)]
+        similar_movies = [i[0] for i in sim_scores]
+        product_data['product_name'].iloc[similar_movies]
+
+    
+        def get_content_based_recommendations(title_string, n_recommendations=3):
+            cb = []
+            title = movie_finder(title_string)
+            idx = movie_idx[title]
+            sim_scores = list(enumerate(cosine_sim[idx]))
+            sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+            sim_scores = sim_scores[1:(n_recommendations+1)]
+            similar_movies = [i[0] for i in sim_scores]
+            for i in product_data['id'].iloc[similar_movies]:
+                cb.append(i)
+            return cb
+            
+        # Get random preference from preferences and perform CB filtering
+        cb_ids = get_content_based_recommendations(str(single_product.product_name), 8)
+    except:
+        # random ids
+        prefer = list(Product.objects.all().values('id'))
+        if prefer:
+            pref_randoms = random.sample(prefer, 8)
+            cb_ids = [d['id'] for d in pref_randoms]
+        else:
+            pass
+        
+    try:
+        # Get hybrid list and eliminate duplicates
+        hybrid_list = cb_ids
+        final_hybrid_list = set(hybrid_list)
+        hybrid_products = Product.objects.all().filter(pk__in=list(final_hybrid_list))
+    except:
+        hybrid_products = None
+
+
     # get the reviews
     reviews = ReviewRating.objects.filter(product_id=single_product.id, status=True)
     # get product gallery
@@ -88,6 +165,7 @@ def product_detail(request, category_slug, product_slug):
         'orderproduct':orderproduct,
         'reviews':reviews,
         'product_gallery': product_gallery,
+        'hybrid_products':hybrid_products,
     }
     return render(request, 'product_detail.html', context)
 

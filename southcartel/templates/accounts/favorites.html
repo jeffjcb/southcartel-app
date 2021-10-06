@@ -36,7 +36,10 @@
 											</th>
 											<td>{{favorite.product.product_name}}</td>
 											<td>₱{{favorite.product.price}}</td>
-											<td><a href="{% url 'remove_favorites' favorite.product.id favorite.id %}"><button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button></a></td>
+											<td><a href="{% url 'remove_favorites' favorite.product.id favorite.id %}"><button class="btn btn-danger"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+width="20" height="20"
+viewBox="0 0 172 172"
+style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ffffff"><path d="M72.24,6.88c-5.66037,0 -10.32,4.65964 -10.32,10.32v6.88h-34.4c-1.24059,-0.01754 -2.39452,0.63425 -3.01993,1.7058c-0.62541,1.07155 -0.62541,2.39684 0,3.46839c0.62541,1.07155 1.77935,1.72335 3.01993,1.7058h3.44v123.84c0,5.68976 4.63024,10.32 10.32,10.32h89.44c5.68976,0 10.32,-4.63024 10.32,-10.32v-123.84h3.44c1.24059,0.01754 2.39452,-0.63425 3.01993,-1.7058c0.62541,-1.07155 0.62541,-2.39684 0,-3.46839c-0.62541,-1.07155 -1.77935,-1.72335 -3.01993,-1.7058h-34.4v-6.88c0,-5.66036 -4.65963,-10.32 -10.32,-10.32zM72.24,13.76h27.52c1.90763,0 3.44,1.53236 3.44,3.44v6.88h-34.4v-6.88c0,-1.90764 1.53237,-3.44 3.44,-3.44zM65.36,48.16c1.89888,0 3.44,1.54112 3.44,3.44v86c0,1.90232 -1.54112,3.44 -3.44,3.44c-1.89888,0 -3.44,-1.53768 -3.44,-3.44v-86c0,-1.89888 1.54112,-3.44 3.44,-3.44zM86,48.16c1.89888,0 3.44,1.54112 3.44,3.44v86c0,1.90232 -1.54112,3.44 -3.44,3.44c-1.89888,0 -3.44,-1.53768 -3.44,-3.44v-86c0,-1.89888 1.54112,-3.44 3.44,-3.44zM106.64,48.16c1.90232,0 3.44,1.54112 3.44,3.44v86c0,1.90232 -1.53768,3.44 -3.44,3.44c-1.90232,0 -3.44,-1.53768 -3.44,-3.44v-86c0,-1.89888 1.53768,-3.44 3.44,-3.44z"></path></g></g></svg></a></td>
 										</tr>
                                         {% endfor %}
 

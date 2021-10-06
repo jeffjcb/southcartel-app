@@ -167,7 +167,7 @@ def home(request):
             all_titles = product_data['product_name'].tolist()
             closest_match = process.extractOne(title,all_titles)
             return closest_match[0]
-
+    
         title = movie_finder('Orange Shirt')
         movie_idx = dict(zip(product_data['product_name'], list(product_data.index)))
         idx = movie_idx[title]

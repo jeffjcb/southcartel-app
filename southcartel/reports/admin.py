@@ -98,7 +98,7 @@ def salesforecasting(request):
         # weekly
         we = pd.DataFrame(week)
         we["datey"] = we["year"].astype(str) +'-'+ we["week"].astype(str)
-        data2 = st[['datey', 'amount']]
+        data2 = we[['datey', 'amount']]
         #divide into train and validation set
         train2 = data2[:int(0.7*(len(data2)))]
         valid2 = data2[int(0.7*(len(data2))):]
