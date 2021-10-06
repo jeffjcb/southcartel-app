@@ -91,9 +91,9 @@ def shipping(request, total=0, quantity=0, cart_items=None):
     region = request.session.get('region')
     shipping_fee = 0
     if region == 'Laguna':
-        shipping_fee = 0;
+        shipping_fee = 110;
     else:
-        shipping_fee = 0;
+        shipping_fee = 120;
 
     grand_total += shipping_fee
 

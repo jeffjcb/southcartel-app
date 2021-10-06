@@ -12,11 +12,11 @@
 				<div class="row justify-content-center mb-3">
 					<nav aria-label="breadcrumb">
 						<ol class="breadcrumb">
-							<li class="breadcrumb-item"><a href="#">Home</span> </a></li>
-							<li class="breadcrumb-item"><a href="#">Shopping Cart</a></li>
-							<li class="breadcrumb-item active text-primary" aria-current="page">Information</li>
-							<li class="breadcrumb-item"><a href="#">Shipping</a></li>
-							<li class="breadcrumb-item"><a href="#">Payment</a></li>
+						<li class="breadcrumb-item"><a href="{% url 'home' %}">Home</span> </a></li>
+						<li class="breadcrumb-item"><a href="{% url 'cart' %}">Shopping Cart</a></li>
+							<li class="breadcrumb-item text-primary">Information</li>
+							<li class="breadcrumb-item  active text-primary" aria-current="page">Shipping</li>
+							<li class="breadcrumb-item">Payment</li>
 						</ol>
 					</nav>
 				</div>
@@ -83,7 +83,7 @@
 										conditions.
 									</span></center>
 								<hr>
-								<a href="{% url 'place_order' %}" class="btn btn-secondary float-left">< Return to Information </a> 
+								<a href="{% url 'cart' %}" class="btn btn-secondary float-left">< Return to Carts </a> 
 								<button type="submit" class="btn btn-primary float-right" name="submit">Proceed to Payment></button>
 								</form>
 							</div> <!-- card-body.// -->

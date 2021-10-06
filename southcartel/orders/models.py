@@ -41,7 +41,7 @@ class Order(models.Model):
     address_line_1 = models.CharField(max_length=200)
     address_line_2 = models.CharField(max_length=200, blank=True)
     street_name = models.CharField(max_length=100)
-    unit = models.CharField(max_length=50)
+    unit = models.CharField(max_length=50, blank=True)
     country = models.CharField(max_length=50)
     region = models.CharField(max_length=50)
     city = models.CharField(max_length=50)

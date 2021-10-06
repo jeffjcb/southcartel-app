@@ -14,6 +14,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 from fuzzywuzzy import process
 import re 
 import random
+from random import shuffle
+
 # Create your views here.
 
 
@@ -218,7 +220,8 @@ def home(request):
     except:
         hybrid_products = None
   
-
+    limited_products = list(Product.objects.all()[:16])
+    shuffle(limited_products)
     #main  
     products = Product.objects.all().filter(is_available=True)
     #get the latest products
@@ -234,6 +237,7 @@ def home(request):
         'bydates':bydates,
         'latest':latest,
         'hybrid_products': hybrid_products,
+        'limited_products':limited_products,
     }
     return render(request, 'home.html', context)
 
