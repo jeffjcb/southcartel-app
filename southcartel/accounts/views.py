@@ -391,12 +391,15 @@ def add_favorites(request):
 
 @login_required(login_url='login')
 def remove_favorites(request, product_id, favorite_item_id):
-    product = get_object_or_404(Product, id=product_id)
-    if request.user.is_authenticated:
-        favorite_item = FavoriteItem.objects.get(product=product, user=request.user, id=favorite_item_id)
-    else:
-        pass
-    favorite_item.delete()
+    try:
+        product = get_object_or_404(Product, id=product_id)
+        if request.user.is_authenticated:
+            favorite_item = FavoriteItem.objects.get(product=product, user=request.user, id=favorite_item_id)
+        else:
+            pass
+        favorite_item.delete()
+    except Exception as e:
+        raise e
     return redirect('favorites')
 
 
