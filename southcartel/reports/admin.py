@@ -54,6 +54,12 @@ class ReportAdmin(admin.ModelAdmin):
         return [
             path('reports/', my_custom_view, name=view_name),
         ]
+    def has_view_permission(self, request, obj=None):
+        if request.user.is_admin:
+            return True
+        if request.user.groups.filter(name='Partners').exists():
+            return True
+
 
 
 

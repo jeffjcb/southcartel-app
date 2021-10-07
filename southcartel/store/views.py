@@ -91,7 +91,6 @@ def product_detail(request, category_slug, product_slug):
         qs = Product.objects.all().values('id','product_name','tags', 'description','price')
         product_data = pd.DataFrame(qs)
         product_data['tags'] = product_data['tags'].apply(lambda x: x.split(","))
-        product_data.head()
         genres_counts = Counter(g for product_data in product_data['tags'] for g in product_data)
         product_data = product_data[product_data['tags']!='(no tags listed)']
         del genres_counts['(no tags listed)']

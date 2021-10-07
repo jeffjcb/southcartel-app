@@ -7,6 +7,9 @@ def critical_products(request):
     crit_products = Product.objects.filter(stock__lte = 10).order_by('stock')[:6]
     return dict(crit_products=crit_products) 
 
+
+
+
 def update_stock(request):
     # Updates stock
     try:

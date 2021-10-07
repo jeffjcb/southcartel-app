@@ -43,14 +43,14 @@
                 <table class="table exTable">
                 <thead>
                 <th>Product</th>
-                <th>Product</th>
-                <th>Product</th>
+                <th>Sold</th>
+                <th>Sales</th>
                 </thead>
                 {% for gen in general_sales %}
                 <tbody>
                 <td>{{gen.product__product_name}}</td>
                 <td>{{gen.sold}}</td>
-                <td>{{gen.amount}}</td>
+                <td>₱{{gen.amount}}</td>
                 </tbody>
                 {% endfor %}
                 </table>

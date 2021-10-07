@@ -200,21 +200,31 @@ EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
 
 
 
-
-
 JAZZMIN_SETTINGS = {
-    #  "site_icon": "books/img/icon.png",
-    #   "site_logo": "books/img/logo.png",
+    "site_icon": "images/logos/logo.png",
+    "site_logo": "images/logos/logo.png",
+    "site_logo_classes": "img-circle",
     "copyright": "South Cartel 55",
     "hide_models": [],
-#     "custom_links": {
-#     "reports": [{
-#         "name": "Sales Forecasting", 
-#         "url": "sales", 
-#         "icon": "fas fa-chart-line",
-#         "permissions": ["reports.view_reports"]
-#     }]
-# },
+    "icons": {
+        "auth.Group": "fas fa-users",
+        "accounts.Account": "fas fa-user",
+        "accounts.RefundRequests": "fas fa-handshake",
+        "accounts.FavoriteItem": "fas fa-star",
+        "accounts.Preferences": "fas fa-thumbs-up",
+        "accounts.UserProfile": "fas fa-address-card",
+        "orders.Order": "fas fa-box-open",
+        "orders.Payment": "fas fa-money-bill-wave",
+        "orders.OrderProduct": "fas fa-boxes",
+        "orders.ShippingMethod": "fas fa-truck",
+        "reports.Report": "far fa-file",
+        "store.Product": "fas fa-tshirt",
+        "store.ProductGallery": "fas fa-images",
+        "store.ReviewRating": "fas fa-comment-dots",
+        "reports.SalesForecasting": "fas fa-chart-line",
+    },
+
+
  "default_icon_children": "fas fa-circle",
 }
 

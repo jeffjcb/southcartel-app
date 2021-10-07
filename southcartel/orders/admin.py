@@ -18,11 +18,84 @@ class OrderAdmin(admin.ModelAdmin):
     inlines = [OrderProductInline]
     
     def has_view_permission(self, request, obj=None):
+        if request.user.is_admin:
+            return True
         if request.user.groups.filter(name='Staff').exists():
             return True
 
-admin.site.register(Payment)
+    def has_add_permission(self, request, obj=None):
+        if request.user.is_admin:
+            return True
+        if request.user.groups.filter(name='Staff').exists():
+            return True
+
+    def has_change_permission(self, request, obj=None):
+        if request.user.is_admin:
+            return True
+        if request.user.groups.filter(name='Staff').exists():
+            return True
+
+    def has_delete_permission(self, request, obj=None):
+        if request.user.is_admin:
+            return True
+        if request.user.groups.filter(name='Staff').exists():
+            return True
+
+class PaymentAdmin(admin.ModelAdmin):
+    def has_view_permission(self, request, obj=None):
+        if request.user.is_admin:
+            return True
+        if request.user.groups.filter(name='Staff').exists():
+            return True
+
+    def has_add_permission(self, request, obj=None):
+        if request.user.is_admin:
+            return True
+        if request.user.groups.filter(name='Staff').exists():
+            return True
+
+    def has_change_permission(self, request, obj=None):
+        if request.user.is_admin:
+            return True
+        if request.user.groups.filter(name='Staff').exists():
+            return True
+
+    def has_delete_permission(self, request, obj=None):
+        if request.user.is_admin:
+            return True
+        if request.user.groups.filter(name='Staff').exists():
+            return True
+
+
+class OrderProductAdmin(admin.ModelAdmin):
+    def has_view_permission(self, request, obj=None):
+        if request.user.is_admin:
+            return True
+        if request.user.groups.filter(name='Staff').exists():
+            return True
+
+    def has_add_permission(self, request, obj=None):
+        if request.user.is_admin:
+            return True
+        if request.user.groups.filter(name='Staff').exists():
+            return True
+
+    def has_change_permission(self, request, obj=None):
+        if request.user.is_admin:
+            return True
+        if request.user.groups.filter(name='Staff').exists():
+            return True
+
+    def has_delete_permission(self, request, obj=None):
+        if request.user.is_admin:
+            return True
+        if request.user.groups.filter(name='Staff').exists():
+            return True
+
+
+
+admin.site.register(Payment, PaymentAdmin)
 admin.site.register(Order, OrderAdmin)
-admin.site.register(OrderProduct)
+admin.site.register(OrderProduct, OrderProductAdmin)
 admin.site.register(ShippingMethod)
 
