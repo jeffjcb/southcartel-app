@@ -232,6 +232,9 @@ def payment_process(request):
         orderproduct.variations.set(product_variation)
         orderproduct.save()
         # reduce inventory
+        product = Product.objects.get(id=item.product_id)
+        product.stock -= item.quantity
+        product.save()
         if cart_item.variations:
             for var in product_variation:     
                 vary = Variation.objects.get(id=var.id)
@@ -239,9 +242,8 @@ def payment_process(request):
                 vary.save()
 
         else:
-            product = Product.objects.get(id=item.product_id)
-            product.stock -= item.quantity
-            product.save()
+            pass
+
 
     # Clear cart
     CartItem.objects.filter(user=request.user).delete()

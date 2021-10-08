@@ -3,8 +3,8 @@ from store.models import Product, Variation
 from .models import Cart, CartItem
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 # Create your views here.
-
 #get session id
 def _cart_id(request):
     cart = request.session.session_key
@@ -55,8 +55,28 @@ def add_cart(request, product_id):
                 index = ex_var_list.index(product_variation)
                 item_id = id[index]
                 item = CartItem.objects.get(product=product, id=item_id)
-                item.quantity += 1
-                item.save()
+                try:
+                    vary = Variation.objects.get(product=product, variation_value=product_variation[0])
+                    if item.quantity >= vary.stock:
+                        messages.error(request, 'Sorry, unfortunately you can no longer add any more of those item(s) to your cart.')
+                        item.quantity = vary.stock
+                        item.save()
+
+                    elif item.quantity >= product.stock:
+                        messages.error(request, 'Sorry, unfortunately you can no longer add any more of those item(s) to your cart.')
+                        item.quantity = product.stock
+                        item.save()
+                    else:
+                        item.quantity += 1
+                        item.save()
+                except:
+                    if item.quantity >= product.stock:
+                        messages.error(request, 'Sorry, unfortunately you can no longer add any more of those item(s) to your cart.')
+                        item.quantity = product.stock
+                        item.save()
+                    else:
+                        item.quantity += 1
+                        item.save()
 
             else:
                 #create new cart item
@@ -82,7 +102,8 @@ def add_cart(request, product_id):
         return redirect('cart')
 
     #If not authenticated
-    else:  
+    else:
+
         #get variations
         product_variation = []
         if request.method == 'POST':     
@@ -129,8 +150,28 @@ def add_cart(request, product_id):
                 index = ex_var_list.index(product_variation)
                 item_id = id[index]
                 item = CartItem.objects.get(product=product, id=item_id)
-                item.quantity += 1
-                item.save()
+                try:
+                    vary = Variation.objects.get(product=product, variation_value=product_variation[0])
+                    if item.quantity >= vary.stock:
+                        messages.error(request, 'Sorry, unfortunately you can no longer add any more of those item(s) to your cart.')
+                        item.quantity = vary.stock
+                        item.save()
+
+                    elif item.quantity >= product.stock:
+                        messages.error(request, 'Sorry, unfortunately you can no longer add any more of those item(s) to your cart.')
+                        item.quantity = product.stock
+                        item.save()
+                    else:
+                        item.quantity += 1
+                        item.save()
+                except:
+                    if item.quantity >= product.stock:
+                        messages.error(request, 'Sorry, unfortunately you can no longer add any more of those item(s) to your cart.')
+                        item.quantity = product.stock
+                        item.save()
+                    else:
+                        item.quantity += 1
+                        item.save()
             else:
                 #create new cart item
                 item = CartItem.objects.create(product=product, quantity=1, cart=cart)
