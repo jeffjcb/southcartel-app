@@ -1,0 +1,192 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static jazzmin %}
+{% get_jazzmin_ui_tweaks as jazzmin_ui %}
+
+{% block bodyclass %}{{ block.super }} POS{% endblock %}
+
+{% block content_title %} {% trans 'POS' %} {% endblock %}
+
+
+
+
+{% block content %}
+{% get_side_menu using="app_list" as dashboard_list %}
+{% if dashboard_list %}
+{% widthratio dashboard_list|length 2 1 as middle %}
+{% endif %}
+
+<div class="col-lg-9 col-12">
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            {% for app in dashboard_list %}
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h5 class="m-0">{{ app.name }}</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <tbody>
+                            {% for model in app.models %}
+                            <tr>
+                                <td>
+                                    {% if model.url %}<a
+                                        href="{{ model.url }}">{{ model.name }}</a>{% else %}{{ model.name }}{% endif %}
+                                </td>
+                                <td>
+                                    <div class="btn-group float-right">
+                                        {% if model.add_url %}
+                                        <a href="{{ model.add_url }}"
+                                            class="btn btn-sm {{ jazzmin_ui.button_classes.success }} btn-flat addlink">{% trans 'Add' %}</a>
+                                        {% endif %}
+                                        {% if model.url %}
+                                        {% if model.view_only %}
+                                        <a href="{{ model.url }}"
+                                            class="btn btn-sm {{ jazzmin_ui.button_classes.info }} btn-flat viewlink">{% trans 'View' %}</a>
+                                        {% else %}
+                                        <a href="{{ model.url }}"
+                                            class="btn btn-sm {{ jazzmin_ui.button_classes.info }} btn-flat changelink">{% if model.custom %}{% trans 'Go' %}{% else %}{% trans 'Change' %}{% endif %}</a>
+                                        {% endif %}
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            {% if forloop.counter == middle|add:"0" %}
+        </div>
+        <div class="col-md-6 col-sm-12">
+            {% endif %}
+
+            {% endfor %}
+        </div>
+    </div>
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
+    
+{% if user.is_admin %}
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="card card-primary card-outline">
+            
+                <div class="card-header">
+                     <b> PRODUCTS</b>
+                        <div class="col-lg-4 col-xl-5 col-sm-8 col-12 float-right">
+                            <div class="input-group w-100">
+                                <input id="search" type="text" class="form-control" style="width:55%;" placeholder="Search" name="keyword">
+                            </div>
+                    </div> <!-- col.// -->
+                </div>
+                <div class="card-body">
+                    <table data-toggle="table">
+                        <thead>
+                            <th>Product ID</th>
+                            <th>Product Name</th>
+                            <th>Variation</th>
+                            <th>Product Price</th>
+                            <th>Stock</th>
+                            <th>Action</th>
+                        </thead>
+                        <tbody>
+                    {% for product in products %}
+                            <tr>
+                                <td>
+                                {{product.id}}
+                                </td>
+                                <td>
+                                {{product.product_name}}
+                                </td>
+                                <td>
+                                 {{product.product_name}}
+                                </td>
+                                <td >
+                                {{product.price}}
+                                </td>
+                                <td >
+                                {{product.stock}}
+                                </td>
+
+                                <td >
+                                <a href="{% url 'pos' %}?item={{product.id}}">
+                                <button class="btn btn-info">Add</button></a>
+                                </td>
+                            </tr>
+                    {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+ {% endif %}
+</div>
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+
+
+
+
+
+<div class="col-lg-3 col-12">
+    <div id="content-related">
+<div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h5 class="m-0">Total Price</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <thead>
+                            <th>Product Name</th>
+                            <th>Variation</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+
+                                </td>
+
+                                <td>
+                                </td>
+
+                                <td>
+                                </td>
+
+                                <td>
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <a href="#"><button class="btn btn-outline-info float-right mt-3">Purchase</button></a>
+                </div>
+            </div>
+    </div>
+</div>
+
+<script>
+$("#search").keyup(function () {
+    var value = this.value.toLowerCase().trim();
+
+    $("table tr").each(function (index) {
+        if (!index) return;
+        $(this).find("td").each(function () {
+            var id = $(this).text().toLowerCase().trim();
+            var not_found = (id.indexOf(value) == -1);
+            $(this).closest('tr').toggle(!not_found);
+            return not_found;
+        });
+    });
+});
+</script>
+{% endblock %}

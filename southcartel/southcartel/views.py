@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.db.models.expressions import F
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from store.models import Product, Variation
 from django.utils import timezone
@@ -13,8 +14,12 @@ from sklearn.neighbors import NearestNeighbors
 from sklearn.metrics.pairwise import cosine_similarity
 from fuzzywuzzy import process
 import re 
+from django.db.models import Q
 import random
+from category.models import Category
+from django.core.paginator import Paginator
 from random import shuffle
+from django.contrib.admin.views.decorators import staff_member_required
 
 # Create your views here.
 
@@ -242,5 +247,26 @@ def home(request):
     return render(request, 'home.html', context)
 
 
-def sales(request):
-     return HttpResponse("Hello")
+@staff_member_required
+def pos(request):
+    asd = []
+    x = request.GET.get('item')
+    asd.append(x)
+    bagonglist = asd
+    print(bagonglist)
+
+
+    
+    products = None
+    products = Product.objects.all().filter(is_available=True).order_by('id')
+    # get url og page
+    product_count = products.count()
+    
+    context = {
+        'products':products,
+        'product_count' : product_count,
+
+        # 'recents': recents,
+    }
+    return render(request, 'pos.html', context)
+

@@ -19,9 +19,8 @@ import random
 
 # Create your views here.
 
-def store(request, category_slug=None):
-
-    categories = None
+def store(request):
+    category_slug = None
     products = None
     if category_slug != None:
         categories = get_object_or_404(Category, slug=category_slug)
