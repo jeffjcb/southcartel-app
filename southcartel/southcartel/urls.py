@@ -24,12 +24,20 @@ from django.views.static import serve
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('pos/', views.pos, name='pos'),
+    path('searches/', views.searches, name='searches'),
     path('', views.home, name='home'),
     path('store/', include('store.urls')),
     path('cart/', include('carts.urls')),
     path('accounts/', include('accounts.urls')),
     # ORDERS
     path('orders/', include('orders.urls')),
+    # POS
+    path('pos/carts', views.cart, name='pos_cart'),
+    path('pos/add_cart/<int:product_id>/', views.add_cart, name='pos_add_cart'),
+    path('pos/remove_cart/<int:product_id>/<int:cart_item_id>/', views.remove_cart, name='pos_remove_cart'),
+    path('pos/remove_cart_item/<int:product_id>/<int:cart_item_id>/', views.remove_cart_item, name='pos_remove_cart_item'),
+    path('pos/checkout/', views.checkout, name='pos_checkout'),
+    path('pos/checkout/process', views.payment_process, name='pos_payment_process'),
     re_path(r'^media/(?P<path>.*)$',serve, {'document_root':settings.MEDIA_ROOT}),
 
 

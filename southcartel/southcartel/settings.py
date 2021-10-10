@@ -222,6 +222,8 @@ JAZZMIN_SETTINGS = {
         "store.ProductGallery": "fas fa-images",
         "store.ReviewRating": "fas fa-comment-dots",
         "reports.SalesForecasting": "fas fa-chart-line",
+        "category.Category":"fas fa-bullseye",
+        "category.Brand":"fas fa-bullseye",
     },
 
 

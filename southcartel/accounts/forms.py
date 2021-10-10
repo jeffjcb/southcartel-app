@@ -2,7 +2,7 @@ from django import forms
 from .models import Account, UserProfile
 
 class RegistrationForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput(attrs={
+    password = forms.CharField(min_length=8, widget=forms.PasswordInput(attrs={
         'placeholder':'Enter Password',
         'class':'form-control',
         
@@ -10,6 +10,7 @@ class RegistrationForm(forms.ModelForm):
     confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={
         'placeholder':'Confirm Password'
     }))
+    email = forms.EmailField()
 
     class Meta:
         model = Account
@@ -30,7 +31,6 @@ class RegistrationForm(forms.ModelForm):
         self.fields['first_name'].widget.attrs['placeholder'] = 'Enter First Name'
         self.fields['last_name'].widget.attrs['placeholder'] = 'Enter Last Name'
         self.fields['email'].widget.attrs['placeholder'] = 'Enter Email Address'
-        self.fields['email'].widget.attrs['type'] = 'Email'
         for field in self.fields:
             self.fields[field].widget.attrs['class'] = 'form-control'
 

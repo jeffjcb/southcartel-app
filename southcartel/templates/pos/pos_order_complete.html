@@ -1,0 +1,266 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <title>South Cartel 55</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/icons/favicon.ico' %}">
+    <!-- jQuery -->
+    <script src=" {% static 'js/jquery-2.0.0.min.js' %}" type="text/javascript"></script>
+    <!-- Bootstrap4 files-->
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}" type="text/javascript"></script>
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css" />
+
+    <!-- Fonticons -->
+    <link href="{% static 'fonts/fontawesome/css/all.min.css' %}" type="text/css" rel="stylesheet">
+    <link href="{% static 'fonts/feathericons/css/iconfont.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'fonts/material-icons/css/materialdesignicons.css' %}" rel="stylesheet" type="text/css" />
+
+    <!-- plugin: slickslider -->
+    <link href="{% static 'plugins/slickslider/slick.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'plugins/slickslider/slick-theme.css' %}" rel="stylesheet" type="text/css" />
+    <script src="{% static 'plugins/slickslider/slick.min.js' %}"></script>
+
+    <!-- plugin: owl carousel  -->
+    <link href="{% static 'plugins/owlcarousel/assets/owl.carousel.css' %}" rel="stylesheet">
+    <link href="{% static 'plugins/owlcarousel/assets/owl.theme.default.css' %}" rel="stylesheet">
+    <script src="{% static 'plugins/owlcarousel/owl.carousel.min.js' %}"></script>
+
+    <!-- custom style -->
+    <link href="{% static 'css/ui.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'css/responsive.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link href="{% static 'css/custom.css' %}" rel="stylesheet" />
+
+
+
+    <!-- custom javascript -->
+    <script src="{% static 'js/script.js' %}" type="text/javascript"></script>
+    {% comment %} Paypal Script {% endcomment %}
+    <script
+        src="https://www.paypal.com/sdk/js?client-id=AV41mDHgkXSTJtBN-onlMctb60ec5l348M4rHyTRuqe35f8lLjKe2Ob4xOtSKkJqm-q6naR9gpvutQZI&currency=PHP">
+    </script>
+    <style>
+        .banner-sc55 {
+            max-height: 480px;
+            min-height: 480px;
+            min-width: 1200px;
+            overflow: hidden;
+        }
+
+        #ban {
+            height: 680px;
+            min-width: 1200px;
+            overflow: hidden;
+        }
+
+        #homethumb {
+            min-height: 300px;
+            min-width: 300px;
+        }
+
+        .fcon {
+            color: #C6B45A;
+        }
+
+        .fconbg {
+            background: #C6B45A;
+        }
+
+        .fconbg:hover {
+            background: #AB9D54;
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <style type="text/css">
+        .section-content {
+            min-height: 82vh;
+        }
+    </style>
+    <!-- START OF HEADER -->
+    <header class="section-header  bg-white">
+        <section class="header-top-light border-bottom">
+            <div class="container">
+
+            </div>
+        </section>
+        <section class="header-main border-bottom">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-3 col-sm-4 col-12">
+                        <a href="{% url 'pos' %}" class="brand-wrap">
+                            <img class="logo" height="200" src="{% static 'images/logos/logo.png' %}">
+                        </a> <!-- brand-wrap.// -->
+                    </div>
+                    <div class="col-lg-4 col-xl-5 col-sm-8 col-12">
+                        <form action="{% url 'searches' %}" method="GET" class="search">
+                            <div class="input-group w-100">
+                                <input type="text" class="form-control" style="width:55%;" placeholder="Search"
+                                    name="keyword">
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="submit">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form> <!-- search-wrap .end// -->
+                    </div> <!-- col.// -->
+                    <div class="col-lg-5 col-xl-4 col-sm-12">
+                        <div class="widgets-wrap float-md-right">
+
+                            <a href="{% url 'cart' %}" class="widget-header mr-2">
+                                <div class="icon">
+                                    <i class="icon-sm rounded-circle border fa fa-shopping-cart fa-lg"></i>
+                                    <span class="notify">{{ cart_count }}</span>
+                                </div>
+                            </a>
+
+                            <div class="widget-header icontext">
+                                <div class="icon mt-3"></div>
+                                <div class="text">
+                                    {% if user.id is None %}
+                                    <span class="text-muted">Welcome!</span>
+                                    <div>
+                                        <a href="{% url 'login' %}">Sign in</a> |
+                                        <a href="{% url 'register' %}"> Register</a>
+                                    </div>
+                                    {% else %}
+                                    <span class="text-muted">Welcome {{user.first_name}}!</span>
+                                    <div>
+
+                                        <i class="fa fa-user"></i> <a href="{% url 'logout' %}"> Logout</a>
+                                    </div>
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                        </div> <!-- widgets-wrap.// -->
+                    </div> <!-- col.// -->
+                </div> <!-- row.// -->
+            </div> <!-- container.// -->
+        </section> <!-- header-main .// -->
+    </header> <!-- section-header.// -->
+    <!-- ================== END OF HEADER  ==================  -->
+
+<div class="container" style="margin-top: 50px;">
+    <center><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+width="64" height="64"
+viewBox="0 0 172 172"
+style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g><path d="M169.34609,86c0,-46.02344 -37.32266,-83.34609 -83.34609,-83.34609c-46.02344,0 -83.34609,37.32266 -83.34609,83.34609c0,46.02344 37.32266,83.34609 83.34609,83.34609c46.02344,0 83.34609,-37.32266 83.34609,-83.34609z" fill="#2ecc71"></path><path d="M131.88906,58.08359c-1.94844,-5.07266 -5.94609,-4.26641 -10.27969,-3.39297c-2.58672,0.5375 -14.10937,3.89687 -32.28359,23.1125c-7.55859,7.96172 -12.53047,14.31094 -15.82266,19.14844c-2.01562,-2.45234 -4.3,-5.10625 -6.71875,-7.49141c-7.42422,-7.42422 -15.72187,-12.53047 -16.05781,-12.73203c-3.46016,-2.11641 -7.99531,-1.04141 -10.14531,2.45234c-2.11641,3.46016 -1.04141,7.99531 2.41875,10.14531c0.06719,0.03359 7.18906,4.43438 13.30313,10.58203c6.24844,6.24844 11.92578,14.71406 11.99297,14.81484c1.37734,2.08281 3.69531,3.29219 6.14766,3.29219c0.40312,0 0.83984,-0.03359 1.27656,-0.10078c2.88906,-0.50391 5.17344,-2.65391 5.87891,-5.47578c0.03359,-0.06719 2.95625,-8.16328 18.37578,-24.42266c12.42969,-13.13516 20.72734,-17.30078 23.61641,-18.44297c0.03359,0 0.03359,0 0.10078,0c0,0 0.10078,-0.03359 0.26875,-0.13438c0.50391,-0.20156 0.77266,-0.26875 0.77266,-0.26875c-0.13437,0.03359 -0.20156,0.03359 -0.20156,0.03359v-0.03359c1.34375,-0.57109 3.82969,-1.64609 3.86328,-1.67969c3.72891,-1.6125 4.97187,-5.64375 3.49375,-9.40625z" fill="#ffffff"></path></g></g></svg></center>
+    <h2 class="text-center">Payment Successful</h2>
+	<br>
+	<div class="text-center">
+		<a href="{% url 'pos' %}" class="btn btn-success">Return to POS Home</a>
+	</div>
+</div>
+
+<div class="container" style="margin: 0 auto;width: 50%;padding: 50px;background: #f1f1f1;margin-top: 50px;margin-bottom: 50px;">
+    <div class="row invoice row-printable">
+        <div class="col-md-12">
+            <!-- col-lg-12 start here -->
+            <div class="panel panel-default plain" id="dash_0">
+                <!-- Start .panel -->
+                <div class="panel-body p30">
+                    <div class="row">
+                        <!-- Start .row -->
+                        <div class="col-lg-6">
+                            <!-- col-lg-6 start here -->
+                            <div class="invoice-logo"><img src="{% static 'images/logos/logo.png' %}" alt="Invoice logo" style="max-height: 80px;"></div>
+                        </div>
+                        <!-- col-lg-6 end here -->
+                        <div class="col-lg-6">
+                            <!-- col-lg-6 start here -->
+                            <div class="invoice-from">
+                                <ul class="list-unstyled text-right">
+                                    <li><strong>Invoiced From</strong></li>
+                                    <li>South Cartel 55</li>
+                                    <li>Laguna, Calamba</li>
+                                    <li>Philippines</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- col-lg-6 end here -->
+                        <div class="col-lg-12">
+                            <!-- col-lg-12 start here -->
+                            <div class="invoice-details mt25">
+                                <div class="well">
+                                    <ul class="list-unstyled mb0">
+                                        <li><strong>Order</strong> # {{order_number}}</li>
+                                        <li><strong>Order Date:</strong> {{order.created_at}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                           
+                            <div class="invoice-items">
+                                <div class="table-responsive" style="overflow: hidden; outline: none;" tabindex="0">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th class="per70 text-center">Description</th>
+                                                <th class="per5 text-center">Qty</th>
+                                                <th class="per25 text-center">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for item in ordered_products %}
+                                            <tr>
+                                                <td>{{item.product.product_name}}
+                                                          <p class="text-muted small">
+                                          					{% if item.variations.all %}
+                                          						{% for i in item.variations.all %}
+                                          							{{ i.variation_category | capfirst }} : {{ i.variation_value | capfirst }} <br>
+                                          						{% endfor %}
+                                          					{% endif %}
+                                          				</p>
+                                                
+                                                </td>
+                                                <td class="text-center">{{item.quantity}}</td>
+                                                <td class="text-center">₱{{item.product_price}}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th colspan="2" class="text-right">Sub Total:</th>
+                                                <th class="text-center">₱{{subtotal}}</th>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <th colspan="2" class="text-right">Grand Total:</th>
+                                                <th class="text-center">₱{{order.order_total}}</th>
+                                            </tr>
+                                            <tr>
+                                                <th colspan="2" class="text-right">Cash Tendered:</th>
+                                                <th class="text-center">₱{{cash}}</th>
+                                            </tr>
+                                            <tr>
+                                                <th colspan="2" class="text-right">Change:</th>
+                                                <th class="text-center">₱{{change}}</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="invoice-footer mt25">
+                                <p class="text-center">Thank you for shopping with us!</p>
+                            </div>
+                        </div>
+                        <!-- col-lg-12 end here -->
+                    </div>
+                    <!-- End .row -->
+                </div>
+            </div>
+            <!-- End .panel -->
+        </div>
+        <!-- col-lg-12 end here -->
+    </div>
+    </div>
