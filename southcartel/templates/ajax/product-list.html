@@ -1,0 +1,24 @@
+{% for product in products %}
+					<div class="col-md-4">
+						<figure class="card card-product-grid">
+							<div class="img-wrap">
+								<span class="badge badge-danger"> NEW </span>
+								<a href="{{product.get_url}}"><img id="homethumb" src="{{ product.images.url }}"></a>
+								<a class="btn-overlay" href="{{ product.images.url }}"><i class="fa fa-search-plus"></i>
+									Quick view</a>
+							</div> <!-- img-wrap.// -->
+							<figcaption class="info-wrap">
+								<div class="fix-height">
+									<a href="{{product.get_url}}" class="title">{{product.product_name}}</a>
+									<div class="price-wrap mt-2">
+										<span class="price">₱{{product.price}}</span>
+
+									</div> <!-- price-wrap.// -->
+								</div>
+								<a href="{{product.get_url}}" class="btn btn-block fconbg text-white">View Details</a>
+							</figcaption>
+						</figure>
+					</div> <!-- col.// -->
+{% endfor %}
+
+			

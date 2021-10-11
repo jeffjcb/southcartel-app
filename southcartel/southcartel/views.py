@@ -297,7 +297,7 @@ def _cart_id(request):
         cart = request.session.create()
     return cart
 
-
+@staff_member_required
 def add_cart(request, product_id):
 
     current_user = request.user
@@ -480,7 +480,7 @@ def add_cart(request, product_id):
         return redirect('pos_cart')
 
 
-
+@staff_member_required
 #decrease cart item quantity
 def remove_cart(request, product_id, cart_item_id):
     product = get_object_or_404(Product, id=product_id)
@@ -500,7 +500,7 @@ def remove_cart(request, product_id, cart_item_id):
     return redirect('pos_cart')
 
 
-
+@staff_member_required
 #remove cart item quantity
 def remove_cart_item(request, product_id, cart_item_id):
     product = get_object_or_404(Product, id=product_id)
@@ -516,7 +516,7 @@ def remove_cart_item(request, product_id, cart_item_id):
 #a cart belongs to one user
 #cart = session
 
-
+@staff_member_required
 def cart(request, total=0, quantity=0, cart_items=None):
 
     #compute for the total
@@ -551,7 +551,7 @@ def cart(request, total=0, quantity=0, cart_items=None):
 
 
 
-@login_required(login_url='login')
+@staff_member_required
 def checkout(request, total=0, quantity=0, cart_items=None):
         #compute for the total
     if request.method == 'POST':
@@ -598,7 +598,7 @@ def checkout(request, total=0, quantity=0, cart_items=None):
 
 
 
-
+@staff_member_required
 def payment_process(request):
     try:
         cash = request.session.get('cash')
@@ -712,28 +712,3 @@ def payment_process(request):
         return e
 
 
-
-# def order_complete(request):
-#     order_number = request.GET.get('order_number')
-#     transID = request.GET.get('payment_id')
-#     try:
-#         order = Order.objects.get(order_number=order_number, is_ordered=True)
-#         ordered_products = OrderProduct.objects.filter(order_id=order.id)
-
-#         subtotal = 0
-#         for i in ordered_products:
-#             subtotal += i.product_price * i.quantity
-
-#         payment = Payment.objects.get(payment_id=transID)
-
-#         context = {
-#             'order': order,
-#             'ordered_products': ordered_products,
-#             'order_number': order.order_number,
-#             'transID': payment.payment_id,
-#             'payment': payment,
-#             'subtotal': subtotal,
-#         }
-#         return render(request, 'store/order_complete.html', context)
-#     except (Payment.DoesNotExist, Order.DoesNotExist):
-#         return redirect('home')

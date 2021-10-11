@@ -39,6 +39,29 @@
 			<aside class="col-md-3">
 
 				<div class="card text-dark">
+				{% if links %}
+					<article class="filter-group">
+						<header class="card-header">
+							<a href="#" data-toggle="collapse " data-target="#collapse_2" aria-expanded="true" class="">
+								<i class="icon-control fa fa-chevron-down"></i>
+								<h6 class="title text-dark">Categories</h6>
+							</a>
+						</header>
+						<div class="filter-content collapse show" id="collapse_2" style="">
+						<div class="card-body">
+							<ul class="list-menu">
+								<li><a  href="{% url 'store' %}">All Categories <i class="float-right far fa-dot-circle"></i> </a></li>
+								{% for category in links %}
+								<li><a  href="{{category.get_url}}">{{category.category_name}} <i class="float-right far fa-dot-circle"></i> </a></li>
+								{% endfor %}
+
+							</ul>
+						</div>
+						</div>
+					</article> <!-- filter-group .// -->
+				{% endif %}
+
+
 				{% if bands_count != 0 %}
 				<article class="filter-group">
 						<header class="card-header">
@@ -51,13 +74,15 @@
 						<div class="card-body">
 							<ul class="list-menu">
 							{% for brand in bands %}
-								<li><a href="{{brand.get_url}}">{{brand.brand_name}}  <i class="float-right far fa-dot-circle"></i> </a></li> </a></li>
+								<li><a href="{{brand.get_url}}">{{brand.brand_name}} <i class="float-right far fa-dot-circle"></i> </a></li> 
 							{% endfor %}
 							</ul>
 						</div>
 						</div>
 					</article> <!-- filter-group .// -->
 				{% endif %}
+
+
 
 
 					<article class="filter-group">
@@ -130,29 +155,24 @@
 						<span class="mr-md-auto">{{product_count}} Items found </span>
 						<div class="col-lg col-sm col-md col-6 flex-grow-0">
 							<div class="category-wrap dropdown d-inline-block float-right show">
-								<button type="button" class="btn bg-dark text-white dropdown-toggle" data-toggle="dropdown"
-									aria-expanded="true">
-									<i class="fa fa-bars"></i> All category
-								</button>
-								<div class="dropdown-menu bg-" x-placement="top-start"
-									style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, -198px, 0px);">
-									<a class="dropdown-item" href="{% url 'store' %}">All Categories</a>
-									{% for category in links %}
-									<a class="dropdown-item" href="{{category.get_url}}">{{category.category_name}}</a>
-									{% endfor %}
-								</div>
+								<a href=" {% url 'store' %}"><button type="button" class="btn bg-dark text-white " >
+									Clear
+								</button></a>
 							</div> <!-- category-wrap.// -->
 						</div>
 						
 					</div>
 				</header><!-- sect-heading -->
 				<div class="row" id="filteredProducts">
+					<p class="ajaxLoader">Loading...</p>
 					{% if products %}
 					{% for product in products %}
 					<div class="col-md-4">
 						<figure class="card card-product-grid">
 							<div class="img-wrap">
-								<span class="badge badge-danger"> NEW </span>
+				              {% if product in recents %}
+								<span class="badge badge-danger"> New </span>
+								{% endif %}
 								<a href="{{product.get_url}}"><img id="homethumb" src="{{ product.images.url }}"></a>
 								<a class="btn-overlay" href="{{ product.images.url }}"><i class="fa fa-search-plus"></i>
 									Quick view</a>
@@ -207,9 +227,7 @@
 				</nav>
 
 			</main> <!-- col.// -->
-
 		</div>
-
 	</div> <!-- container .//  -->
 </section>
 
@@ -217,22 +235,16 @@
 $(document).ready(function(){
 	$(".ajaxLoader").hide();
 	// Product Filter Start
-	$(".filter-checkbox,#priceFilterBtn").on('click',function(){
+	$("#priceFilterBtn").on('click',function(){
 		var _filterObj={};
 		var _minPrice=$('#maxPrice').attr('min');
 		var _maxPrice=$('#maxPrice').val();
 		_filterObj.minPrice=_minPrice;
 		_filterObj.maxPrice=_maxPrice;
-		$(".filter-checkbox").each(function(index,ele){
-			var _filterVal=$(this).val();
-			var _filterKey=$(this).data('filter');
-			_filterObj[_filterKey]=Array.from(document.querySelectorAll('input[data-filter='+_filterKey+']:checked')).map(function(el){
-			 	return el.value;
-			});
-		});
+
 		// Run Ajax
 		$.ajax({
-			url:'{% url 'store' %}',
+			url:'{% url 'filter_data' %}',
 			data:_filterObj,
 			dataType:'json',
 			beforeSend:function(){
@@ -240,7 +252,7 @@ $(document).ready(function(){
 			},
 			success:function(res){
 				console.log(res);
-				$("#filteredProducts").html(res.data);
+				$("#filteredProducts").html(res.products);
 				$(".ajaxLoader").hide();
 			}
 		});

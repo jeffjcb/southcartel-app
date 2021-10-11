@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from .models import Product, ReviewRating, ProductGallery, ViewedProduct
-from category.models import Category
+from category.models import Category, Brand
 from carts.models import CartItem
 from carts.views import _cart_id
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -21,58 +21,55 @@ from django.http import JsonResponse
 
 # Create your views here.
 
-def store(request, category_slug = None):
+def store(request, category_slug = None, brand_slug = None):
+    brand = None
     categories = None
     products = None
-    try:
-        minPrice=request.GET['minPrice']
-        maxPrice=request.GET['maxPrice']    
 
-        if category_slug != None:
-            categories = get_object_or_404(Category, slug=category_slug)
-            products = Product.objects.filter(category=categories, is_available=True, price__gte=minPrice, price__lte=maxPrice)
-            # recents = Product.objects.filter(created_date__range=[datetime.datetime.now() - datetime.timedelta(days=15),datetime.datetime.now()])
-            paginator = Paginator(products, 10)
-            # get url og page
-            page = request.GET.get('page')
-            paged_product = paginator.get_page(page)
-            product_count = products.count()
-            t=render_to_string('store.html',{'products':products})
-        else:     
-            products = Product.objects.all().filter(is_available=True, price__gte=minPrice, price__lte=maxPrice).order_by('id')
-            paginator = Paginator(products, 10)
-            # get url og page
-            page = request.GET.get('page')
-            paged_product = paginator.get_page(page)
-            product_count = products.count()
-            t=render_to_string('store.html',{'products':products})
-        
-        return JsonResponse({'products':t})
-    except:
-        if category_slug != None:
-            categories = get_object_or_404(Category, slug=category_slug)
-            products = Product.objects.filter(category=categories, is_available=True)
-            # recents = Product.objects.filter(created_date__range=[datetime.datetime.now() - datetime.timedelta(days=15),datetime.datetime.now()])
-            paginator = Paginator(products, 10)
-            # get url og page
-            page = request.GET.get('page')
-            paged_product = paginator.get_page(page)
-            product_count = products.count()
-        else:     
-            products = Product.objects.all().filter(is_available=True).order_by('id')
-            paginator = Paginator(products, 10)
-            # get url og page
-            page = request.GET.get('page')
-            paged_product = paginator.get_page(page)
-            product_count = products.count()
-        
-        context = {
-            'products' :paged_product,
-            'product_count':product_count,
-            # 'recents': recents,
-        }
-        return render(request, 'store.html', context)
+    if category_slug != None:
+        categories = get_object_or_404(Category, slug=category_slug)
+        products = Product.objects.filter(category=categories, is_available=True)
+        recents = Product.objects.filter(created_date__range=[datetime.datetime.now() - datetime.timedelta(days=15),datetime.datetime.now()])
+        paginator = Paginator(products, 30)
+        # get url og page
+        page = request.GET.get('page')
+        paged_product = paginator.get_page(page)
+        product_count = products.count()
+    elif brand_slug != None:
+        brand = get_object_or_404(Brand, slug=brand_slug)
+        products = Product.objects.filter(brand=brand, is_available=True)
+        recents = Product.objects.filter(created_date__range=[datetime.datetime.now() - datetime.timedelta(days=15),datetime.datetime.now()])
+        paginator = Paginator(products, 30)
+        # get url og page
+        page = request.GET.get('page')
+        paged_product = paginator.get_page(page)
+        product_count = products.count()
 
+    else:     
+        products = Product.objects.all().filter(is_available=True).order_by('id')
+        recents = Product.objects.filter(created_date__range=[datetime.datetime.now() - datetime.timedelta(days=15),datetime.datetime.now()])
+        paginator = Paginator(products, 30)
+        # get url og page
+        page = request.GET.get('page')
+        paged_product = paginator.get_page(page)
+        product_count = products.count()
+    
+    context = {
+        'products' :paged_product,
+        'product_count':product_count,
+        'recents': recents,
+    }
+    return render(request, 'store.html', context)
+
+# Filter Data
+def filter_data(request):
+	minPrice=request.GET['minPrice']
+	maxPrice=request.GET['maxPrice']
+	allProducts=Product.objects.all().order_by('-id').distinct()
+	allProducts=allProducts.filter(price__gte=minPrice)
+	allProducts=allProducts.filter(price__lte=maxPrice)
+	t=render_to_string('ajax/product-list.html',{'products':allProducts})
+	return JsonResponse({'products':t})
 
 def product_detail(request, category_slug, product_slug):
     current_user = request.user

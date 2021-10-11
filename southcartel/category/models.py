@@ -26,3 +26,6 @@ class Brand(models.Model):
 
     def __str__(self):
         return self.brand_name
+    
+    def get_url(self):
+        return reverse('products_by_brand', args=[self.slug])
