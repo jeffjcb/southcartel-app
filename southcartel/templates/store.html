@@ -39,43 +39,27 @@
 			<aside class="col-md-3">
 
 				<div class="card text-dark">
-
-					<header class="card-header">
-						<a href="#" data-toggle="collapse" data-target="#collapse_2" aria-expanded="true" class="">
-							<i class="icon-control fa fa-chevron-down"></i>
-							<h6 class="title text-dark">Colors </h6>
-						</a>
-					</header>
-					<div class="filter-content collapse show" id="collapse_2" style="">
+				{% if bands_count != 0 %}
+				<article class="filter-group">
+						<header class="card-header">
+							<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="">
+								<i class="icon-control fa fa-chevron-down"></i>
+								<h6 class="title text-dark">Brands</h6>
+							</a>
+						</header>
+						<div class="filter-content collapse" id="collapse_1" style="">
 						<div class="card-body">
-							<label class="custom-control custom-checkbox">
-								<input type="checkbox" checked="" class="custom-control-input">
-								<div class="custom-control-label">Green
-									<b class="badge badge-pill badge-light float-right">120</b> </div>
-							</label>
-							<label class="custom-control custom-checkbox">
-								<input type="checkbox" checked="" class="custom-control-input">
-								<div class="custom-control-label">Black
-									<b class="badge badge-pill badge-light float-right">15</b> </div>
-							</label>
-							<label class="custom-control custom-checkbox">
-								<input type="checkbox" checked="" class="custom-control-input">
-								<div class="custom-control-label">White
-									<b class="badge badge-pill badge-light float-right">35</b> </div>
-							</label>
-							<label class="custom-control custom-checkbox">
-								<input type="checkbox" checked="" class="custom-control-input">
-								<div class="custom-control-label">Blue
-									<b class="badge badge-pill badge-light float-right">89</b> </div>
-							</label>
-							<label class="custom-control custom-checkbox">
-								<input type="checkbox" class="custom-control-input">
-								<div class="custom-control-label">Gray
-									<b class="badge badge-pill badge-light float-right">30</b> </div>
-							</label>
-						</div> <!-- card-body.// -->
-					</div>
+							<ul class="list-menu">
+							{% for brand in bands %}
+								<li><a href="{{brand.get_url}}">{{brand.brand_name}}  <i class="float-right far fa-dot-circle"></i> </a></li> </a></li>
+							{% endfor %}
+							</ul>
+						</div>
+						</div>
 					</article> <!-- filter-group .// -->
+				{% endif %}
+
+
 					<article class="filter-group">
 						<header class="card-header">
 							<a href="#" data-toggle="collapse" data-target="#collapse_3" aria-expanded="true" class="">
@@ -83,54 +67,31 @@
 								<h6 class="title text-dark">Price range </h6>
 							</a>
 						</header>
-						<div class="filter-content collapse show" id="collapse_3" style="">
+						<div class="filter-content collapse" id="collapse_3" style="">
 							<div class="card-body">
-								<input type="range" class="custom-range" min="0" max="100" name="">
+
+								<input type="range" id="rangeInput" value="{{minMaxPrice.price__min}}" class="custom-range" min='{{minMaxPrice.price__min}}' max="{{minMaxPrice.price__max}}" name="" oninput="maxPrice.value=this.value">
 								<div class="form-row">
+
 									<div class="form-group col-md-6">
 										<label>Min</label>
-										<input class="form-control" placeholder="$0" type="number">
+										<input class="form-control" min='0' placeholder="0" type="number" value="0" disabled>
 									</div>
+
 									<div class="form-group text-right col-md-6">
 										<label>Max</label>
-										<input class="form-control" placeholder="$1,0000" type="number">
+										<input class="form-control" min='{{minMaxPrice.price__min}}' max="{{minMaxPrice.price__max}}" value="{{minMaxPrice.price__min}}" placeholder="Max: {{minMaxPrice.price__max}}" onkeyup="rangeInput.value=this.value" id="maxPrice" type="number">
 									</div>
 								</div> <!-- form-row.// -->
-								<button class="btn btn-block btn-primary">Apply</button>
+								<button id="priceFilterBtn" class="btn btn-block btn-primary">Apply</button>
 							</div><!-- card-body.// -->
 						</div>
 					</article> <!-- filter-group .// -->
-					<article class="filter-group">
-						<header class="card-header">
-							<a href="#" data-toggle="collapse" data-target="#collapse_4" aria-expanded="true" class="">
-								<i class="icon-control fa fa-chevron-down "></i>
-								<h6 class="title text-dark">Sizes </h6>
-							</a>
-						</header>
-						<div class="filter-content collapse show" id="collapse_4" style="">
-							<div class="card-body">
-								<label class="checkbox-btn">
-									<input type="checkbox">
-									<span class="btn btn-light"> XS </span>
-								</label>
+					
+	
 
-								<label class="checkbox-btn">
-									<input type="checkbox">
-									<span class="btn btn-light"> SM </span>
-								</label>
 
-								<label class="checkbox-btn">
-									<input type="checkbox">
-									<span class="btn btn-light"> LG </span>
-								</label>
 
-								<label class="checkbox-btn">
-									<input type="checkbox">
-									<span class="btn btn-light"> XXL </span>
-								</label>
-							</div><!-- card-body.// -->
-						</div>
-					</article> <!-- filter-group .// -->
 					<article class="filter-group">
 						<header class="card-header">
 							<a href="#" data-toggle="collapse" data-target="#collapse_5" aria-expanded="false" class="">
@@ -182,11 +143,10 @@
 								</div>
 							</div> <!-- category-wrap.// -->
 						</div>
-
+						
 					</div>
 				</header><!-- sect-heading -->
-
-				<div class="row">
+				<div class="row" id="filteredProducts">
 					{% if products %}
 					{% for product in products %}
 					<div class="col-md-4">
@@ -220,7 +180,7 @@
 				</div> <!-- row end.// -->
 
 
-				<nav class="mt-4 float-right" aria-label="Page navigation sample">
+				<nav class=" float-right" aria-label="Page navigation sample">
 					{% if products.has_other_pages %}
 					<ul class="pagination">
 						{% if products.has_previous %}
@@ -252,6 +212,57 @@
 
 	</div> <!-- container .//  -->
 </section>
-<!-- ========================= SECTION CONTENT END// ========================= -->
+
+<script>
+$(document).ready(function(){
+	$(".ajaxLoader").hide();
+	// Product Filter Start
+	$(".filter-checkbox,#priceFilterBtn").on('click',function(){
+		var _filterObj={};
+		var _minPrice=$('#maxPrice').attr('min');
+		var _maxPrice=$('#maxPrice').val();
+		_filterObj.minPrice=_minPrice;
+		_filterObj.maxPrice=_maxPrice;
+		$(".filter-checkbox").each(function(index,ele){
+			var _filterVal=$(this).val();
+			var _filterKey=$(this).data('filter');
+			_filterObj[_filterKey]=Array.from(document.querySelectorAll('input[data-filter='+_filterKey+']:checked')).map(function(el){
+			 	return el.value;
+			});
+		});
+		// Run Ajax
+		$.ajax({
+			url:'{% url 'store' %}',
+			data:_filterObj,
+			dataType:'json',
+			beforeSend:function(){
+				$(".ajaxLoader").show();
+			},
+			success:function(res){
+				console.log(res);
+				$("#filteredProducts").html(res.data);
+				$(".ajaxLoader").hide();
+			}
+		});
+	});
+	// End
+
+	// Filter Product According to the price
+	$("#maxPrice").on('blur',function(){
+		var _min=$(this).attr('min');
+		var _max=$(this).attr('max');
+		var _value=$(this).val();
+		console.log(_value,_min,_max);
+		if(_value < parseInt(_min) || _value > parseInt(_max)){
+			alert('Values should be '+_min+'-'+_max);
+			$(this).val(_min);
+			$(this).focus();
+			$("#rangeInput").val(_min);
+			return false;
+		}
+	});
+	// End
+});
+</script>
 
 {% endblock %}

@@ -82,6 +82,8 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'category.context_processor.menu_links',
                 'category.context_processor.menu_three',
+                'category.context_processor.get_filters',
+                'category.context_processor.brand_links',
                 'carts.context_processors.counter',
                 'store.context_processor.critical_products',
                 'store.context_processor.update_stock',

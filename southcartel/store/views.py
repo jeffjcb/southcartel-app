@@ -16,35 +16,62 @@ from collections import Counter
 from sklearn.metrics.pairwise import cosine_similarity
 from fuzzywuzzy import process
 import random
+from django.template.loader import render_to_string
+from django.http import JsonResponse
 
 # Create your views here.
 
-def store(request):
-    category_slug = None
+def store(request, category_slug = None):
+    categories = None
     products = None
-    if category_slug != None:
-        categories = get_object_or_404(Category, slug=category_slug)
-        products = Product.objects.filter(category=categories, is_available=True)
-        # recents = Product.objects.filter(created_date__range=[datetime.datetime.now() - datetime.timedelta(days=15),datetime.datetime.now()])
-        paginator = Paginator(products, 10)
-        # get url og page
-        page = request.GET.get('page')
-        paged_product = paginator.get_page(page)
-        product_count = products.count()
-    else:     
-        products = Product.objects.all().filter(is_available=True).order_by('id')
-        paginator = Paginator(products, 10)
-        # get url og page
-        page = request.GET.get('page')
-        paged_product = paginator.get_page(page)
-        product_count = products.count()
-    
-    context = {
-        'products' :paged_product,
-        'product_count':product_count,
-        # 'recents': recents,
-    }
-    return render(request, 'store.html', context)
+    try:
+        minPrice=request.GET['minPrice']
+        maxPrice=request.GET['maxPrice']    
+
+        if category_slug != None:
+            categories = get_object_or_404(Category, slug=category_slug)
+            products = Product.objects.filter(category=categories, is_available=True, price__gte=minPrice, price__lte=maxPrice)
+            # recents = Product.objects.filter(created_date__range=[datetime.datetime.now() - datetime.timedelta(days=15),datetime.datetime.now()])
+            paginator = Paginator(products, 10)
+            # get url og page
+            page = request.GET.get('page')
+            paged_product = paginator.get_page(page)
+            product_count = products.count()
+            t=render_to_string('store.html',{'products':products})
+        else:     
+            products = Product.objects.all().filter(is_available=True, price__gte=minPrice, price__lte=maxPrice).order_by('id')
+            paginator = Paginator(products, 10)
+            # get url og page
+            page = request.GET.get('page')
+            paged_product = paginator.get_page(page)
+            product_count = products.count()
+            t=render_to_string('store.html',{'products':products})
+        
+        return JsonResponse({'products':t})
+    except:
+        if category_slug != None:
+            categories = get_object_or_404(Category, slug=category_slug)
+            products = Product.objects.filter(category=categories, is_available=True)
+            # recents = Product.objects.filter(created_date__range=[datetime.datetime.now() - datetime.timedelta(days=15),datetime.datetime.now()])
+            paginator = Paginator(products, 10)
+            # get url og page
+            page = request.GET.get('page')
+            paged_product = paginator.get_page(page)
+            product_count = products.count()
+        else:     
+            products = Product.objects.all().filter(is_available=True).order_by('id')
+            paginator = Paginator(products, 10)
+            # get url og page
+            page = request.GET.get('page')
+            paged_product = paginator.get_page(page)
+            product_count = products.count()
+        
+        context = {
+            'products' :paged_product,
+            'product_count':product_count,
+            # 'recents': recents,
+        }
+        return render(request, 'store.html', context)
 
 
 def product_detail(request, category_slug, product_slug):
