@@ -61,7 +61,12 @@ def place_order(request, total=0, quantity=0,):
 
 
 def shipping(request, total=0, quantity=0, cart_items=None):
-    
+    current_user = request.user
+    # If the cart count is less than or equal to 0, then redirect back to shop
+    cart_items = CartItem.objects.filter(user=current_user)
+    cart_count = cart_items.count()
+    if cart_count <= 0:
+        return redirect('store')
     try:
         grand_total = 0
         #get the cart id
@@ -111,6 +116,12 @@ def shipping(request, total=0, quantity=0, cart_items=None):
 
 
 def payments(request, total=0, quantity=0, cart_items=None):
+    current_user = request.user
+    # If the cart count is less than or equal to 0, then redirect back to shop
+    cart_items = CartItem.objects.filter(user=current_user)
+    cart_count = cart_items.count()
+    if cart_count <= 0:
+        return redirect('store')
     # Get courier
     if request.method == 'POST':
         request.session['courier'] = request.POST['courier']
@@ -162,7 +173,14 @@ def payments(request, total=0, quantity=0, cart_items=None):
 
 
 def payment_process(request):
+    
     current_user = request.user
+    # If the cart count is less than or equal to 0, then redirect back to shop
+    cart_items = CartItem.objects.filter(user=current_user)
+    cart_count = cart_items.count()
+    if cart_count <= 0:
+        return redirect('store')
+        
     courier = request.session.get('courier')
     shipping_method = ShippingMethod.objects.get(courier = courier)
     # get data from json file

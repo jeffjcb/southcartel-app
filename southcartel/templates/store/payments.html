@@ -241,7 +241,10 @@
                     // element.innerHTML = '<h3>Thank you for your payment!</h3>';
                     // Or go to another URL:  actions.redirect('thank_you.html');
                 });
-            }
+            },
+              onError: (err) => {
+                    console.error('Error from the onError callback', err);
+                }
         }).render('#paypal-button-container');
 
 

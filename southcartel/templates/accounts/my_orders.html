@@ -42,6 +42,7 @@
 											{% comment %} <td>{{order.created_at}}</td> {% endcomment %}
 											<td>
 											<center>
+											
 											<form action="{% url 'order_tracking' %}" method="POST">
 											{% csrf_token %}
 											<input type="text" name="order_num" value="{{order.order_number}}" hidden>
@@ -49,20 +50,17 @@
 
 											{% elif order.status == "Delivered" %}
 												{% comment %} if order date is lagpas 7 days dont show, else {% endcomment %}
+												{% if order.older_than_seven_days < 7  %}
 											<a href="{% url 'request_refund' %}?order_number={{order.order_number}}" class="btn btn-light" >Request Refund</a>
+												{% endif %}
+					
 											{% else %}
 
 											<button  type="submit" class="btn btn-outline-primary">Track Order</button>
 											{% endif %}
 											</form>
 											</td>
-											<td>
-												<a class="btn btn-primary" data-toggle="collapse"
-													href="#collapseExample" role="button" aria-expanded="false"
-													aria-controls="collapseExample">
-													Details
-												</a>
-											</td>
+
 											</center>
 											<td>
 													<div class="collapse" id="collapseExample">

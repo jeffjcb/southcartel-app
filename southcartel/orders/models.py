@@ -2,6 +2,9 @@ from django.db import models
 from accounts.models import Account
 from store.models import Product, Variation
 from django.utils import timezone
+import datetime
+from datetime import datetime
+import pytz
 
 class Payment(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE)
@@ -62,6 +65,9 @@ class Order(models.Model):
 
     def full_address(self):
         return f'{self.address_line_1} {self.address_line_2}'
+    
+    def older_than_seven_days(self):
+        return (datetime.now().astimezone() - self.updated_at).days
 
     def __str__(self):
         return self.first_name
