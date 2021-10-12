@@ -10,14 +10,16 @@ class ProductGalleryInline(admin.TabularInline):
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('product_name','price', 'stock', 'category','brand', 'tags','modified_date','created_date', 'is_available')
-    list_editable = ('is_available',)
+    list_editable = ('is_available', 'stock')
+    list_filter = ('category',  'brand','stock','is_available')
+    search_fields = ['product_name', 'tags', 'price', 'created_date']
     prepopulated_fields = {'slug': ('product_name',)}
     inlines = [ProductGalleryInline]
     
 
 class VariationAdmin(admin.ModelAdmin):
     list_display = ('product','variation_category', 'variation_value', 'stock', 'is_active')
-    list_editable = ('is_active',)
+    list_editable = ('is_active', 'stock',)
     list_filter = ('variation_category',  'variation_value', 'is_active',)
 
 admin.site.site_header = 'South Cartel'

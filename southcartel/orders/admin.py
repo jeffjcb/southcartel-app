@@ -13,7 +13,7 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = ['order_number', 'user', 'full_name', 'phone', 'email', 'region', 'city', 'status', 'order_total', 'created_at']
     list_filter = ['status']
     search_fields = ['order_number', 'first_name', 'last_name', 'phone', 'email', 'address_line_1']
-    list_editable = ('status','created_at')
+    list_editable = ('status',)
     list_per_page = 30
     inlines = [OrderProductInline]
     

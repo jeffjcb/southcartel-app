@@ -51,13 +51,12 @@
 				has been delivered the refunds does not guarantee a return since it will be handled externally.</p>
 
 			
-			<form action="{% url 'cancel_order' %}" method="POST">
-				{% csrf_token %}
-				<input type="text" name="order_number" value="{{num}}" hidden>
+
+				<input type="text" name="order_cancel" value="{{num}}" hidden>
 				{% if tracked_order.status == 'To Ship' %}
-				<button type="submit" class="btn btn-danger float-right"><i class="fa fa-chevron"></i>Cancel Order</button>
+				<a href="{% url 'cancel_order'  tracked_order.order_number %}" class="btn btn-danger float-right" onclick="return confirm('Cancelling orders will not refund your payment automatically, hence, you need to contact the merchant/SouthCartel to get your money back. Are you sure you want to cancel this order?');" ><i class="fa fa-chevron"></i>Cancel Order</a>
+				
 				{% endif %}
-			</form>
 			<a href="{% url 'my_orders' %}" class="btn btn-light"> <i class="fa fa-chevron-left"></i> Back to orders</a>
 
 		</div> <!-- card-body.// -->

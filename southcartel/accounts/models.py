@@ -130,3 +130,7 @@ class Preferences(models.Model):
 
     def __str__(self):
         return self.product.product_name
+    
+    class Meta:
+        verbose_name = 'preference'
+        verbose_name_plural = 'preferences'

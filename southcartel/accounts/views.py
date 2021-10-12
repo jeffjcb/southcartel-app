@@ -14,7 +14,7 @@ from django.core.mail import EmailMessage
 from carts.views import _cart_id
 from carts.models import Cart, CartItem
 from orders.models import Order, OrderProduct
-from store.models import Product
+from store.models import Product, Variation
 import requests
 
 
@@ -308,25 +308,31 @@ def order_tracking(request):
 
 
 @login_required(login_url='login')
-def cancel_order(request):
+def cancel_order(request, order_id):
+    tracked_order = Order.objects.get(order_number=order_id)
+    tracked_order_products = OrderProduct.objects.all().filter(order__order_number=order_id)
+    print(tracked_order.payment.payment_id)
+    if tracked_order.status == "To Ship":
+        tracked_order.status = "Cancelled"
+        tracked_order.save()
+        # refund product stock
+        for t in tracked_order_products:         
+            if t.variations.all().count() != 0:
+                for n in t.variations.all():
+                    v = Variation.objects.get(product=t.product, variation_value=n)
+                    v.stock += t.quantity
+                    v.save()
+            else:
+                p = Product.objects.get(id=t.product.id)
+                p.stock += t.quantity
+                p.save()
 
-    if request.method == 'POST':
-        order_number = request.POST.get('order_number')
-        tracked_order = Order.objects.get(order_number=order_number)
-        print(tracked_order.payment.payment_id)
-        if tracked_order.status == "To Ship":
-            tracked_order.status = "Cancelled"
-            tracked_order.save()
-            # refund(paypal script)
-
-
-            messages.success(request, 'Your Order has been cancelled.')
-            return redirect('order_tracking')
-        else:
-            messages.error(request, 'The packed is already to receive. Cancellation is not available.')
-            return redirect('order_tracking')
-    else:
+        messages.success(request, 'Your Order has been cancelled.')
         return redirect('my_orders')
+    else:
+        messages.error(request, 'The packed is already to receive. Cancellation is not available.')
+        return redirect('order_tracking')
+
 
 
 
