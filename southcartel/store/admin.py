@@ -14,6 +14,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ('category',  'brand','stock','is_available')
     search_fields = ['product_name', 'tags', 'price', 'created_date']
     prepopulated_fields = {'slug': ('product_name',)}
+    list_per_page = 100
     inlines = [ProductGalleryInline]
     
 

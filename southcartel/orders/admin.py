@@ -42,6 +42,7 @@ class OrderAdmin(admin.ModelAdmin):
             return True
 
 class PaymentAdmin(admin.ModelAdmin):
+    list_per_page = 30
     def has_view_permission(self, request, obj=None):
         if request.user.is_admin:
             return True

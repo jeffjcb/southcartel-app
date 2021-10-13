@@ -1,7 +1,7 @@
 {% extends "admin/base_site.html" %}
 {% load i18n static jazzmin %}
 {% get_jazzmin_ui_tweaks as jazzmin_ui %}
-
+{% load load_groups %}
 {% block bodyclass %}{{ block.super }} dashboard{% endblock %}
 
 {% block content_title %} {% trans 'Dashboard' %} {% endblock %}
@@ -21,39 +21,91 @@
 {% widthratio dashboard_list|length 2 1 as middle %}
 {% endif %}
 
+
+
+
+{% if user.is_admin %}
 <div class="col-lg-9 col-12">
+
     <div class="row">
-        <div class="col-md-6 col-sm-12">
-            {% for app in dashboard_list %}
+        <div class="col-md-9 col-sm-12">
+         
             <div class="card card-primary card-outline">
                 <div class="card-header">
-                    <h5 class="m-0">{{ app.name }}</h5>
+                    <div class="card-title ">
+                        Monthly Sales Forecasting
+                    </div>
+                </div>
+                <div class="card-body">
+                   <canvas id="myChart" width="100" height="50vh"></canvas>
+                </div>
+            </div>
+
+
+        </div>
+            <div class="col-md-3 col-sm-12">
+                {% comment %} DITO MAG LAGAY NG BAGO {% endcomment %}
+                    {% comment %} START OF NEW {% endcomment %}
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h5 class="m-0">Total Orders to Ship</h5>
+                </div>
+                <div class="card-body">
+                   <center> <h5>{{orrderrs_count}}</h5></center>
+                </div>
+            </div>
+            <div class="card card-danger card-outline">
+                <div class="card-header">
+                    <h5 class="m-0">Total Cancelled Orders</h5>
+                </div>
+                <div class="card-body">
+                   <center> <h5>{{cacelledt_count}}</h5></center>
+                </div>
+            </div>
+            <div class="card card-info card-outline">
+                <div class="card-header">
+                    <h5 class="m-0">Total Users</h5>
+                </div>
+                <div class="card-body">
+                   <center> <h5>{{userss_count}}</h5></center>
+                </div>
+            </div>
+                </div>
+            <div class="col-md-12 col-sm-12">
+            {% comment %}END  {% endcomment %}
+                {% comment %} START OF NEW {% endcomment %}
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h5 class="m-0">Orders to Ship</h5>
                 </div>
                 <div class="card-body">
                     <table class="table table-sm">
+                        <thead>
+                            <th>Order Number</th>
+                            <th>User</th>
+                            <th>Status</th>
+                            <th>Address</th>
+                            <th>Date Created</th>
+                        </thead>
                         <tbody>
-                            {% for model in app.models %}
+                            {% for order in orrderrs %}
                             <tr>
                                 <td>
-                                    {% if model.url %}<a
-                                        href="{{ model.url }}">{{ model.name }}</a>{% else %}{{ model.name }}{% endif %}
+                                    {{order.order_number}}
                                 </td>
                                 <td>
-                                    <div class="btn-group float-right">
-                                        {% if model.add_url %}
-                                        <a href="{{ model.add_url }}"
-                                            class="btn btn-sm {{ jazzmin_ui.button_classes.success }} btn-flat addlink">{% trans 'Add' %}</a>
-                                        {% endif %}
-                                        {% if model.url %}
-                                        {% if model.view_only %}
-                                        <a href="{{ model.url }}"
-                                            class="btn btn-sm {{ jazzmin_ui.button_classes.info }} btn-flat viewlink">{% trans 'View' %}</a>
-                                        {% else %}
-                                        <a href="{{ model.url }}"
-                                            class="btn btn-sm {{ jazzmin_ui.button_classes.info }} btn-flat changelink">{% if model.custom %}{% trans 'Go' %}{% else %}{% trans 'Change' %}{% endif %}</a>
-                                        {% endif %}
-                                        {% endif %}
-                                    </div>
+                                    {{order.user}}
+                                </td>
+                                <td {% if order.status == 'To Ship' %} style="background-color:#3498db; color:white;" {% elif order.status == 'To Receive' %} style="background-color:#e67e22; color:white;"{% elif order.status == 'Delivered' %}style="background-color:#27ae60; color:white;" {% elif order.status == 'Cancelled' %}style="background-color:#e74c3c; color:white;"{% endif %}>
+                                    <center>
+                                        {{order.status}}
+                                    </center>
+                                </td>
+                                <td >
+                                   {{order.street_name}}, {{order.district}},  {{order.city}}, {{order.region}}
+                                </td>
+                                <td >
+                                   {{order.created_at}}
                                 </td>
                             </tr>
                             {% endfor %}
@@ -61,21 +113,10 @@
                     </table>
                 </div>
             </div>
-
-            {% if forloop.counter == middle|add:"0" %}
-        </div>
-        <div class="col-md-6 col-sm-12">
-            {% endif %}
-
-            {% endfor %}
-        </div>
-    </div>
-    
-    
-    
-{% if user.is_admin %}
-    <div class="row">
-        <div class="col-md-6 col-sm-12">
+                    </div>
+      <div class="col-md-6 col-sm-12">
+{% comment %}END  {% endcomment %}
+                {% comment %} START OF NEW {% endcomment %}
             <div class="card card-primary card-outline">
                 <div class="card-header">
                     <h5 class="m-0">Critical Inventory Report</h5>
@@ -110,10 +151,191 @@
                             Details</button></a>
                 </div>
             </div>
-        </div>
+                    </div>
+      <div class="col-md-6 col-sm-12">
+{% comment %}END  {% endcomment %}
+                {% comment %} START OF NEW {% endcomment %}
+            <div class="card card-primary card-outline">
+                <div class="card-header bg-dark">
+                    <h5 class="m-0">Refund Requests</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <thead>
+                            <th>Order Number</th>
+                            <th>User</th>
+                            <th>Amount Paid</th>
+
+
+                        </thead>
+                        <tbody>
+                            {% for product in refundrequestsds %}
+                            <tr>
+                                <td>
+                                    {{product.order_number}}
+                                </td>
+                                <td>
+                                    {{product.user}}
+                                </td>
+                                <td >
+                                    <center>
+                                        {{product.amount_paid}}
+                                    </center>
+                                </td>
+
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+                    </div>
+      <div class="col-md-6 col-sm-12">
+{% comment %}END  {% endcomment %}
+    
+    
+    
+    
+    
     </div>
- {% endif %}
+      
 </div>
+</div>
+{% endif %}
+
+{% if request.user|has_group:"Staff" %} 
+<div class="col-lg-9 col-12">
+
+    <div class="row">
+           <div class="col-md-12 col-sm-12">
+            {% comment %}END  {% endcomment %}
+                {% comment %} START OF NEW {% endcomment %}
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h5 class="m-0">Orders to Ship</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <thead>
+                            <th>Order Number</th>
+                            <th>User</th>
+                            <th>Status</th>
+                            <th>Address</th>
+                            <th>Date Created</th>
+                        </thead>
+                        <tbody>
+                            {% for order in orrderrs %}
+                            <tr>
+                                <td>
+                                    {{order.order_number}}
+                                </td>
+                                <td>
+                                    {{order.user}}
+                                </td>
+                                <td {% if order.status == 'To Ship' %} style="background-color:#3498db; color:white;" {% elif order.status == 'To Receive' %} style="background-color:#e67e22; color:white;"{% elif order.status == 'Delivered' %}style="background-color:#27ae60; color:white;" {% elif order.status == 'Cancelled' %}style="background-color:#e74c3c; color:white;"{% endif %}>
+                                    <center>
+                                        {{order.status}}
+                                    </center>
+                                </td>
+                                <td >
+                                   {{order.street_name}}, {{order.district}},  {{order.city}}, {{order.region}}
+                                </td>
+                                <td >
+                                   {{order.created_at}}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+                    </div>
+            <div class="col-md-3 col-sm-12">
+                {% comment %} DITO MAG LAGAY NG BAGO {% endcomment %}
+                    {% comment %} START OF NEW {% endcomment %}
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h5 class="m-0">Total Orders to Ship</h5>
+                </div>
+                <div class="card-body">
+                   <center> <h5>{{orrderrs_count}}</h5></center>
+                </div>
+            </div>
+            <div class="card card-danger card-outline">
+                <div class="card-header">
+                    <h5 class="m-0">Total Cancelled Orders</h5>
+                </div>
+                <div class="card-body">
+                   <center> <h5>{{cacelledt_count}}</h5></center>
+                </div>
+            </div>
+            <div class="card card-warning card-outline">
+                <div class="card-header">
+                    <h5 class="m-0">Total Received Orders</h5>
+                </div>
+                <div class="card-body">
+                   <center> <h5>{{received_orders_count}}</h5></center>
+                </div>
+            </div>
+                </div>
+ 
+      <div class="col-md-9 col-sm-12">
+{% comment %}END  {% endcomment %}
+                {% comment %} START OF NEW {% endcomment %}
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h5 class="m-0">Orders to Receive</h5>
+                </div>
+                <div class="card-body">
+                 <table class="table table-sm">
+                        <thead>
+                            <th>Order Number</th>
+                            <th>User</th>
+                            <th>Status</th>
+                            <th>Address</th>
+                            <th>Date Created</th>
+                        </thead>
+                        <tbody>
+                            {% for order in received_orders %}
+                            <tr>
+                                <td>
+                                    {{order.order_number}}
+                                </td>
+                                <td>
+                                    {{order.user}}
+                                </td>
+                                <td {% if order.status == 'To Ship' %} style="background-color:#3498db; color:white;" {% elif order.status == 'To Receive' %} style="background-color:#e67e22; color:white;"{% elif order.status == 'Delivered' %}style="background-color:#27ae60; color:white;" {% elif order.status == 'Cancelled' %}style="background-color:#e74c3c; color:white;"{% endif %}>
+                                    <center>
+                                        {{order.status}}
+                                    </center>
+                                </td>
+                                <td >
+                                   {{order.street_name}}, {{order.district}},  {{order.city}}, {{order.region}}
+                                </td>
+                                <td >
+                                   {{order.created_at}}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+                    </div>
+      <div class="col-md-6 col-sm-12">
+{% comment %}END  {% endcomment %}
+    
+    
+    
+    
+    
+    </div>
+      
+</div>
+</div>
+{% endif %}
+
+
 
 
 
@@ -184,5 +406,36 @@
         </div>
     </div>
 </div>
+
+<script>
+var dfx1 = {{dfx1|safe}};
+var dfx2 ={{dfx2|safe}};
+
+var ctx = document.getElementById('myChart');
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: dfx1,
+        datasets: [{
+            label: 'Sales',
+            data: dfx2,
+            fill: false,
+
+            borderColor: [
+                "#3cba9f",
+            ],
+            borderWidth: 2
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
+
 
 {% endblock %}

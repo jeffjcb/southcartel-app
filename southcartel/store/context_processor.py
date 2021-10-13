@@ -2,9 +2,19 @@ from .models import Product, Variation, ViewedProduct, ReviewRating
 from accounts.models import FavoriteItem, Preferences
 from orders.models import OrderProduct
 from carts.models import CartItem
+from django.db.models import Sum
+import pandas as pd
+from django.db.models.functions import ExtractWeek, ExtractYear, ExtractMonth
+from django.db.models import Sum, Count
+from orders.models import OrderProduct, Order
+from accounts.models import Account
+from django.contrib.admin.views.decorators import staff_member_required
+from django.utils import timezone
+import datetime
+
 
 def critical_products(request):
-    crit_products = Product.objects.filter(stock__lte = 10).order_by('stock')[:6]
+    crit_products = Product.objects.filter(stock__lte = 10).order_by('stock')
     return dict(crit_products=crit_products) 
 
 
@@ -69,7 +79,8 @@ def gather_preferences(request):
     #         pass
 
 
-
     return dict()
+
+
 
 

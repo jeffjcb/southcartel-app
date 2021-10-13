@@ -3,6 +3,7 @@
 {% get_current_language_bidi as LANGUAGE_BIDI %}
 {% get_jazzmin_settings request as jazzmin_settings %}
 {% get_jazzmin_ui_tweaks as jazzmin_ui %}
+{% load load_groups %}
 
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
@@ -212,13 +213,15 @@
                                     <p>{% trans 'Dashboard' %}</p>
                                 </a>
                             </li>
+                            
+                           {% if request.user|has_group:"Staff" or user.is_admin %} 
                             <li class="nav-item">
                                 <a href="{% url 'pos' %}" class="nav-link">
                                     <i class="nav-icon fab fa-bandcamp"></i>
                                     <p>{% trans 'POS' %}</p>
                                 </a>
                             </li>
-
+                            {% endif %}
                             {% if jazzmin_settings.navigation_expanded %}
                                 {% for app in side_menu_list %}
                                     <li class="nav-header">{{ app.name }}</li>
