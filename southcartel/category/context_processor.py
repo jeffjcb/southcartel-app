@@ -62,13 +62,13 @@ def sales_generation(request):
 def total_users(request):
 	try:
 		recent_orders = Order.objects.all().filter(created_at__range=[datetime.datetime.now(tz=timezone.utc) - datetime.timedelta(days=3),datetime.datetime.now(tz=timezone.utc)])
-		orrderrs = Order.objects.all().filter(status="To Ship")
+		orrderrs = Order.objects.all().filter(status="To Ship").order_by('-created_at')
 		orrderrs_count = orrderrs.count()
 
-		cacelledt = Order.objects.all().filter(status="Cancelled")
+		cacelledt = Order.objects.all().filter(status="Cancelled").order_by('-created_at')
 		cacelledt_count = cacelledt.count()
 
-		received_orders = Order.objects.all().filter(status="To Receive")
+		received_orders = Order.objects.all().filter(status="To Receive").order_by('-created_at')
 		received_orders_count = received_orders.count()
 		refundrequestsds = RefundRequests.objects.all().filter(processed=False)
 
