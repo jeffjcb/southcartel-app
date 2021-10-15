@@ -269,7 +269,7 @@ def cart(request, total=0, quantity=0, cart_items=None):
 
 @login_required(login_url='login')
 def checkout(request, total=0, quantity=0, cart_items=None):
-        #compute for the total
+    #compute for the total
     try:
         grand_total = 0
         #get the cart id

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'store',
     'category',
     'accounts',
@@ -48,6 +49,12 @@ INSTALLED_APPS = [
     'orders',
     'reports',
     'storages',
+    # allauth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -197,6 +204,10 @@ EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
 
 
 
+# # OAuth
+SITE_ID =3
+# LOGIN_REDIRECT_URL = '/'
+# LOGOUT_REDIRECT_URL = '/'
 
 
 
