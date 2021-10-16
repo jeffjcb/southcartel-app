@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load socialaccount %}
 {% block content %}
 
 <div class="card mx-auto" style="max-width: 600px; margin-top:80px; margin-bottom:100px;">
@@ -56,9 +57,9 @@
                     and Privacy Policy.</p>
             </form>
             <hr>
-            <a href="#" class="btn btn-facebook btn-block mb-2"> <i class="fab fa-facebook-f"></i> &nbsp; Sign up with
+            <a href="{% provider_login_url "facebook" method="oauth2" %}" class="btn btn-facebook btn-block mb-2"> <i class="fab fa-facebook-f"></i> &nbsp; Sign up with
                 Facebook</a>
-            <a href="#" class="btn btn-google btn-block mb-4"> <i class="fab fa-google"></i> &nbsp; Sign up with
+            <a href="{% provider_login_url 'google' %}" class="btn btn-google btn-block mb-4"> <i class="fab fa-google"></i> &nbsp; Sign up with
                 Google</a>
             <p class="text-center">Have an account? <a href="{% url 'login' %}">Log In</a></p>
         </article> <!-- card-body end .// -->
