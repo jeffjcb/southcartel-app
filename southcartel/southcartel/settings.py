@@ -49,12 +49,12 @@ INSTALLED_APPS = [
     'orders',
     'reports',
     'storages',
-    # allauth
+
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
 ]
 
 MIDDLEWARE = [
@@ -103,6 +103,13 @@ TEMPLATES = [
     },
 ]
 
+AUTHENTICATION_BACKEND = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+
+
 WSGI_APPLICATION = 'southcartel.wsgi.application'
 AUTH_USER_MODEL = 'accounts.Account'
 
@@ -115,10 +122,10 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-import dj_database_url
-db_from_env = dj_database_url.config(conn_max_age=600)
-DATABASES['default'] = dj_database_url.config(default='postgres://lokeaqcwztlosk:3805304aedc016aee3f5bf9d1d0fee29321707ef48b9113277c47d661d309ef8@ec2-44-199-83-229.compute-1.amazonaws.com:5432/d2ii2aj34533na')
-DATABASES['default'].update(db_from_env)
+# import dj_database_url
+# db_from_env = dj_database_url.config(conn_max_age=600)
+# DATABASES['default'] = dj_database_url.config(default='postgres://lokeaqcwztlosk:3805304aedc016aee3f5bf9d1d0fee29321707ef48b9113277c47d661d309ef8@ec2-44-199-83-229.compute-1.amazonaws.com:5432/d2ii2aj34533na')
+# DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -204,11 +211,22 @@ EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
 
 
 
-# # OAuth
-SITE_ID =3
-# LOGIN_REDIRECT_URL = '/'
+
+SITE_ID = 3
+LOGIN_REDIRECT_URL = '/accountsuser/activate_social_account/'
 # LOGOUT_REDIRECT_URL = '/'
 
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
 
 
 

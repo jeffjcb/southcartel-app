@@ -28,8 +28,8 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('store/', include('store.urls')),
     path('cart/', include('carts.urls')),
-    path('accounts/', include('accounts.urls')),
-    path('accountsocial/', include('allauth.urls')),
+    path('accountsuser/', include('accounts.urls')),
+    path('accounts/', include('allauth.urls')),
     # ORDERS
     path('orders/', include('orders.urls')),
     # POS

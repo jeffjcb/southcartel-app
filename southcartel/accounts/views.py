@@ -17,8 +17,17 @@ from orders.models import Order, OrderProduct
 from store.models import Product, Variation
 import requests
 
+def activate_social_account(request):
+    user = request.user
+    # Create User Profile
+    if UserProfile.objects.filter(user=user).exists():
+        pass
+    else:
+        profile = UserProfile()
+        profile.user_id = user.id
+        profile.save()
 
-
+    return redirect('home')
 
 def register(request):
     if request.method == 'POST':
@@ -30,6 +39,7 @@ def register(request):
             username = email.split('@')[0]
             password = form.cleaned_data['password']
             user = Account.objects.create_user(first_name=first_name, last_name=last_name, email=email, username=username, password=password)
+            user.is_active=False
             user.save()
             
             # Create User Profile
@@ -51,7 +61,7 @@ def register(request):
             send_email = EmailMessage(mail_subject, message, to=[to_email])
             send_email.send()
             # messages.success(request, 'Thank you for signing up! We have sent you a verification link to your email address.')
-            return redirect('/accounts/login/?command=verification&email='+email)
+            return redirect('/accountsuser/login/?command=verification&email='+email)
 
     else:
         form = RegistrationForm()

@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
+{% load socialaccount %}
 {% block content %}
+
 
 {% if request.GET.command == 'verification' %}
 <div class="container mx-auto alert border-primary text-center" style="max-width: 800px; margin-top:100px;">
@@ -30,8 +32,8 @@ Already verified? <a href="{% url 'login' %}">Login</a>
           <div class="form-group">
               <button type="submit" class="btn bg-dark text-white btn-block"> Login  </button>
               <hr>
-          <a href="#" class="btn btn-facebook btn-block mb-2"> <i class="fab fa-facebook-f"></i> &nbsp;  Sign in with Facebook</a>
-      	  <a href="#" class="btn btn-google btn-block mb-4"> <i class="fab fa-google"></i> &nbsp;  Sign in with Google</a>
+          <a href="{% provider_login_url "facebook" method="oauth2" %}" class="btn btn-facebook btn-block mb-2"> <i class="fab fa-facebook-f"></i> &nbsp;  Sign in with Facebook</a>
+      	  <a href="{% provider_login_url 'google' %}" class="btn btn-google btn-block mb-4"> <i class="fab fa-google"></i> &nbsp;  Sign in with Google</a>
           </div> <!-- form-group// -->    
       </form>
       </div> <!-- card-body.// -->
