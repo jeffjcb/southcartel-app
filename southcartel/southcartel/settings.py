@@ -229,6 +229,7 @@ SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
         'METHOD': 'oauth2',
         'SCOPE': ['email', 'public_profile'],
+        'VERIFIED_EMAIL': True,
     }
 }
 
