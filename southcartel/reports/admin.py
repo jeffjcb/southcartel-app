@@ -71,12 +71,13 @@ class SalesForecasting(models.Model):
 @staff_member_required
 def salesforecasting(request):
     try:
-        month = Order.objects.annotate(month=ExtractMonth('created_at'), year=ExtractYear('created_at')).values('month', 'year').annotate(c=Count('id'), amount = Sum('order_total')).values('year','month', 'c', 'amount').order_by('month') 
+        month = Order.objects.annotate(month=ExtractMonth('created_at'), year=ExtractYear('created_at')).values('month', 'year').annotate(c=Count('id'), amount = Sum('order_total')).values('year','month', 'c', 'amount').order_by('month')
         week = Order.objects.annotate(week=ExtractWeek('created_at'), year=ExtractYear('created_at')).values('week', 'year').annotate(c=Count('id'), amount = Sum('order_total')).values('year','week', 'c','amount').order_by('week') 
         
         # MONTHLY
         st = pd.DataFrame(month)
         # testing
+        st = st.sort_values(["year", 'month'])
         st["datey"] = st["year"].astype(str) +'-'+ st["month"].astype(str)
         data = st[['datey', 'amount']]
         #divide into train and validation set
@@ -103,6 +104,7 @@ def salesforecasting(request):
 
         # weekly
         we = pd.DataFrame(week)
+        we = we.sort_values(["year", 'week'])
         we["datey"] = we["year"].astype(str) +'-'+ we["week"].astype(str)
         data2 = we[['datey', 'amount']]
         #divide into train and validation set
