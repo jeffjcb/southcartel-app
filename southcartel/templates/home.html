@@ -1,12 +1,37 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+<link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
 
+<div class="container-fluid">
+<!-- Slider main container -->
+<div class="swiper">
+  <!-- Additional required wrapper -->
+  <div class="swiper-wrapper">
 
+    <!-- Slides -->
+    <div class="swiper-slide" style=" background-image: url('{% static 'images/banners/headd1.png' %}');background-position: center; background-repeat: no-repeat; background-size: cover;   background-color: #A1A1A1; 
+  background-blend-mode: multiply; " ><h2> <span>SOUTH CARTEL 55 <br> <a href="{% url 'store' %}"><button class="btn btn-outline-light" style="font-family: 'Roboto', sans-serif;">Shop Now</button></a> </span></h2> </div>
+    <div class="swiper-slide" style=" background-image: url('{% static 'images/banners/headd3.png' %}');background-position: center; background-repeat: no-repeat; background-size: cover;background-color: #A1A1A1; 
+  background-blend-mode: multiply;  "  ><h2> <span>Authentic Street Wear <br> Clothing <br> <a href="{% url 'store' %}"><button class="btn btn-outline-light" style="font-family: 'Roboto', sans-serif;">Shop Now</button></a> </span></h2> </div>
+    <div class="swiper-slide"  style=" background-image: url('{% static 'images/banners/headd7.png' %}');background-position: center; background-repeat: no-repeat; background-size: cover; background-color: #A1A1A1; 
+  background-blend-mode: multiply; " ><h2> <span>Style and Comfort  <br> in One <br><a href="{% url 'store' %}"><button class="btn btn-outline-light" style="font-family: 'Roboto', sans-serif;">Shop Now</button></a> </span></h2> </div>
 
+  </div>
+  <!-- If we need pagination -->
+  <div class="swiper-pagination"></div>
+
+  <!-- If we need navigation buttons -->
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
+
+  <!-- If we need scrollbar -->
+  <div class="swiper-scrollbar"></div>
+</div>
+</div>
 
 <!-- START OF CAROUSEL -->
-<div id="carousel1_indicator" class="carousel slide" data-ride="carousel">
+{% comment %} <div id="carousel1_indicator" class="carousel slide" data-ride="carousel">
   <div class="carousel-inner  overflow-hidden">
     <div class="carousel-item active">
       <img class="d-block w-100  banner-sc55" src="{% static 'images/banners/headd1.png' %}" alt="First slide">
@@ -32,7 +57,7 @@
     <li data-target="#carousel1_indicator" data-slide-to="1"></li>
     <li data-target="#carousel1_indicator" data-slide-to="2"></li>
   </ol>
-</div>
+</div> {% endcomment %}
 
 <!-- ==================  END IF CAROUSEL.// ==================  .// -->
 
@@ -204,6 +229,41 @@
     </div>
   </div>
 
+<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+<script>
+const swiper = new Swiper('.swiper', {
+  // Optional parameters
+ 
+  autoplay: {
+    delay: 4500,
+    disableOnInteraction: false,
+  },
+
+    effect: "cube",
+  grabCursor: true,
+  cubeEffect: {
+    shadow: true,
+    slideShadows: true,
+    shadowOffset: 20,
+    shadowScale: 0.94,
+  },
+  // If we need pagination
+  pagination: {
+    el: '.swiper-pagination',
+  },
+
+  // Navigation arrows
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev',
+  },
+
+  // And if we need scrollbar
+  scrollbar: {
+    el: '.swiper-scrollbar',
+  },
+});
+</script>
 
   <script type="text/javascript">
     /// some script
