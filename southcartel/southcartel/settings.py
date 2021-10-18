@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'orders',
     'reports',
     'storages',
-
+    'django_filters',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -93,6 +93,7 @@ TEMPLATES = [
                 'category.context_processor.brand_links',
                 'category.context_processor.sales_generation',
                 'category.context_processor.total_users',
+                'category.context_processor.partner_dash',
                 'carts.context_processors.counter',
                 'store.context_processor.critical_products',
                 'store.context_processor.update_stock',

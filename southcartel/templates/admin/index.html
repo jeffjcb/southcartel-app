@@ -22,6 +22,8 @@
 {% endif %}
 
 
+<!-- Data Tables -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
 
 
 {% if user.is_admin %}
@@ -336,6 +338,79 @@
 {% endif %}
 
 
+{% if request.user|has_group:"Partners" %}
+<div class="col-lg-9 col-12">
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+         
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <div class="card-title ">
+                        Brand Sales
+                    </div>
+                </div>
+                <div class="card-body">
+                   <canvas id="myChart" width="100" height="30vh"></canvas>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="col-md-12 col-sm-12">
+         
+            <div class="card card-primary card-outline">
+                <div class="card-header bg-dark">
+                    <div class="card-title ">
+                        Filter Product Stocks
+                    </div>
+                </div>
+                <div class="card-body">
+                <form  method="GET">
+                {{stock_filter.form}}
+                <button class="btn btn-primary" type="submit">Search</button>
+                </form>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-12 col-sm-12">
+         
+            <div class="card card card-outline">
+                <div class="card-header bg-dark">
+                    <div class="card-title">
+                     Filtered Product Stocks
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table exTable">
+                    <thead>
+                    <th>Product</th>
+                    <th>Brand</th>
+                    <th>Stock</th>
+                    </thead>
+                    {% for stk in stock_products %}
+                    <tbody>
+                    <td>{{stk.product_name}}</td>
+                    <td>{{stk.brand.brand_name}}</td>
+                    <td>{{stk.stock}}</td>
+                    </tbody>
+                    {% endfor %}
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+{% endif %}
+
+
+
 
 
 
@@ -406,7 +481,25 @@
         </div>
     </div>
 </div>
+    <script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+<script>
+$(document).ready( function () {
+    $('.myTable').DataTable({
+    "bFilter": false
 
+    });
+
+    $('.exTable').DataTable();
+} );
+
+</script>
+
+
+{% if user.is_admin %}
 <script>
 var dfx1 = {{dfx1|safe}};
 var dfx2 ={{dfx2|safe}};
@@ -436,6 +529,43 @@ var myChart = new Chart(ctx, {
     }
 });
 </script>
+{% endif %}
+
+{% if request.user|has_group:"Partners" %}
+<script>
+var bfx1 = {{bfx1|safe}};
+var bfx2 ={{bfx2|safe}};
+
+var ctx = document.getElementById('myChart');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: bfx1,
+        datasets: [{
+            label: 'Brand Sales',
+            data: bfx2,
+backgroundColor: [
+
+                'rgba(54, 162, 235, 0.2)',
+
+            ],
+            borderColor: [
+                'rgba(54, 162, 235, 1)',
+
+            ],
+            borderWidth: 2
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
+{% endif %}
 
 
 {% endblock %}

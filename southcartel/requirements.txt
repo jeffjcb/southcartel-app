@@ -15,6 +15,7 @@ Django==3.2.5
 django-admin-thumbnails==0.2.6
 django-allauth==0.45.0
 django-environ==0.4.5
+django-filter==21.1
 django-jazzmin==2.4.8
 django-session-timeout==0.1.0
 django-storages==1.11.1

@@ -12,12 +12,12 @@ from django.db.models.functions import ExtractWeek, ExtractYear, ExtractMonth
 from django.db.models import Sum, Count
 import datetime
 # for forecasting
-
 from math import sqrt
 from sklearn.metrics import mean_squared_error
 from pmdarima.arima import auto_arima
 
 from taggit.admin import Tag
+from .filters import OrderFilter
 
 admin.site.unregister(Tag)
 
@@ -34,13 +34,19 @@ def my_custom_view(request):
     sales = OrderProduct.objects.values('product', 'product__product_name').annotate(sold = Sum('quantity'), amount = Sum('order__order_total')).order_by('-amount')
     top_categories = OrderProduct.objects.values('product__category', 'product__category__category_name').annotate(sold = Sum('quantity'), amount = Sum('order__order_total')).order_by('-amount')
     top_brands = OrderProduct.objects.values('product__brand', 'product__brand__brand_name').annotate(sold = Sum('quantity'), amount = Sum('order__order_total')).order_by('-amount')
-    general_sales = OrderProduct.objects.values('product', 'product__product_name').annotate(sold = Sum('quantity'), amount = Sum('order__order_total'))
+    general_sales = OrderProduct.objects.values('product', 'product__product_name', 'product__brand__brand_name').annotate(sold = Sum('quantity'), amount = Sum('order__order_total'))
+
+    # Filter
+    myFilter = OrderFilter(request.GET, queryset =general_sales)
+    general_sales = myFilter.qs
+
 
     context = {
         'sales' : sales,
         'top_categories': top_categories,
         'top_brands': top_brands,
         'general_sales': general_sales,
+        'myFilter':myFilter,
     }
     return render(request, 'reports/reports.html', context )
 
