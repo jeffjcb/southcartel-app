@@ -109,3 +109,4 @@ def partner_dash(request):
 	stock_filter = StockFilter(request.GET, queryset =stock_products)
 	stock_products = stock_filter.qs
 	return {'stock_filter':stock_filter, 'stock_products':stock_products, 'bfx1':bfx1, 'bfx2':bfx2}
+

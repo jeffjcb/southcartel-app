@@ -39,6 +39,8 @@ urlpatterns = [
     path('pos/remove_cart_item/<int:product_id>/<int:cart_item_id>/', views.remove_cart_item, name='pos_remove_cart_item'),
     path('pos/checkout/', views.checkout, name='pos_checkout'),
     path('pos/checkout/process', views.payment_process, name='pos_payment_process'),
+    # Reports
+    path('reports/', include('reports.urls')),
     re_path(r'^media/(?P<path>.*)$',serve, {'document_root':settings.MEDIA_ROOT}),
 
 

@@ -237,8 +237,8 @@ SOCIALACCOUNT_PROVIDERS = {
 
 
 JAZZMIN_SETTINGS = {
-    "site_icon": "images/logos/logo.png",
-    "site_logo": "images/logos/logo.png",
+    "site_icon": "images/icons/favicon.ico",
+    "site_logo": "images/logos/minilogos.png",
     "site_logo_classes": "img-circle",
     "copyright": "South Cartel 55",
     "hide_models": [],

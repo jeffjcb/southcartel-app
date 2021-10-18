@@ -7,29 +7,46 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
 
 
-
-
-    <div class="col-12 col-sm-12">
+    <div class="col-12 col-sm-9">
         <div class="card card card-outline">
             <div class="card-header bg-dark">
                 <div class="card-title ">
-                    Filter
+                    Filter 
                 </div>
             </div>
             <div class="card-body">
                 <form  method="GET">
-                {{myFilter.form}}
+                {{myFilter.form.as_p}}
                 <button class="btn btn-primary" type="submit">Search</button>
                 </form>
+
             </div>
         </div>
     </div>
-  
+           {% if request.user|has_group:"Partners" or user.is_admin %} 
+    <div class="col-12 col-sm-3">
+ <div class="card card card-outline">
+            <div class="card-header bg-dark">
+                <div class="card-title ">
+                    Export as csv
+                </div>
+            </div>
+            <div class="card-body">
+{% if user.is_admin  %}
+<a href="{% url 'exportOrders' %}"><button class="btn btn-outline-dark" >Export Orders</button></a>
+{% endif %}
+<a href="{% url 'exportOrderProducts' %}"><button class="btn btn-outline-dark" >Export Order Products</button></a>
+            </div>
+        </div>
+  </div>
+{% endif %}
+
  <div class="col-12 col-sm-12">
         <div class="card card card-outline">
             <div class="card-header bg-dark">
                 <div class="card-title">
-                    General Sales
+                    General Sales 
+                      
                 </div>
             </div>
             <div class="card-body">
