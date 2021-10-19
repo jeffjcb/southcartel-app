@@ -61,25 +61,25 @@
             <aside class="col-sm-3 col-md-2">
               <h6 class="title">Account</h6>
               <ul class="list-unstyled">
-                <li> <a href="#">Manage Account</a></li>
-                <li> <a href="#">Returns</a></li>
-                <li> <a href="#">Shipping</a></li>
+                <li> <a href="{% url 'dashboard' %}">Manage Account</a></li>
+                <li> <a href="{% url 'my_orders' %}">My Orders</a></li>
+                <li> <a href="{% url 'favorites' %}">Favorites</a></li>
                 <li> <a href="#">FAQ</a></li>
               </ul>
             </aside>
             <aside class="col-sm-3 col-md-2">
               <h6 class="title">Services</h6>
               <ul class="list-unstyled">
-                <li> <a href="#">Help center</a></li>
-                <li> <a href="#">Money refund</a></li>
-                <li> <a href="#">Terms and Policy</a></li>
+                <li> <a href="{% url 'businessp' %}">Business & Return Policy</a></li>
+                <li> <a href="{% url 'privacyp' %}">Privacy Policy</a></li>
+                <li> <a href="{% url 'termsofservice' %}">Terms and Conditions</a></li>
               </ul>
             </aside>
             <aside class="col-sm-3  col-md-2">
               <h6 class="title">Company</h6>
               <ul class="list-unstyled">
-                <li> <a href="#"> Contact Us</a></li>
-                <li> <a href="#"> About Us </a></li>
+                <li> <a href="{% url 'contactus' %}"> Contact Us</a></li>
+                <li> <a href="{% url 'aboutus' %}"> About Us </a></li>
  
               </ul>
             </aside>

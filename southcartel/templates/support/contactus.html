@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+<section class="section-intro">
+
+<div class="intro-banner-wrap">
+	<img src="{% static 'images/banners/Header(Shorts).png' %}" class="w-100 img-fluid">
+</div>
+
+</section>
+
+
+<div class="container my-5">
+<p><center> We prefer that you contact us at our fb page for immediate response to customers concerns.</center></p>
+<div class="card">
+      <div class="card-body">
+      <h4 class="card-title mb-4">Contact us</h4>
+      <form>
+        <div class="form-row">
+			<div class="col form-group">
+				<label>Name</label>
+			  	<input type="text" class="form-control" placeholder="">
+			</div> <!-- form-group end.// -->
+			<div class="col form-group">
+				<label>Email</label>
+			  	<input type="email" class="form-control" placeholder="">
+			</div> <!-- form-group end.// -->
+		</div> <!-- form-row.// -->
+		<div class="form-group">
+			<label>What is message about?</label>
+			<textarea class="form-control" rows="5"></textarea>
+		</div>
+
+		<button class="btn btn-dark btn-block">Send</button>
+      </form>
+      </div> <!-- card-body.// -->
+    </div>
+</div> 
+ {% endblock  %}

@@ -712,3 +712,17 @@ def payment_process(request):
         return e
 
 
+def businessp(request):
+    return render(request, 'support/businessp.html')
+
+def privacyp(request):
+    return render(request, 'support/privacy.html')
+
+def aboutus(request):
+    return render(request, 'support/aboutus.html')
+
+def contactus(request):
+    return render(request, 'support/contactus.html')
+
+def termsofservice(request):
+    return render(request, 'support/termsofservice.html')
