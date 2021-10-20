@@ -216,6 +216,7 @@ EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
 SITE_ID = 3
 LOGIN_REDIRECT_URL = '/accountsuser/activate_social_account/'
 # LOGOUT_REDIRECT_URL = '/'
+SOCIALACCOUNT_AUTO_SIGNUP =True
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
