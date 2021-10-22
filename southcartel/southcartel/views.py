@@ -27,6 +27,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from orders.models import Order, Payment, OrderProduct
+from django.db.models import Sum, Count
 # Create your views here.
 
 
@@ -236,10 +237,11 @@ def home(request):
     #get the latest products
     latest = Product.objects.all().filter(is_available=True).order_by('-created_date')[:10]
 
+  
     # get products added 15 days ago
     recents = Product.objects.filter(created_date__range=[datetime.datetime.now(tz=timezone.utc) - datetime.timedelta(days=15),datetime.datetime.now(tz=timezone.utc)])
 
-    bydates = Product.objects.all().order_by('created_date')
+    bydates = Product.objects.all().filter(is_available=True).order_by('price')[:10]
     context = {
         'products':products,
         'recents':recents,

@@ -40,7 +40,6 @@ def my_custom_view(request):
     myFilter = OrderFilter(request.GET, queryset =general_sales)
     general_sales = myFilter.qs
 
-
     context = {
         'sales' : sales,
         'top_categories': top_categories,
