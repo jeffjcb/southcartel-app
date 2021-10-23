@@ -43,7 +43,7 @@ def get_filters(request):
 
 
 def sales_generation(request):
-	monthly = Order.objects.annotate(month=ExtractMonth('created_at'), year=ExtractYear('created_at')).values('month', 'year').annotate(c=Count('id'), amount = Sum('order_total')).values('year','month', 'c', 'amount').order_by('month') 
+	monthly = Order.objects.exclude(status='Cancelled').annotate(month=ExtractMonth('created_at'), year=ExtractYear('created_at')).values('month', 'year').annotate(c=Count('id'), amount = Sum('order_total')).values('year','month', 'c', 'amount').order_by('month') 
 	# MONTHLY
 	strs = pd.DataFrame(monthly)
 	strs = strs.sort_values(["year", 'month'])

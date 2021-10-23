@@ -15,6 +15,7 @@ from carts.views import _cart_id
 from carts.models import Cart, CartItem
 from orders.models import Order, OrderProduct
 from store.models import Product, Variation
+from datetime import datetime, timedelta
 import requests
 
 def activate_social_account(request):
@@ -310,7 +311,12 @@ def order_tracking(request):
     if request.method == 'POST':
         order_number = request.POST.get('order_num')
         tracked_order = Order.objects.get(order_number=order_number)
+
+
+        end_date = tracked_order.created_at + timedelta(days=14)
     context ={
+
+        'end_date':end_date,
         'num':order_number,
         'tracked_order':tracked_order,
     }

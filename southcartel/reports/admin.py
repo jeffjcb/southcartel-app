@@ -31,10 +31,10 @@ class Report(models.Model):
 
 @staff_member_required
 def my_custom_view(request):
-    sales = OrderProduct.objects.values('product', 'product__product_name').annotate(sold = Sum('quantity'), amount = Sum('order__order_total')).order_by('-amount')
-    top_categories = OrderProduct.objects.values('product__category', 'product__category__category_name').annotate(sold = Sum('quantity'), amount = Sum('order__order_total')).order_by('-amount')
-    top_brands = OrderProduct.objects.values('product__brand', 'product__brand__brand_name').annotate(sold = Sum('quantity'), amount = Sum('order__order_total')).order_by('-amount')
-    general_sales = OrderProduct.objects.values('product', 'product__product_name', 'product__brand__brand_name').annotate(sold = Sum('quantity'), amount = Sum('order__order_total'))
+    sales = OrderProduct.objects.exclude(order__status='Cancelled').values('product', 'product__product_name').annotate(sold = Sum('quantity'), amount = Sum('order__order_total')).order_by('-amount')
+    top_categories = OrderProduct.objects.exclude(order__status='Cancelled').values('product__category', 'product__category__category_name').annotate(sold = Sum('quantity'), amount = Sum('order__order_total')).order_by('-amount')
+    top_brands = OrderProduct.objects.exclude(order__status='Cancelled').values('product__brand', 'product__brand__brand_name').annotate(sold = Sum('quantity'), amount = Sum('order__order_total')).order_by('-amount')
+    general_sales = OrderProduct.objects.exclude(order__status='Cancelled').values('product', 'product__product_name', 'product__brand__brand_name').annotate(sold = Sum('quantity'), amount = Sum('order__order_total'))
 
     # Filter
     myFilter = OrderFilter(request.GET, queryset =general_sales)
@@ -76,8 +76,8 @@ class SalesForecasting(models.Model):
 @staff_member_required
 def salesforecasting(request):
     try:
-        month = Order.objects.annotate(month=ExtractMonth('created_at'), year=ExtractYear('created_at')).values('month', 'year').annotate(c=Count('id'), amount = Sum('order_total')).values('year','month', 'c', 'amount').order_by('month')
-        week = Order.objects.annotate(week=ExtractWeek('created_at'), year=ExtractYear('created_at')).values('week', 'year').annotate(c=Count('id'), amount = Sum('order_total')).values('year','week', 'c','amount').order_by('week') 
+        month = Order.objects.exclude(status='Cancelled').annotate(month=ExtractMonth('created_at'), year=ExtractYear('created_at')).values('month', 'year').annotate(c=Count('id'), amount = Sum('order_total')).values('year','month', 'c', 'amount').order_by('month')
+        week = Order.objects.exclude(status='Cancelled').annotate(week=ExtractWeek('created_at'), year=ExtractYear('created_at')).values('week', 'year').annotate(c=Count('id'), amount = Sum('order_total')).values('year','week', 'c','amount').order_by('week') 
         
         # MONTHLY
         st = pd.DataFrame(month)
