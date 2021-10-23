@@ -55,24 +55,20 @@ def gather_preferences(request):
     for v in viewed:
         Preferences.objects.update_or_create(user=v.user, product=v.product, rating=1)
 
-
     for c in cart:
         Preferences.objects.update_or_create(user=c.user, product=c.product, rating=3)
     
-
     for f in favorites:
         Preferences.objects.update_or_create(user=f.user, product=f.product, rating=4)
-
-        # di pa gumagana
-        # elif Preferences.objects.filter(user=c.user, product=c.product, rating__lte=3) not in cart:
-        #     preferences = Preferences.objects.filter(user=c.user, product=c.product, rating__lte=3).delete()
-
 
     for b in bought:
         Preferences.objects.update_or_create(user=b.user, product=b.product, rating=5)
 
     for r in ratings:
         Preferences.objects.update_or_create(user=b.user, product=b.product, rating=r.rating)
+    
+    
+
     #     else:
     #         preferences = Preferences(user=b.user, product=b.product, rating=r.rating)
     #         preferences.save()

@@ -123,10 +123,10 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-import dj_database_url
-db_from_env = dj_database_url.config(conn_max_age=600)
-DATABASES['default'] = dj_database_url.config(default='postgres://lokeaqcwztlosk:3805304aedc016aee3f5bf9d1d0fee29321707ef48b9113277c47d661d309ef8@ec2-44-199-83-229.compute-1.amazonaws.com:5432/d2ii2aj34533na')
-DATABASES['default'].update(db_from_env)
+# import dj_database_url
+# db_from_env = dj_database_url.config(conn_max_age=600)
+# DATABASES['default'] = dj_database_url.config(default='postgres://lokeaqcwztlosk:3805304aedc016aee3f5bf9d1d0fee29321707ef48b9113277c47d661d309ef8@ec2-44-199-83-229.compute-1.amazonaws.com:5432/d2ii2aj34533na')
+# DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

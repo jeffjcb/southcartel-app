@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import RegistrationForm, UserForm, UserProfileForm
-from .models import Account, UserProfile, RefundRequests, FavoriteItem
+from .models import Account, UserProfile, RefundRequests, FavoriteItem, Preferences
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
 
@@ -417,6 +417,11 @@ def remove_favorites(request, product_id, favorite_item_id):
         product = get_object_or_404(Product, id=product_id)
         if request.user.is_authenticated:
             favorite_item = FavoriteItem.objects.get(product=product, user=request.user, id=favorite_item_id)
+            try:
+                preference_item = Preferences.objects.get(product=product, user=request.user, rating=4)
+                preference_item.delete()
+            except:
+                pass
         else:
             pass
         favorite_item.delete()
