@@ -1,12 +1,13 @@
 from django import forms
 from .models import Account, UserProfile
-
+from django.contrib.auth.password_validation import validate_password
+from django.core import validators
 class RegistrationForm(forms.ModelForm):
     password = forms.CharField(min_length=8, widget=forms.PasswordInput(attrs={
         'placeholder':'Enter Password',
         'class':'form-control',
         
-    }))
+    }),validators=[validate_password])
     confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={
         'placeholder':'Confirm Password'
     }))
@@ -23,8 +24,13 @@ class RegistrationForm(forms.ModelForm):
 
         if password != confirm_password:
             raise forms.ValidationError(
-                "Password does not match."
+                "Password is too weak / Password does not match."
             )
+        # else:
+        #     raise forms.ValidationError(
+        #         "Password is too weak."
+        #     )
+
     
     def __init__(self, *args, **kwargs):
         super(RegistrationForm, self).__init__(*args, **kwargs)

@@ -11,6 +11,8 @@ from store.models import Product, Variation
 import json
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
+from django.contrib import messages
+from django.urls import reverse
 # Create your views here.
 
 
@@ -54,7 +56,11 @@ def place_order(request, total=0, quantity=0,):
             request.session['shipping_fee'] = shipping_fee
             request.session['ip'] = request.META.get('REMOTE_ADDR')
             return redirect('shipping')
-
+        else:
+            print("Invalid Form")
+            print(form.errors)
+            messages.error(request, form.errors)
+            return redirect('checkout')
     else:
         return redirect('checkout')
 
