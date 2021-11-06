@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from orders.models import *
 import csv
+from django.http import HttpResponse, JsonResponse
 
 # Create your views here.
 def exportOrders(request):
@@ -28,3 +29,4 @@ def exportOrderProducts(request):
         writer.writerow(record)
     response['Content-Disposition'] = "attachment; filename=OrderProducts.csv"
     return response
+

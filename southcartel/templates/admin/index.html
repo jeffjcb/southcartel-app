@@ -81,7 +81,7 @@
                     <h5 class="m-0">Orders to Ship</h5>
                 </div>
                 <div class="card-body">
-                    <table class="table table-sm">
+                    <table class="table table-sm exTable">
                         <thead>
                             <th>Order Number</th>
                             <th>User</th>
@@ -124,7 +124,7 @@
                     <h5 class="m-0">Critical Inventory Report</h5>
                 </div>
                 <div class="card-body">
-                    <table class="table table-sm">
+                    <table class="table table-sm exTable">
                         <thead>
                             <th>Product ID</th>
                             <th>Product Name</th>
@@ -162,7 +162,7 @@
                     <h5 class="m-0">Refund Requests</h5>
                 </div>
                 <div class="card-body">
-                    <table class="table table-sm">
+                    <table class="table table-sm exTable">
                         <thead>
                             <th>Order Number</th>
                             <th>User</th>
@@ -217,7 +217,7 @@
                     <h5 class="m-0">Orders to Ship</h5>
                 </div>
                 <div class="card-body">
-                    <table class="table table-sm">
+                    <table class="table table-sm exTable">
                         <thead>
                             <th>Order Number</th>
                             <th>User</th>
@@ -227,6 +227,50 @@
                         </thead>
                         <tbody>
                             {% for order in orrderrs %}
+                            <tr>
+                                <td>
+                                    {{order.order_number}}
+                                </td>
+                                <td>
+                                    {{order.user}}
+                                </td>
+                                <td {% if order.status == 'To Ship' %} style="background-color:#3498db; color:white;" {% elif order.status == 'To Receive' %} style="background-color:#e67e22; color:white;"{% elif order.status == 'Delivered' %}style="background-color:#27ae60; color:white;" {% elif order.status == 'Cancelled' %}style="background-color:#e74c3c; color:white;"{% endif %}>
+                                    <center>
+                                        {{order.status}}
+                                    </center>
+                                </td>
+                                <td >
+                                   {{order.street_name}}, {{order.district}},  {{order.city}}, {{order.region}}
+                                </td>
+                                <td >
+                                   {{order.created_at}}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+                    </div>
+
+      <div class="col-md-12 col-sm-12">
+{% comment %}END  {% endcomment %}
+                {% comment %} START OF NEW {% endcomment %}
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h5 class="m-0">Orders to Receive</h5>
+                </div>
+                <div class="card-body">
+                 <table class="table table-sm exTable">
+                        <thead>
+                            <th>Order Number</th>
+                            <th>User</th>
+                            <th>Status</th>
+                            <th>Address</th>
+                            <th>Date Created</th>
+                        </thead>
+                        <tbody>
+                            {% for order in received_orders %}
                             <tr>
                                 <td>
                                     {{order.order_number}}
@@ -280,51 +324,45 @@
                 </div>
             </div>
                 </div>
- 
-      <div class="col-md-9 col-sm-12">
-{% comment %}END  {% endcomment %}
-                {% comment %} START OF NEW {% endcomment %}
-            <div class="card card-primary card-outline">
+        <div class="col-md-6 col-sm-12">
+                 <div class="card card-primary card-outline">
                 <div class="card-header">
-                    <h5 class="m-0">Orders to Receive</h5>
+                    <h5 class="m-0">Critical Inventory Report</h5>
                 </div>
                 <div class="card-body">
-                 <table class="table table-sm">
+                    <table class="table table-sm exTable">
                         <thead>
-                            <th>Order Number</th>
-                            <th>User</th>
-                            <th>Status</th>
-                            <th>Address</th>
-                            <th>Date Created</th>
+                            <th>Product ID</th>
+                            <th>Product Name</th>
+                            <th>Stock</th>
+
                         </thead>
                         <tbody>
-                            {% for order in received_orders %}
+                            {% for product in crit_products %}
                             <tr>
                                 <td>
-                                    {{order.order_number}}
+                                    {{product.id}}
                                 </td>
                                 <td>
-                                    {{order.user}}
+                                    {{product.product_name}}
                                 </td>
-                                <td {% if order.status == 'To Ship' %} style="background-color:#3498db; color:white;" {% elif order.status == 'To Receive' %} style="background-color:#e67e22; color:white;"{% elif order.status == 'Delivered' %}style="background-color:#27ae60; color:white;" {% elif order.status == 'Cancelled' %}style="background-color:#e74c3c; color:white;"{% endif %}>
+                                <td style="background-color:#e66767; color:white;">
                                     <center>
-                                        {{order.status}}
+                                        {{product.stock}}
                                     </center>
-                                </td>
-                                <td >
-                                   {{order.street_name}}, {{order.district}},  {{order.city}}, {{order.region}}
-                                </td>
-                                <td >
-                                   {{order.created_at}}
                                 </td>
                             </tr>
                             {% endfor %}
                         </tbody>
                     </table>
+                    <a href="store/product"><button class="btn btn-outline-info float-right mt-3">View
+                            Details</button></a>
                 </div>
             </div>
                     </div>
+
       <div class="col-md-6 col-sm-12">
+
 {% comment %}END  {% endcomment %}
     
     

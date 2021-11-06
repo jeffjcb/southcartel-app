@@ -39,7 +39,7 @@ class Product(models.Model):
         if reviews['count'] is not None:
             count = int(reviews['count'])
         return count
-
+    
 
 
 class VariationManager(models.Manager):

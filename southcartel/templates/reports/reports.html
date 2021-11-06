@@ -1,6 +1,10 @@
+<head>
+<title>Reports</title>
+</head>
 {% extends "admin/base.html" %}
   {% load static %}
 {% load load_groups %}
+
 {% block content %}
 
       <!-- Data Tables -->
@@ -57,14 +61,16 @@
                 <th>Sold</th>
                 <th>Sales</th>
                 </thead>
-                {% for gen in general_sales %}
                 <tbody>
+                {% for gen in general_sales %}
+                <tr>
                 <td>{{gen.product__product_name}}</td>
                 <td>{{gen.product__brand__brand_name}}</td>
                 <td>{{gen.sold}}</td>
                 <td>₱{{gen.amount}}</td>
-                </tbody>
+                </tr>
                 {% endfor %}
+                </tbody>
                 </table>
             </div>
         </div>
@@ -85,17 +91,46 @@
                 <th>Sold</th>
                 <th>Sales</th>
                 </thead>
-                {% for sale in sales %}
                 <tbody>
+                {% for sale in sales %}
+                <tr>
                 <td>{{sale.product__product_name}}</td>
                 <td>{{sale.sold}}</td>
                 <td>₱{{sale.amount}}</td>
+                </tr>
                 </tbody>
                 {% endfor %}
                 </table>
             </div>
         </div>
     </div> 
+        <div class="col-12 col-sm-6">
+        <div class="card card card-outline">
+            <div class="card-header bg-dark">
+                <div class="card-title">
+                    Product Inventory
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table myTable" >
+                <thead>
+                <th>Product</th>
+                <th>Inventory</th>
+                <th>Status</th>
+                </thead>
+                <tbody>
+                {% for sk in skuproducts %}
+                <tr>
+                <td>{{sk.product_name}}</td>
+                <td>{{sk.stock}}</td>
+                <td>{% if sk.stock <= 10  %} <span class="color:red;">Low</span> {% else %} {% endif %} </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
     <div class="col-12 col-sm-6">
         <div class="card card card-outline">
             <div class="card-header bg-dark">
@@ -110,13 +145,15 @@
                 <th>Sold</th>
                 <th>Sales</th>
                 </thead>
-                {% for brand in top_brands %}
                 <tbody>
+                {% for brand in top_brands %}
+                <tr>
                 <td>{{brand.product__brand__brand_name}}</td>
                 <td>{{brand.sold}}</td>
                 <td>₱{{brand.amount}}</td>
-                </tbody>
+                </tr>
                 {% endfor %}
+                </tbody>
                 </table>
             </div>
         </div>
@@ -136,32 +173,36 @@
                 <th>Sold</th>
                 <th>Sales</th>
                 </thead>
-                {% for cat in top_categories %}
                 <tbody>
+                {% for cat in top_categories %}
+                <tr>
                 <td>{{cat.product__category__category_name}}</td>
                 <td>{{cat.sold}}</td>
                 <td>₱{{cat.amount}}</td>
-                </tbody>
+                </tr>
                 {% endfor %}
+                </tbody>
                 </table>
             </div>
         </div>
     </div>
+
    {% endif %}
-    <script
-  src="https://code.jquery.com/jquery-3.6.0.min.js"
-  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-  crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
 <script>
 $(document).ready( function () {
     $('.myTable').DataTable({
-    "bFilter": false
+    "bFilter": false,
+    });
+
+    $('.exTable').DataTable({
 
     });
 
-    $('.exTable').DataTable();
-} );
+
+
+});
 
 </script>
 

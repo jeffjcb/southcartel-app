@@ -13,7 +13,7 @@
 			<main class="col-md-9">
 				<article class="card">
 					<header class="card-header">
-						<strong class="d-inline-block mr-3">Your Ongoing Orders</strong>
+						<strong class="d-inline-block mr-3">Your Purchase history</strong>
 
 					</header>
 					<div class="card-body">
@@ -48,7 +48,7 @@
 											{% csrf_token %}
 											<input type="text" name="order_num" value="{{order.order_number}}" hidden>
 											{% if order.status == "Cancelled"  %}
-
+                                            	<button  class="btn btn-danger" disabled>Cancelled</button> 
 											{% elif order.status == "Delivered" %}
 												{% comment %} if order date is lagpas 7 days dont show, else {% endcomment %}
 												{% if order.older_than_seven_days < 7  %}

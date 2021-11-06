@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.urls import path
 from django.db import models
 from django.shortcuts import render
@@ -15,9 +15,10 @@ import datetime
 from math import sqrt
 from sklearn.metrics import mean_squared_error
 from pmdarima.arima import auto_arima
-
+from store.models import Product
 from taggit.admin import Tag
 from .filters import OrderFilter
+
 
 admin.site.unregister(Tag)
 
@@ -35,12 +36,14 @@ def my_custom_view(request):
     top_categories = OrderProduct.objects.exclude(order__status='Cancelled').values('product__category', 'product__category__category_name').annotate(sold = Sum('quantity'), amount = Sum('order__order_total')).order_by('-amount')
     top_brands = OrderProduct.objects.exclude(order__status='Cancelled').values('product__brand', 'product__brand__brand_name').annotate(sold = Sum('quantity'), amount = Sum('order__order_total')).order_by('-amount')
     general_sales = OrderProduct.objects.exclude(order__status='Cancelled').values('product', 'product__product_name', 'product__brand__brand_name').annotate(sold = Sum('quantity'), amount = Sum('order__order_total'))
+    skuproducts = Product.objects.all().order_by('stock')
 
     # Filter
     myFilter = OrderFilter(request.GET, queryset =general_sales)
     general_sales = myFilter.qs
-
     context = {
+
+        'skuproducts': skuproducts,
         'sales' : sales,
         'top_categories': top_categories,
         'top_brands': top_brands,
@@ -48,6 +51,7 @@ def my_custom_view(request):
         'myFilter':myFilter,
     }
     return render(request, 'reports/reports.html', context )
+
 
 
 class ReportAdmin(admin.ModelAdmin):

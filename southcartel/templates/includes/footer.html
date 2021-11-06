@@ -107,6 +107,12 @@
     </div>
     </section>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+
+
+
+
+
 <script>
 $(document).ready(function(){
   //when thumbnail is clicked
@@ -115,7 +121,16 @@ $(document).ready(function(){
     e.preventDefault();
     // the main image container, set the src to the url of the thumbnail
     $('.mainImage img').attr('src', $(this).attr("href"));
-  })
+  });
+
+    $('.myTable').DataTable({
+    "bFilter": false,
+    });
+
+    $('.exTable').DataTable({
+
+    });
+
 });
 </script>
 </body>
