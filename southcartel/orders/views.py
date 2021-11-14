@@ -186,108 +186,111 @@ def payment_process(request):
     cart_count = cart_items.count()
     if cart_count <= 0:
         return redirect('store')
-        
-    courier = request.session.get('courier')
-    shipping_method = ShippingMethod.objects.get(courier = courier)
-    # get data from json file
-    body = json.loads(request.body)
-    print(body)
-    # Save Order
-    data = Order()
-    data.shipping_method = shipping_method
-    data.user = current_user
-    data.first_name = request.session.get('first_name')
-    data.last_name = request.session.get('last_name')
-    data.phone = request.session.get('phone')
-    data.email = request.session.get('email')
-    data.address_line_1 = request.session.get('address_line_1')
-    data.address_line_2 = request.session.get('address_line_2')
-    data.country = request.session.get('country')
-    data.region = request.session.get('region')
-    data.city = request.session.get('city')
-    data.district = request.session.get('district')
-    data.street_name = request.session.get('street_name')
-    data.unit = request.session.get('unit')
-    data.order_note = request.session.get('order_note')
-    data.order_total = body['amount']
-    data.shipping_fee = request.session.get('shipping_fee')
-    data.ip = request.META.get('REMOTE_ADDR')
-    data.is_ordered = True
-    data.save()
-    # Generate order number
-    yr = int(datetime.date.today().strftime('%Y'))
-    dt = int(datetime.date.today().strftime('%d'))
-    mt = int(datetime.date.today().strftime('%m'))
-    d = datetime.date(yr,mt,dt)
-    current_date = d.strftime("%Y%m%d") #20210305
-    order_number = current_date + str(data.id)
-    data.order_number = order_number
-    data.save()
 
-    # Store payment details in model
-    payment = Payment(
-        user = request.user,
-        payment_id = body['transID'],
-        payment_method = body['payment_method'],
-        amount_paid = body['amount'],
-        status = body['status'],
-    )
-    payment.save()
-    data.payment = payment
-    data.save()
+    try:
+        courier = request.session.get('courier')
+        shipping_method = ShippingMethod.objects.get(courier = courier)
+        # get data from json file
+        body = json.loads(request.body)
+        print(body)
+        # Save Order
+        data = Order()
+        data.shipping_method = shipping_method
+        data.user = current_user
+        data.first_name = request.session.get('first_name')
+        data.last_name = request.session.get('last_name')
+        data.phone = request.session.get('phone')
+        data.email = request.session.get('email')
+        data.address_line_1 = request.session.get('address_line_1')
+        data.address_line_2 = request.session.get('address_line_2')
+        data.country = request.session.get('country')
+        data.region = request.session.get('region')
+        data.city = request.session.get('city')
+        data.district = request.session.get('district')
+        data.street_name = request.session.get('street_name')
+        data.unit = request.session.get('unit')
+        data.order_note = request.session.get('order_note')
+        data.order_total = body['amount']
+        data.shipping_fee = request.session.get('shipping_fee')
+        data.ip = request.META.get('REMOTE_ADDR')
+        data.is_ordered = True
+        data.save()
+        # Generate order number
+        yr = int(datetime.date.today().strftime('%Y'))
+        dt = int(datetime.date.today().strftime('%d'))
+        mt = int(datetime.date.today().strftime('%m'))
+        d = datetime.date(yr,mt,dt)
+        current_date = d.strftime("%Y%m%d") #20210305
+        order_number = current_date + str(data.id)
+        data.order_number = order_number
+        data.save()
 
-    # move cart items to order products table
-    order = Order.objects.get(user=request.user, order_number=order_number)
-    cart_items = CartItem.objects.filter(user=request.user)
-    for item in cart_items:
-        orderproduct = OrderProduct()
-        orderproduct.order_id = order.id
-        orderproduct.payment = payment
-        orderproduct.user_id = request.user.id
-        orderproduct.product_id = item.product_id
-        orderproduct.quantity = item.quantity
-        orderproduct.product_price = item.product.price
-        orderproduct.ordered = True
-        orderproduct.save()
+        # Store payment details in model
+        payment = Payment(
+            user = request.user,
+            payment_id = body['transID'],
+            payment_method = body['payment_method'],
+            amount_paid = body['amount'],
+            status = body['status'],
+        )
+        payment.save()
+        data.payment = payment
+        data.save()
 
-        cart_item = CartItem.objects.get(id=item.id)
-        product_variation = cart_item.variations.all()
-        orderproduct =OrderProduct.objects.get(id = orderproduct.id)
-        orderproduct.variations.set(product_variation)
-        orderproduct.save()
-        # reduce inventory
-        product = Product.objects.get(id=item.product_id)
-        product.stock -= item.quantity
-        product.save()
-        if cart_item.variations:
-            for var in product_variation:     
-                vary = Variation.objects.get(id=var.id)
-                vary.stock -=item.quantity
-                vary.save()
+        # move cart items to order products table
+        order = Order.objects.get(user=request.user, order_number=order_number)
+        cart_items = CartItem.objects.filter(user=request.user)
+        for item in cart_items:
+            orderproduct = OrderProduct()
+            orderproduct.order_id = order.id
+            orderproduct.payment = payment
+            orderproduct.user_id = request.user.id
+            orderproduct.product_id = item.product_id
+            orderproduct.quantity = item.quantity
+            orderproduct.product_price = item.product.price
+            orderproduct.ordered = True
+            orderproduct.save()
 
-        else:
-            pass
+            cart_item = CartItem.objects.get(id=item.id)
+            product_variation = cart_item.variations.all()
+            orderproduct =OrderProduct.objects.get(id = orderproduct.id)
+            orderproduct.variations.set(product_variation)
+            orderproduct.save()
+            # reduce inventory
+            product = Product.objects.get(id=item.product_id)
+            product.stock -= item.quantity
+            product.save()
+            if cart_item.variations:
+                for var in product_variation:     
+                    vary = Variation.objects.get(id=var.id)
+                    vary.stock -=item.quantity
+                    vary.save()
+
+            else:
+                pass
 
 
-    # Clear cart
-    CartItem.objects.filter(user=request.user).delete()
+        # Clear cart
+        CartItem.objects.filter(user=request.user).delete()
 
-    # send order received email to customer
-    mail_subject = 'Thank you for your order!'
-    message = render_to_string('store/order_received.html', {
-        'user': request.user,
-        'order': order,
-    })
-    to_email = request.user.email
-    send_email = EmailMessage(mail_subject, message, to=[to_email])
-    send_email.send()
+        # send order received email to customer
+        mail_subject = 'Thank you for your order!'
+        message = render_to_string('store/order_received.html', {
+            'user': request.user,
+            'order': order,
+        })
+        to_email = request.user.email
+        send_email = EmailMessage(mail_subject, message, to=[to_email])
+        send_email.send()
 
-   
-    # Send order number and transaction id back to sendData method via JsonResponse
-    data = {
-        'order_number': order.order_number,
-        'transID': payment.payment_id,
-    }
+    
+        # Send order number and transaction id back to sendData method via JsonResponse
+        data = {
+            'order_number': order.order_number,
+            'transID': payment.payment_id,
+        }
+    except Exception as e:
+        messages.error(request, 'There was a problem processing your payment please try again later')
     return JsonResponse(data)
 
 
@@ -296,6 +299,8 @@ def order_complete(request):
     order_number = request.GET.get('order_number')
     transID = request.GET.get('payment_id')
     try:
+        order = Order.objects.get(order_number=order_number, is_ordered=True)
+
         order = Order.objects.get(order_number=order_number, is_ordered=True)
         ordered_products = OrderProduct.objects.filter(order_id=order.id)
 
