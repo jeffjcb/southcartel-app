@@ -159,7 +159,7 @@ def payments(request, total=0, quantity=0, cart_items=None):
     if courier == 'LBC':
         if region in ['Laguna', 'Cavite', 'Batangas', 'Quezon', 'Rizal']:
             shipping_fee = 120;
-        elif region in ['Abra','Albay', 'Apayao','Aurora','Bataan','Batanes','Benguet','Bulacan','Cagayan','Camarines Norte','Camarines Sur','Catanduanes','Ifugao','Ilocos Norte','Ilocos Sur','Isabela','Kalinga','La Union','Marinduque','Masbate','Mountain Province','Nueva Ecija','Nueva Vizcaya','Occidental Mindoro','Oriental Mindoro','Palawan','Pampanga','Pangasinan','Quirino','Romblon','Sorsogon','Tarlac','Zambales']:
+        elif region in ['Abra','Albay', 'Apayao','Aurora','Bataan','Batanes','Benguet','Bulacan','Cagayan','Camarines Norte','Camarines Sur','Catanduanes','Ifugao','Ilocos Norte','Ilocos Sur','Isabela','Kalinga','La Union','Marinduque','Masbate', 'Metro Manila', 'Mountain Province','Nueva Ecija','Nueva Vizcaya','Occidental Mindoro','Oriental Mindoro','Palawan','Pampanga','Pangasinan','Quirino','Romblon','Sorsogon','Tarlac','Zambales']:
             shipping_fee = 150;
         else:
             shipping_fee = 180;
@@ -167,7 +167,7 @@ def payments(request, total=0, quantity=0, cart_items=None):
     elif courier =='J&T Express':
         if region in ['Laguna', 'Cavite', 'Batangas', 'Quezon', 'Rizal']:
             shipping_fee = 99;
-        elif region in ['Abra','Albay', 'Apayao','Aurora','Bataan','Batanes','Benguet','Bulacan','Cagayan','Camarines Norte','Camarines Sur','Catanduanes','Ifugao','Ilocos Norte','Ilocos Sur','Isabela','Kalinga','La Union','Marinduque','Masbate','Mountain Province','Nueva Ecija','Nueva Vizcaya','Occidental Mindoro','Oriental Mindoro','Palawan','Pampanga','Pangasinan','Quirino','Romblon','Sorsogon','Tarlac','Zambales']:
+        elif region in ['Abra','Albay', 'Apayao','Aurora','Bataan','Batanes','Benguet','Bulacan','Cagayan','Camarines Norte','Camarines Sur','Catanduanes','Ifugao','Ilocos Norte','Ilocos Sur','Isabela','Kalinga','La Union','Marinduque','Masbate','Metro Manila','Mountain Province','Nueva Ecija','Nueva Vizcaya','Occidental Mindoro','Oriental Mindoro','Palawan','Pampanga','Pangasinan','Quirino','Romblon','Sorsogon','Tarlac','Zambales']:
             shipping_fee = 130;
         else:
             shipping_fee = 150;

@@ -1,209 +1,207 @@
 <head>
-<title>Reports</title>
+    <title>Reports</title>
 </head>
 {% extends "admin/base.html" %}
-  {% load static %}
+{% load static %}
 {% load load_groups %}
 
 {% block content %}
 
-      <!-- Data Tables -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
-
+<!-- Data Tables -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
 
     <div class="col-12 col-sm-9">
         <div class="card card card-outline">
             <div class="card-header bg-dark">
                 <div class="card-title ">
-                    Filter 
+                    Filter
                 </div>
             </div>
             <div class="card-body">
-                <form  method="GET">
-                {{myFilter.form.as_p}}
-                <button class="btn btn-primary" type="submit">Search</button>
+                <form method="GET">
+                    {{myFilter.form.as_p}}
+                    <button class="btn btn-primary" type="submit">Search</button>
                 </form>
 
             </div>
         </div>
     </div>
-           {% if request.user|has_group:"Partners" or user.is_admin %} 
-    <div class="col-12 col-sm-3">
- <div class="card card card-outline">
-            <div class="card-header bg-dark">
-                <div class="card-title ">
-                    Export as csv
-                </div>
-            </div>
-            <div class="card-body">
-{% if user.is_admin  %}
-<a href="{% url 'exportOrders' %}"><button class="btn btn-outline-dark" >Export Orders</button></a>
-{% endif %}
-<a href="{% url 'exportOrderProducts' %}"><button class="btn btn-outline-dark" >Export Order Products</button></a>
+{% if request.user|has_group:"Partners" or user.is_admin %}
+<div class="col-12 col-sm-3">
+    <div class="card card card-outline">
+        <div class="card-header bg-dark">
+            <div class="card-title ">
+                Export as csv
             </div>
         </div>
-  </div>
+        <div class="card-body">
+            {% if user.is_admin  %}
+            <a href="{% url 'exportOrders' %}"><button class="btn btn-outline-dark">Export Orders</button></a>
+            {% endif %}
+            <a href="{% url 'exportOrderProducts' %}"><button class="btn btn-outline-dark">Export Order
+                    Products</button></a>
+        </div>
+    </div>
+</div>
 {% endif %}
 
- <div class="col-12 col-sm-12">
-        <div class="card card card-outline">
-            <div class="card-header bg-dark">
-                <div class="card-title">
-                    General Sales 
-                      
-                </div>
-            </div>
-            <div class="card-body">
-                <table class="table exTable">
-                <thead>
-                <th>Product</th>
-                <th>Brand</th>
-                <th>Sold</th>
-                <th>Sales</th>
-                </thead>
-                <tbody>
-                {% for gen in general_sales %}
-                <tr>
-                <td>{{gen.product__product_name}}</td>
-                <td>{{gen.product__brand__brand_name}}</td>
-                <td>{{gen.sold}}</td>
-                <td>₱{{gen.amount}}</td>
-                </tr>
-                {% endfor %}
-                </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-{% if user.is_admin %} 
-<hr>
-     <div class="col-12 col-sm-6">
-        <div class="card card card-outline">
-            <div class="card-header bg-dark">
-                <div class="card-title ">
-                    Top Selling Products
-                </div>
-            </div>
-            <div class="card-body">
-                <table class="table myTable">
-                <thead > 
-                <th>Product</th>
-                <th>Sold</th>
-                <th>Sales</th>
-                </thead>
-                <tbody>
-                {% for sale in sales %}
-                <tr>
-                <td>{{sale.product__product_name}}</td>
-                <td>{{sale.sold}}</td>
-                <td>₱{{sale.amount}}</td>
-                </tr>
-                </tbody>
-                {% endfor %}
-                </table>
-            </div>
-        </div>
-    </div> 
-        <div class="col-12 col-sm-6">
-        <div class="card card card-outline">
-            <div class="card-header bg-dark">
-                <div class="card-title">
-                    Product Inventory
-                </div>
-            </div>
-            <div class="card-body">
-                <table class="table myTable" >
-                <thead>
-                <th>Product</th>
-                <th>Inventory</th>
-                <th>Status</th>
-                </thead>
-                <tbody>
-                {% for sk in skuproducts %}
-                <tr>
-                <td>{{sk.product_name}}</td>
-                <td>{{sk.stock}}</td>
-                <td>{% if sk.stock <= 10  %} <span class="color:red;">Low</span> {% else %} {% endif %} </td>
-                </tr>
-                {% endfor %}
-                </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 col-sm-6">
-        <div class="card card card-outline">
-            <div class="card-header bg-dark">
-                <div class="card-title">
-                    Top Brands
-                </div>
-            </div>
-            <div class="card-body">
-                <table class="table myTable" >
-                <thead>
-                <th>Brand</th>
-                <th>Sold</th>
-                <th>Sales</th>
-                </thead>
-                <tbody>
-                {% for brand in top_brands %}
-                <tr>
-                <td>{{brand.product__brand__brand_name}}</td>
-                <td>{{brand.sold}}</td>
-                <td>₱{{brand.amount}}</td>
-                </tr>
-                {% endfor %}
-                </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    
-    <div class="col-12 col-sm-6">
-        <div class="card card card-outline">
-            <div class="card-header bg-dark">
-                <div class="card-title">
-                    Top Categories
-                </div>
-            </div>
-            <div class="card-body">
-                <table class="table myTable" >
-                <thead>
-                <th>Category</th>
-                <th>Sold</th>
-                <th>Sales</th>
-                </thead>
-                <tbody>
-                {% for cat in top_categories %}
-                <tr>
-                <td>{{cat.product__category__category_name}}</td>
-                <td>{{cat.sold}}</td>
-                <td>₱{{cat.amount}}</td>
-                </tr>
-                {% endfor %}
-                </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+<div class="col-12 col-sm-12">
+    <div class="card card card-outline">
+        <div class="card-header bg-dark">
+            <div class="card-title">
+                General Sales
 
-   {% endif %}
-  <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table exTable">
+                <thead>
+                    <th>Product</th>
+                    <th>Brand</th>
+                    <th>Sold</th>
+                    <th>Sales</th>
+                </thead>
+                <tbody>
+                    {% for gen in general_sales %}
+                    <tr>
+                        <td>{{gen.product__product_name}}</td>
+                        <td>{{gen.product__brand__brand_name}}</td>
+                        <td>{{gen.sold}}</td>
+                        <td>₱{{gen.amount}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% if user.is_admin %}
+<div class="col-12 col-sm-6">
+    <div class="card card card-outline">
+        <div class="card-header bg-dark">
+            <div class="card-title ">
+                Top Selling Products
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table myTable">
+                <thead>
+                    <th>Product</th>
+                    <th>Sold</th>
+                    <th>Sales</th>
+                </thead>
+                <tbody>
+                    {% for sale in sales %}
+                    <tr>
+                        <td>{{sale.product__product_name}}</td>
+                        <td>{{sale.sold}}</td>
+                        <td>₱{{sale.amount}}</td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+<div class="col-12 col-sm-6">
+    <div class="card card card-outline">
+        <div class="card-header bg-dark">
+            <div class="card-title">
+                Product Inventory
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table myTable">
+                <thead>
+                    <th>Product</th>
+                    <th>Inventory</th>
+                    <th>Status</th>
+                </thead>
+                <tbody>
+                    {% for sk in skuproducts %}
+                    <tr>
+                        <td>{{sk.product_name}}</td>
+                        <td>{{sk.stock}}</td>
+                        <td>{% if sk.stock <= 10  %} <span class="color:red;">Low</span> {% else %} {% endif %} </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="col-12 col-sm-6">
+    <div class="card card card-outline">
+        <div class="card-header bg-dark">
+            <div class="card-title">
+                Top Brands
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table myTable">
+                <thead>
+                    <th>Brand</th>
+                    <th>Sold</th>
+                    <th>Sales</th>
+                </thead>
+                <tbody>
+                    {% for brand in top_brands %}
+                    <tr>
+                        <td>{{brand.product__brand__brand_name}}</td>
+                        <td>{{brand.sold}}</td>
+                        <td>₱{{brand.amount}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="col-12 col-sm-6">
+    <div class="card card card-outline">
+        <div class="card-header bg-dark">
+            <div class="card-title">
+                Top Categories
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table myTable">
+                <thead>
+                    <th>Category</th>
+                    <th>Sold</th>
+                    <th>Sales</th>
+                </thead>
+                <tbody>
+                    {% for cat in top_categories %}
+                    <tr>
+                        <td>{{cat.product__category__category_name}}</td>
+                        <td>{{cat.sold}}</td>
+                        <td>₱{{cat.amount}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
 <script>
-$(document).ready( function () {
-    $('.myTable').DataTable({
-    "bFilter": false,
+    $(document).ready(function () {
+        $('.myTable').DataTable({
+            "bFilter": false,
+        });
+
+        $('.exTable').DataTable({
+
+        });
+
+
+
     });
-
-    $('.exTable').DataTable({
-
-    });
-
-
-
-});
-
 </script>
 
 {% endblock %}
