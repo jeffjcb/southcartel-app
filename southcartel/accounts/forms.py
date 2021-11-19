@@ -1,14 +1,11 @@
 from django import forms
 from .models import Account, UserProfile
-from django.contrib.auth.password_validation import validate_password
+from django.contrib.auth.password_validation import validate_password, CommonPasswordValidator
 from django.core import validators
+import re
 class RegistrationForm(forms.ModelForm):
-    password = forms.CharField(min_length=8, widget=forms.PasswordInput(attrs={
-        'placeholder':'Enter Password',
-        'class':'form-control',
-        'id':'passwordhehe',
-        
-    }),validators=[validate_password])
+    password = forms.CharField(min_length=8, max_length=50,  widget=forms.PasswordInput())
+
     confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={
         'placeholder':'Confirm Password'
     }))
@@ -19,18 +16,25 @@ class RegistrationForm(forms.ModelForm):
         fields = ['first_name', 'last_name', 'email', 'password']
     
     def clean(self):
+        string_check= re.compile('[@_!#$%^&*()<>?/\|}{~:]') 
         cleaned_data = super(RegistrationForm, self).clean()
         password = cleaned_data.get('password')
         confirm_password = cleaned_data.get('confirm_password')
 
         if password != confirm_password:
             raise forms.ValidationError(
-                "Password is too weak, password must contain atleast one number and one special character/ Password does not match."
+                "Password does not match."
             )
-        # else:
-        #     raise forms.ValidationError(
-        #         "Password is too weak."
-        #     )
+        elif bool(re.match(r'\w*[A-Z]\w*', password)) == False:
+            raise forms.ValidationError(
+                "Password must contain atleast one uppercase letter"
+            )
+        elif (string_check.search(password) == None): 
+            raise forms.ValidationError(
+                "Password must contain atleast one special character"
+            )
+        else:
+            validate_password(password)
 
     
     def __init__(self, *args, **kwargs):
@@ -38,6 +42,7 @@ class RegistrationForm(forms.ModelForm):
         self.fields['first_name'].widget.attrs['placeholder'] = 'Enter First Name'
         self.fields['last_name'].widget.attrs['placeholder'] = 'Enter Last Name'
         self.fields['email'].widget.attrs['placeholder'] = 'Enter Email Address'
+        self.fields['password'].widget.attrs['placeholder'] = 'Enter Password'
         for field in self.fields:
             self.fields[field].widget.attrs['class'] = 'form-control'
 

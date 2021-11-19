@@ -7,7 +7,7 @@
     <div class="card">
 
         <article class="card-body">
-            <div id="error"></div>
+
             {% include 'includes/alerts.html' %}
             {% if form.non_field_errors or form.email.errors %}
             <div class="alert alert-warning msgalert alert-dismissible fade show" role="alert">
@@ -67,25 +67,6 @@
     </div>
 </div>
 
-<script>
-const form = document.getElementById('form')
-const password document.getElementById('passwordhehe')
-const errorElement document.getElementById('error')
-var regularExpression = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
-form.addEventListener('submit', (e) => {
-  let messages = []
 
-    if(!regularExpression.test(password)) {
-    messages.push('Password should contain atleast one number and one special character')
-    }
-
-  if (messages.length > 0) {
-    e.preventDefault()
-    errorElement.innerText = messages.join(', ')
-  }
-})
-
-
-</script>
 
 {% endblock content %}
