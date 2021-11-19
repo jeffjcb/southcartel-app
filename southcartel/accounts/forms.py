@@ -25,7 +25,7 @@ class RegistrationForm(forms.ModelForm):
 
         if password != confirm_password:
             raise forms.ValidationError(
-                "Password is too weak / Password does not match."
+                "Password is too weak, password must contain atleast one number and one special character/ Password does not match."
             )
         # else:
         #     raise forms.ValidationError(
