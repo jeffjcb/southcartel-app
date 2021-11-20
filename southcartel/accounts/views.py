@@ -234,14 +234,15 @@ def resetPassword(request):
     else:
         return redirect('login')
 
-
+@login_required(login_url='login')
 def my_orders(request):
     orders = Order.objects.filter(user=request.user, is_ordered=True).order_by('-created_at').exclude(status="Delivered").exclude(status="Cancelled")
     context = {
         'orders':orders,
     }
     return render(request, 'accounts/my_orders.html', context)
-
+    
+@login_required(login_url='login')
 def purchase_history(request):
     orders = Order.objects.filter(user=request.user, is_ordered=True).order_by('-created_at').exclude(status="To Ship").exclude(status="To Receive")
     context = {
