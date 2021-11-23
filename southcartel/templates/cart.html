@@ -52,7 +52,7 @@ input[type=number] {
 				<p class="text-muted small">
 				{% if cart_item.variations.all %}
 					{% for item in cart_item.variations.all %}
-						{{ item.variation_category | capfirst }} : {{ item.variation_value | capfirst  }} <br>
+						Size : {{ item.variation_value | capfirst  }} <br>
 					{% endfor %}
 				{% endif %}
 			</figcaption>

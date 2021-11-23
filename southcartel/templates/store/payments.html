@@ -62,6 +62,17 @@
                             </div> <!-- card-body.// -->
                         </article> <!-- card.// -->
 
+                        <article class="card mb-4">
+                            <div class="card-body">
+                                <h4 class="card-title mb-2">Voucher Code</h4>
+                                <form action="{% url 'vouchers' %}" method="POST">
+                                {% csrf_token %}
+                                <input type="text" name="voucher" placeholder="Enter Voucher Code" class="form-control">
+                                <button type="submit" class="btn btn-primary mt-3 float-right">Apply</button>
+                                </form>
+                            </div> <!-- card-body.// -->
+                        </article> <!-- card.// -->
+
                         <!-- ============================ SHIPPING ADDRESS ================================= -->
                         <article class="card mb-4">
                             <div class="card-body">
@@ -123,7 +134,30 @@
 
                                 <hr>
                                 <dl class="dlist-align">
-                                    <dt>Total:</dt>
+                                    <dt>Total (VAT Included):</dt>
+                                    <dd></dd>
+                                    <dd></dd>
+                                    <dd></dd>
+                                    <dd></dd>
+                                    <dd></dd>
+                                    <dd></dd>
+                                    <dd class="h5">₱{{wodiscount}}</dd>
+                                </dl>
+                                <hr>
+                                {% if discount != None  %}
+                                <dl class="dlist-align">
+                                    <dt class="text-muted">Discount:</dt>
+                                    <dd></dd>
+                                    <dd></dd>
+                                    <dd></dd>
+                                    <dd></dd>
+                                    <dd></dd>
+                                    <dd style="">₱ {{discount}}</dd>
+                                </dl>
+
+                                <hr>
+                                <dl class="dlist-align">
+                                    <dt>Grand Total (VAT Included):</dt>
                                     <dd></dd>
                                     <dd></dd>
                                     <dd></dd>
@@ -133,7 +167,7 @@
                                     <dd class="h5">₱{{grand_total}}</dd>
                                 </dl>
                                 <hr>
-
+                                {% endif %}
                                 <a href="{% url 'cart' %}" class="btn btn-secondary float-left">
                                     < Return to Carts </a> 
                             </div> <!-- card-body.// -->

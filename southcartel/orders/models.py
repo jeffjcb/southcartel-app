@@ -89,3 +89,10 @@ class OrderProduct(models.Model):
         return self.product.product_name
 
 
+class Vouchers(models.Model):
+    voucher_name = models.CharField(max_length=125)
+    voucher_code = models.CharField(max_length=20)
+    discount = models.FloatField()
+    is_active = models.BooleanField(default=True)
+    def __str__(self):
+        return self.voucher_code

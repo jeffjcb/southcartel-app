@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Payment, Order, OrderProduct, ShippingMethod
+from .models import Payment, Order, OrderProduct, ShippingMethod, Vouchers
 # Register your models here.
 
 class OrderProductInline(admin.TabularInline):
@@ -99,4 +99,5 @@ admin.site.register(Payment, PaymentAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderProduct, OrderProductAdmin)
 admin.site.register(ShippingMethod)
+admin.site.register(Vouchers)
 

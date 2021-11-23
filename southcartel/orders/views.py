@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from carts.models import CartItem
 from .forms import OrderForm    
-from .models import Order, Payment, OrderProduct, ShippingMethod
+from .models import Order, Payment, OrderProduct, ShippingMethod, Vouchers
 from django.http import HttpResponse, JsonResponse
 import datetime
 from carts.models import Cart
@@ -13,6 +13,7 @@ from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.contrib import messages
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
@@ -66,6 +67,7 @@ def place_order(request, total=0, quantity=0,):
 
 
 
+@login_required(login_url = 'login')
 def shipping(request, total=0, quantity=0, cart_items=None):
     current_user = request.user
     # If the cart count is less than or equal to 0, then redirect back to shop
@@ -117,6 +119,7 @@ def shipping(request, total=0, quantity=0, cart_items=None):
     return render(request, 'store/courier.html', context)
 
 
+@login_required(login_url = 'login')
 def payments(request, total=0, quantity=0, cart_items=None):
     current_user = request.user
     # If the cart count is less than or equal to 0, then redirect back to shop
@@ -172,11 +175,20 @@ def payments(request, total=0, quantity=0, cart_items=None):
         else:
             shipping_fee = 150;
 
-
-    grand_total += shipping_fee
+    # Discounts
+    discount = request.session.get('discount')
+    if discount != None:
+        grand_total += shipping_fee
+        wodiscount = grand_total
+        grand_total -= discount
+    else:
+        grand_total += shipping_fee
+        wodiscount = grand_total
 
     request.session['shipping_fee'] = shipping_fee
     context = {
+        'wodiscount':wodiscount,
+        'discount':discount,
         'courier': courier,
         'grand_total': grand_total,
         'total': total,
@@ -187,7 +199,7 @@ def payments(request, total=0, quantity=0, cart_items=None):
     }
     return render(request, 'store/payments.html', context)
 
-
+@login_required(login_url = 'login')
 def payment_process(request):
     
     current_user = request.user
@@ -305,6 +317,7 @@ def payment_process(request):
 
 
 
+@login_required(login_url = 'login')
 def order_complete(request):
     order_number = request.GET.get('order_number')
     transID = request.GET.get('payment_id')
@@ -331,3 +344,21 @@ def order_complete(request):
         return render(request, 'store/order_complete.html', context)
     except (Payment.DoesNotExist, Order.DoesNotExist):
         return redirect('home')
+
+
+@login_required(login_url = 'login')
+def vouchers(request):
+    # Get voucher code
+    if request.method == 'POST':
+        voucher_code = request.POST['voucher']
+    try:
+        discount = Vouchers.objects.filter(voucher_code=voucher_code, is_active=True).first()
+        request.session['discount'] = discount.discount
+        messages.success(request, 'Your Discount has been applied')
+    except:
+        request.session['discount'] = None
+        messages.error(request,'Invalid Voucher Code.')
+
+    return redirect('payments')
+
+
