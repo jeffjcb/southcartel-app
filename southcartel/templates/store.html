@@ -150,7 +150,9 @@
 								<div class="fix-height">
 									<a href="{{product.get_url}}" class="title">{{product.product_name}}</a>
 									<div class="price-wrap mt-2">
-										<span class="price">₱{{product.price}}</span>
+										<span class="price">₱{{product.price}}</span> {% if product.stock <= 10 %}<span class="badge badge-danger">Low in Stock</span>{% endif %}
+										<br>
+										 <i>{{product.stock}} item/s in Stock</i>
 
 									</div> <!-- price-wrap.// -->
 								</div>

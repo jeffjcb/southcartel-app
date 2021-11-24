@@ -20,6 +20,19 @@
             </div>
             <div class="card-body">
             <canvas id="weChart" width="100" height="50vh"></canvas>
+             From
+            <select class="form-select"  onchange="filterData()" id="startdate" >
+            {% for i  in we1 %}
+            <option value="{{i}}">{{i}}</option>
+            {% endfor %}
+            </select>
+        
+            To
+            <select class="form-select"  onchange="filterData()" id="enddate" >
+            {% for i  in we1 %}
+            <option value="{{i}}">{{i}}</option>
+            {% endfor %}
+            </select>
             </div>
         </div>
     </div>
@@ -33,6 +46,19 @@
             </div>
             <div class="card-body">
             <canvas id="myChart" width="100" height="50vh"></canvas>
+            From
+            <select class="form-select"  onchange="filterData2()" id="startdate2" >
+            {% for i  in df1 %}
+            <option value="{{i}}">{{i}}</option>
+            {% endfor %}
+            </select>
+        
+            To
+            <select class="form-select"  onchange="filterData2()" id="enddate2" >
+            {% for i  in df1 %}
+            <option value="{{i}}">{{i}}</option>
+            {% endfor %}
+            </select>
             </div>
         </div>
     </div>
@@ -72,7 +98,7 @@ var myChart = new Chart(ctx, {
 
 
 var asx = document.getElementById('weChart');
-var myChart = new Chart(asx, {
+var weChart = new Chart(asx, {
     type: 'line',
     data: {
         labels: we1,
@@ -98,6 +124,50 @@ var myChart = new Chart(asx, {
         }
     }
 });
+
+function filterData(){
+    const dfx12 = [...we1];
+    const startdate = document.getElementById('startdate');
+    const enddate = document.getElementById('enddate');
+
+    // get the index number in array
+    const indexstartdate = dfx12.indexOf(startdate.value);
+    const indexenddate = dfx12.indexOf(enddate.value);
+    //console.log(indexstartdate);
+    //slice the array
+    const filterDate = dfx12.slice(indexstartdate, indexenddate + 1);
+    //replace the labels in the chart
+    weChart.config.data.labels = filterDate;
+
+    //datapoints
+    const datapoints2 = [...we2];
+    const filterDatapoints =  datapoints2.slice(indexstartdate, indexenddate + 1);
+    weChart.config.data.datasets[0].data = filterDatapoints;
+    weChart.update();
+}
+
+
+function filterData2(){
+    const dfx12 = [...df1];
+    const startdate = document.getElementById('startdate2');
+    const enddate = document.getElementById('enddate2');
+
+    // get the index number in array
+    const indexstartdate = dfx12.indexOf(startdate.value);
+    const indexenddate = dfx12.indexOf(enddate.value);
+    //console.log(indexstartdate);
+    //slice the array
+    const filterDate = dfx12.slice(indexstartdate, indexenddate + 1);
+    //replace the labels in the chart
+    myChart.config.data.labels = filterDate;
+
+    //datapoints
+    const datapoints2 = [...df];
+    const filterDatapoints =  datapoints2.slice(indexstartdate, indexenddate + 1);
+    myChart.config.data.datasets[0].data = filterDatapoints;
+    myChart.update();
+}
+
 </script>
 
 {% endblock %}

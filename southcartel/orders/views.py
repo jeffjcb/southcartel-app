@@ -332,8 +332,9 @@ def order_complete(request):
             subtotal += i.product_price * i.quantity
 
         payment = Payment.objects.get(payment_id=transID)
-
+        tax = subtotal * 0.12
         context = {
+            'tax':tax,
             'order': order,
             'ordered_products': ordered_products,
             'order_number': order.order_number,

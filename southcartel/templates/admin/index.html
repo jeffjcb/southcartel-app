@@ -40,6 +40,19 @@
                 </div>
                 <div class="card-body">
                    <canvas id="myChart" width="100" height="50vh"></canvas>
+                   From
+                   <select class="form-select"  onchange="filterData()" id="startdate" >
+                    {% for i  in dfx1 %}
+                    <option value="{{i}}">{{i}}</option>
+                    {% endfor %}
+                    </select>
+             
+                   To
+                    <select class="form-select"  onchange="filterData()" id="enddate" >
+                    {% for i  in dfx1 %}
+                    <option value="{{i}}">{{i}}</option>
+                    {% endfor %}
+                    </select>
                 </div>
             </div>
 
@@ -388,6 +401,19 @@
                 </div>
                 <div class="card-body">
                    <canvas id="myChart" width="100" height="30vh"></canvas>
+                   From
+                   <select class="form-select"  onchange="filterData()" id="startdate" >
+                    {% for i  in bfx1 %}
+                    <option value="{{i}}">{{i}}</option>
+                    {% endfor %}
+                    </select>
+             
+                   To
+                    <select class="form-select"  onchange="filterData()" id="enddate" >
+                    {% for i  in bfx1 %}
+                    <option value="{{i}}">{{i}}</option>
+                    {% endfor %}
+                    </select>
                 </div>
             </div>
 
@@ -564,8 +590,33 @@ var myChart = new Chart(ctx, {
         }
     }
 });
+
+function filterData(){
+    const dfx12 = [...dfx1];
+    const startdate = document.getElementById('startdate');
+    const enddate = document.getElementById('enddate');
+
+    // get the index number in array
+    const indexstartdate = dfx12.indexOf(startdate.value);
+    const indexenddate = dfx12.indexOf(enddate.value);
+    //console.log(indexstartdate);
+    //slice the array
+    const filterDate = dfx12.slice(indexstartdate, indexenddate + 1);
+    //replace the labels in the chart
+    myChart.config.data.labels = filterDate;
+
+    //datapoints
+    const datapoints2 = [...dfx2];
+    const filterDatapoints =  datapoints2.slice(indexstartdate, indexenddate + 1);
+    myChart.config.data.datasets[0].data = filterDatapoints;
+    myChart.update();
+}
+
 </script>
 {% endif %}
+
+
+
 
 {% if request.user|has_group:"Partners" %}
 <script>
@@ -600,6 +651,29 @@ backgroundColor: [
         }
     }
 });
+
+
+function filterData(){
+    const dfx12 = [...bfx1];
+    const startdate = document.getElementById('startdate');
+    const enddate = document.getElementById('enddate');
+
+    // get the index number in array
+    const indexstartdate = dfx12.indexOf(startdate.value);
+    const indexenddate = dfx12.indexOf(enddate.value);
+    //console.log(indexstartdate);
+    //slice the array
+    const filterDate = dfx12.slice(indexstartdate, indexenddate + 1);
+    //replace the labels in the chart
+    myChart.config.data.labels = filterDate;
+
+    //datapoints
+    const datapoints2 = [...bfx2];
+    const filterDatapoints =  datapoints2.slice(indexstartdate, indexenddate + 1);
+    myChart.config.data.datasets[0].data = filterDatapoints;
+    myChart.update();
+}
+
 </script>
 {% endif %}
 

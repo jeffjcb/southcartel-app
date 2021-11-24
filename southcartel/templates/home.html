@@ -86,7 +86,8 @@
             </div>
             <figcaption class="info-wrap text-center">
               <a href="{{ bydate.get_url }}" class="title">{{bydate.product_name}}</a>
-              <div class="price mt-1">₱{{bydate.price}}</div> <!-- price-wrap.// -->
+              <div class="price mt-1">₱{{bydate.price}}</div> <!-- price-wrap.// -->{% if bydate.stock <= 10 %}<span class="badge badge-danger">Low in Stock</span>{% endif %}
+          <i>{{bydate.stock}} item/s in Stock</i>
             </figcaption>
           </figure> <!-- card // -->
         </div>
@@ -121,7 +122,8 @@
             </div>
             <figcaption class="info-wrap text-center">
               <a href="{{ late.get_url }}" class="title">{{late.product_name}}</a>
-              <div class="price mt-1">₱{{late.price}}</div> <!-- price-wrap.// -->
+              <div class="price mt-1">₱{{late.price}}</div> <!-- price-wrap.// -->{% if late.stock <= 10 %}<span class="badge badge-danger">Low in Stock</span>{% endif %}
+               <i>{{late.stock}} item/s in Stock</i>
             </figcaption>
           </figure> <!-- card // -->
         </div>
@@ -161,7 +163,8 @@
           </span>
           <figcaption class="info-wrap text-center">
             <a href="{{ product.get_url }}" class="title">{{product.product_name}}</a>
-            <div class="price mt-1">₱{{product.price}}</div> <!-- price-wrap.// -->
+            <div class="price mt-1">₱{{product.price}}</div> <!-- price-wrap.// -->{% if product.stock <= 10 %}<span class="badge badge-danger">Low in Stock</span>{% endif %}
+            <i>{{product.stock}} item/s in Stock</i>
           </figcaption>
         </div>
       </div> <!-- col.// -->
@@ -211,7 +214,8 @@
               </span>
               <figcaption class="info-wrap text-center">
                 <a href="{{ collab.get_url }}" class="title">{{collab.product_name}}</a>
-                <div class="price mt-1">₱{{collab.price}}</div> <!-- price-wrap.// -->
+                <div class="price mt-1">₱{{collab.price}}</div> <!-- price-wrap.// -->{% if collab.stock <= 10 %}<span class="badge badge-danger">Low in Stock</span>{% endif %}
+                <i>{{collab.stock}} item/s in Stock</i>
               </figcaption>
             </div>
           </div> <!-- col.// -->
