@@ -71,7 +71,7 @@ style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-w
                                                           <p class="text-muted small">
                                           					{% if item.variations.all %}
                                           						{% for i in item.variations.all %}
-                                          							{{ i.variation_category | capfirst }} : {{ i.variation_value | capfirst }} <br>
+                                          							Size : {{ i.variation_value | capfirst }} <br>
                                           						{% endfor %}
                                           					{% endif %}
                                           				</p>

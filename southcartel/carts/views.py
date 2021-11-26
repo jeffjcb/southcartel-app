@@ -269,6 +269,9 @@ def cart(request, total=0, quantity=0, cart_items=None):
 
 @login_required(login_url='login')
 def checkout(request, total=0, quantity=0, cart_items=None):
+    if request.method == 'POST':
+        quanti = request.POST.get('cart_quantity')
+        print(quanti)
     #compute for the total
     try:
         grand_total = 0
@@ -281,6 +284,7 @@ def checkout(request, total=0, quantity=0, cart_items=None):
             #filter cart items based on the cart and if active
             cart_items = CartItem.objects.filter(cart=cart, is_active=True)
         for cart_item in cart_items:
+ 
             #no of total price
             total += (cart_item.product.price * cart_item.quantity)
             #no of total items
@@ -289,8 +293,12 @@ def checkout(request, total=0, quantity=0, cart_items=None):
         grand_total = total
     except ObjectDoesNotExist:
         pass
+    subtotal = int(quanti) * grand_total
     #pass the computed values to the template    
     context = {
+        
+        'subtotal':subtotal,
+        'quanti':quanti,
         'total':total,
         'quantity':quantity,
         'cart_items':cart_items,

@@ -65,7 +65,7 @@ input[type=number] {
 							<div class="input-group-prepend">
 							<a href="{% url 'remove_cart' cart_item.product.id cart_item.id%}" class="btn btn-light" type="button" id="button-plus"> <i class="fa fa-minus"></i> </a>
 							</div>
-							<input type="number" class="form-control" min="1" max="{{cart_item.product.stock}}"  value="{{ cart_item.quantity|floatformat:"0" }}" >
+							<input type="number" form="quanti" id="three" class="form-control" min="1"  max="{{cart_item.product.stock}}"  value="{{ cart_item.quantity|floatformat:"0" }}"  oninput="this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value) : null">
 								<div class="input-group-append">
 								<form action="{% url 'add_cart' cart_item.product.id %}" method="POST">
 								{% csrf_token %}
@@ -114,7 +114,11 @@ input[type=number] {
 			<p class="text-center mb-3">
 				<img src="{% static 'images/misc/payments.png' %}" height="26">
 			</p>
-			<a href="{% url 'checkout' %}" class="btn btn-primary btn-block"> Checkout </a>
+			<form action="{% url 'checkout' %}" id="quanti" class="form" method="POST">
+			{% csrf_token %}
+			<input type="hidden" name="cart_quantity" id="four">
+			<button type="submit" class="btn btn-primary btn-block"> Checkout </button>
+				</form>
 			<a href="{% url 'store' %}" class="btn btn-light btn-block">Continue Shopping</a>
 		</div> <!-- card-body.// -->
 		</div> <!-- card.// -->
@@ -128,5 +132,16 @@ input[type=number] {
 
 </div> <!-- container .//  -->
 </section>
+<script>
+window.onload = function() {
+    var src = document.getElementById("three"),
+        dst = document.getElementById("four");
+    src.addEventListener('input', function() {
+        dst.value = src.value;
+    });
+};
+
+</script>
+
 <!-- ========================= SECTION CONTENT END// ========================= -->
 {% endblock %}
