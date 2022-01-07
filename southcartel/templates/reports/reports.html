@@ -60,6 +60,7 @@
                     <th>Brand</th>
                     <th>Sold</th>
                     <th>Sales</th>
+                    <th>Created Date of Product</th>
                 </thead>
                 <tbody>
                     {% for gen in general_sales %}
@@ -68,6 +69,7 @@
                         <td>{{gen.product__brand__brand_name}}</td>
                         <td>{{gen.sold}}</td>
                         <td>₱{{gen.amount}}</td>
+                        <td>{{gen.product__modified_date}}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

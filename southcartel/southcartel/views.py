@@ -698,9 +698,11 @@ def payment_process(request):
             for i in ordered_products:
                 subtotal += i.product_price * i.quantity
 
+            tax = subtotal * 0.12
         except OrderProduct.DoesNotExist:
             pass
         context = {
+            'tax':tax,
             'order_number':order_number,
             'order': order,
             'ordered_products': ordered_products,

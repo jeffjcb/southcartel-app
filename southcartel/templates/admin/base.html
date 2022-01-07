@@ -146,6 +146,26 @@
                         </div>
                     </li>
                 {% endif %}
+                    <a class="nav-link btn" data-toggle="dropdown" href="#" title="{{ request.user }}">
+                        <i class="far fa-flag pr-2" aria-hidden="true"></i>
+                    </a>
+                <li class="nav-item dropdown">
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-left" id="jazzy-usermenu">
+                        <span class="dropdown-header">{% trans 'Notifications' %}</span>
+
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item">
+                          <i class="fas fa-exclamation-circle"></i>  {% trans 'The Cyan Shirt just went out of Stock.' %}
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-exclamation-circle"></i>  {% trans '5 items are low in Stock.' %}
+                        </a>
+                        
+                    </div>
+                </li>
+
+
 
                 <li class="nav-item dropdown">
                     <a class="nav-link btn" data-toggle="dropdown" href="#" title="{{ request.user }}">
@@ -153,6 +173,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-left" id="jazzy-usermenu">
                         <span class="dropdown-header">{% trans 'Account' %}</span>
+
                         <div class="dropdown-divider"></div>
                         <a href="{% url 'admin:password_change' %}" class="dropdown-item">
                             <i class="fas fa-key mr-2"></i> {% trans 'Change password' %}
@@ -176,6 +197,8 @@
                 </li>
             </ul>
         </nav>
+
+        
         {% block sidebar %}
         {% if jazzmin_settings.show_sidebar %}
             {% get_side_menu as side_menu_list %}
