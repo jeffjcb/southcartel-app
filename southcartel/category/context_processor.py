@@ -120,7 +120,7 @@ def partner_dash(request):
 		return {'stock_filter':stock_filter, 'stock_products':stock_products, 'bfx1':bfx1, 'bfx2':bfx2}
 	except:
 		bfx1 = ['sample1', 'sample1','sample1','sample1']
-		bfx1 = [500,121,322,222]
+		bfx2 = [500,121,322,222]
 		stock_filter = None
 		stock_products = None
 		return {'stock_filter':stock_filter, 'stock_products':stock_products, 'bfx1':bfx1, 'bfx2':bfx2}
