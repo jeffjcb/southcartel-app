@@ -102,19 +102,26 @@ def total_users(request):
 	return orrderrs_counts
 
 def partner_dash(request):
-	# BRAND SALES
-	# brand_sales = OrderProduct.objects.values('product__brand', 'product__brand__brand_name').annotate(sold = Sum('quantity'), amount = Sum('order__order_total')).order_by('-amount')
-	brand_sales = OrderProduct.objects.values('product__brand', 'product__brand__brand_name').annotate(c=Count('id'), amount = Sum('order__order_total')).values('product__brand','product__brand__brand_name', 'c', 'amount')
+	try:
+		# BRAND SALES
+		# brand_sales = OrderProduct.objects.values('product__brand', 'product__brand__brand_name').annotate(sold = Sum('quantity'), amount = Sum('order__order_total')).order_by('-amount')
+		brand_sales = OrderProduct.objects.values('product__brand', 'product__brand__brand_name').annotate(c=Count('id'), amount = Sum('order__order_total')).values('product__brand','product__brand__brand_name', 'c', 'amount')
 
-	bds = pd.DataFrame(brand_sales)
-	bds["brand"] =  bds['product__brand__brand_name'].astype(str)
-	bfx1 = bds['brand'].tolist()
-	bfx2 =  bds['amount'].tolist()
+		bds = pd.DataFrame(brand_sales)
+		bds["brand"] =  bds['product__brand__brand_name'].astype(str)
+		bfx1 = bds['brand'].tolist()
+		bfx2 =  bds['amount'].tolist()
 
-	# STOCKS
-	stock_products = Product.objects.all()
-	# Filter
-	stock_filter = StockFilter(request.GET, queryset =stock_products)
-	stock_products = stock_filter.qs
-	return {'stock_filter':stock_filter, 'stock_products':stock_products, 'bfx1':bfx1, 'bfx2':bfx2}
+		# STOCKS
+		stock_products = Product.objects.all()
+		# Filter
+		stock_filter = StockFilter(request.GET, queryset =stock_products)
+		stock_products = stock_filter.qs
+		return {'stock_filter':stock_filter, 'stock_products':stock_products, 'bfx1':bfx1, 'bfx2':bfx2}
+	except:
+		bfx1 = ['sample1', 'sample1','sample1','sample1']
+		bfx1 = [500,121,322,222]
+		stock_filter = None
+		stock_products = None
+		return {'stock_filter':stock_filter, 'stock_products':stock_products, 'bfx1':bfx1, 'bfx2':bfx2}
 
