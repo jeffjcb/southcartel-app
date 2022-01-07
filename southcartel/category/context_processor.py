@@ -59,7 +59,13 @@ def sales_generation(request):
 		}
 		return datum
 	except Exception as e:
-		pass
+		dfx1 = [1,2,3,4,5]
+		dfx2 = [1,2,3,4,5]
+		datum = {
+		'dfx1' : dfx1,
+		'dfx2' : dfx2,
+		}
+		return datum
 
 
 
